@@ -1,28 +1,34 @@
-<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!DOCTYPE HTML>
 <html>
   <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <meta name="viewport" content="initial-scale=1"/>
+    <meta name="robots" content="noindex, nofollow"/>
+    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
   </head>
   <body>
-    <form action="">
-      <div class="mx-auto" style="width: 200px;">
-      <div class="form-group">
-        <h1></h1>
-        <label for="adresseEmail">Adresse Email</label>
-        <input type="email" class="form-control" id="adresseEmail" placeholder="nom@exemple.com">
-      </div>
-      <div class="form-group">
-        <label for="motDePasse">Mot de passe</label>
-        <input type="password" class="form-control" id="motDePasse" placeholder="mot de passe">
-      </div>
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="check">Se souvenir de moi</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Se connecter</button>
+    <nav class="navbar navbar-default fixed-top">
+      <a class="btn btn-secondary"  href="index.html" role="button">Retour</a>
+    </nav>
+    <div class="container">
+      <main class="row align-items-center">
+        <form class="col-4 offset-4" action="">
+          <h1>Connexion</h1>
+          <div class="form-group">
+            <label for="adresseEmail">Adresse Email</label>
+            <input type="email" class="form-control" id="adresseEmail" placeholder="nom@exemple.com">
+          </div>
+          <div class="form-group">
+            <label for="motDePasse">Mot de passe</label>
+            <input type="password" class="form-control" id="motDePasse" minlength="8" placeholder="mot de passe">
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="connectionPersistent">
+            <label class="form-check-label" for="connectionPersistent">Se souvenir de moi</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block mt-3">Se connecter</button>
+        </form>
+      </main>
     </div>
-    </form>
   </body>
 </html>
