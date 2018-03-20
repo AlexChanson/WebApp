@@ -31,19 +31,20 @@ var buildTrie = function(mots) {
 };
 
 function findInForest(value, forest) {
-    forest.forEach(function(node) {
+    for (let node of forest) {
         if (node.label === value) {
             return node;
         }
-    });
+    }
     return null;
 }
 
 function isValidInTrie(trie, word) {
     var p = trie;
-    for (var i = 0; i < mot.length; i++) {
+    for (var i = 0; i < word.length; i++) {
         let ch = word.charAt(i);
         son = findInForest(ch, p.forest);
+        console.log(ch);
         if (son != null) {
             if (word.length - 1 === i) {
                 return son.final;
@@ -53,8 +54,12 @@ function isValidInTrie(trie, word) {
         } else {
             return false;
         }
-
     }
+    return false;
 }
 
 var qqesMots = ["banane", "baracuda", "baraque", "chip", "chopstick"];
+
+var testTrie = buildTrie(qqesMots);
+
+console.log(isValidInTrie("baraque", testTrie));
