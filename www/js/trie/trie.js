@@ -43,7 +43,7 @@ function isValidInTrie(trie, word) {
     var p = trie;
     for (var i = 0; i < word.length; i++) {
         let ch = word.charAt(i);
-        son = findInForest(ch, p.forest);
+        var son = findInForest(ch, p.forest);
         console.log(ch);
         if (son != null) {
             if (word.length - 1 === i) {
@@ -62,4 +62,5 @@ var qqesMots = ["banane", "baracuda", "baraque", "chip", "chopstick"];
 
 var testTrie = buildTrie(qqesMots);
 
-console.log(isValidInTrie("baraque", testTrie));
+console.log(isValidInTrie(testTrie, "baraque"));
+console.log(isValidInTrie(testTrie, "bar"));
