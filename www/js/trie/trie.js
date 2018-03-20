@@ -18,7 +18,7 @@ buildTrie = function(mots){
         pointeur = arbre;
       }
       else {
-        let temp = pointer.forest.find(function(son){
+        var temp = pointer.forest.find(function(son){
           return son.label === ch;
         });
         if (temp == null){
@@ -34,3 +34,5 @@ buildTrie = function(mots){
     }
   });
 }
+
+var qqesMots = ["banane","baracuda", "baraque","chip", "chopstick"]
