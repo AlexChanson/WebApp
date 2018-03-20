@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <style>
+    #filter-menu {
+        padding: 0;
+        height: 100%;
+        width: 30%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.3s;
+    }
+
+    #filter-menu #filter-headbar {
+        height: 64px;
+        margin: 0;
+    }
+
+    #filter-menu #filter-container {
+        height: calc(100% - 64px);
+        margin: 0;
+        overflow-y: scroll;
+    }
+
+    #filter-menu.close {
+        width: 0;
+    }
+    </style>
+  </head>
+  <body>
+      <div id="filter-menu" data-bind="css: { close: toggleClose() }">
+          <div id="filter-headbar">
+              <button data-bind="click: closeMenu">&times;</button>
+          </div>
+          <div id="filter-container">
+          </div>
+      </div>
+      <script src="js/knockout-3.4.2.js"></script>
+      <script>
+        function FilterMenuViewModel() {
+            this.toggleClose = ko.observable(false);
+            this.closeMenu = function() {
+                this.toggleClose(true);
+            };
+        }
+
+        ko.applyBindings(new FilterMenuViewModel());
+      </script>
+  </body>
+</html>

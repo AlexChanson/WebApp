@@ -15,19 +15,23 @@
         <h1>Inscription</h1>
         <div class="form-group">
           <label for="nom">Nom</label>
-          <input type="text" class="form-control" id="nom" placeholder="nom">
+          <input type="text" class="form-control" id="nom" name="nom" placeholder="nom">
         </div>
         <div class="form-group">
             <label for="prenom">Pr&eacute;nom</label>
-            <input type="text" class="form-control" id="prenom" placeholder="prenom">
+            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="prenom">
         </div>
         <div class="form-group">
           <label for="adresseEmail">Adresse Email</label>
-          <input type="email" class="form-control" id="adresseEmail" placeholder="adresse email">
+          <input type="email" class="form-control" id="adresseEmail" name="adresseEmail" placeholder="adresse email">
         </div>
         <div class="form-group">
           <label for="motDePasse">Mot de passe</label>
-          <input type="password" class="form-control" id="motDePasse" placeholder="mot de passe">
+          <input type="password" class="form-control" id="motDePasse" name="motDePasse" placeholder="votre mot de passe">
+        </div>
+        <div class="form-group">
+          <label for="confirmerMotDePasse">Confirmer mot de passe</label>
+          <input type="password" class="form-control" id="confirmerMotDePasse" name="confirmerMotDePasse" placeholder="votre mot de passe (une seconde fois)">
         </div>
         <button type="submit" class="btn btn-primary btn-block mt-3">S'inscrire</button>
       </form>
