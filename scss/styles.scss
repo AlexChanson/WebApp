@@ -1,17 +1,4 @@
 @import "bootstrap/bootstrap";
-
-body, html {
-  overflow: no-scroll;
-
-  &, .container {
-    &, & > .row {
-      height: 100%;
-    }
-  }
-}
-
-body.home {
-  background-image: url(../image/background.jpg);
-  background-repeat: no-repeat;
-  background-size: 50% auto;
-}
+@import "filter-menu";
+@import "highcharts";
+@import "body";

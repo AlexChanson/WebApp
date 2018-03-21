@@ -1,0 +1,9 @@
+body, html {
+  overflow-y: hidden;
+
+  &, .container {
+    &, & > .row {
+      height: 100%;
+    }
+  }
+}
