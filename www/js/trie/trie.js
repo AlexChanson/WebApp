@@ -58,9 +58,44 @@ function isValidInTrie(trie, word) {
     return false;
 }
 
+function findNodeFromWord(trie, word){
+  var p = trie;
+  for (var i = 0; i < word.length; i++) {
+      let ch = word.charAt(i);
+      var son = findInForest(ch, p.forest);
+      if (son != null) {
+          if (word.length - 1 === i) {
+              return son;
+          } else {
+              p = son;
+          }
+      } else {
+          return null;
+      }
+  }
+  return false;
+}
+
+function collapseTrie(f, trie){
+  return f(trie.final, trie.label, [].concat.apply([], trie.forest.map(x => collapseTrie(f, x) ) ) );
+}
+
+function formWords(final, label, wordsEnds){
+  let temp = wordsEnds.map(x => label+x);
+  if (final){
+    temp.push(label);
+    return temp;
+  }
+  else {
+    return temp;
+  }
+}
+
+function findPossibleEnds(trie, word){
+  var son = findNodeFromWord(trie, word);
+  return collapseTrie(formWords, son).map(x => word + x.substr(1));
+}
+
 var qqesMots = ["banane", "baracuda", "baraque", "chip", "chopstick"];
 
 var testTrie = buildTrie(qqesMots);
-
-console.log(isValidInTrie(testTrie, "baraque"));
-console.log(isValidInTrie(testTrie, "bar"));
