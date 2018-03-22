@@ -30,10 +30,12 @@ ko.applyBindings(new FilterMenuViewModel());
 
 Highcharts.mapChart('map', {
     chart: {
-        map: 'countries/fr/fr-all'
+        map: 'countries/fr/fr-all',
+        backgroundColor: "#495057"
     },
     series: [{
-        showInLegend: false
+        showInLegend: false,
+        color: "#000"
     }, {
         name: 'Separators',
         type: 'mapline',
