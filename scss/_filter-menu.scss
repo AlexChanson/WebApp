@@ -4,7 +4,7 @@
 #filter-menu {
     padding: 0;
     height: 100%;
-    width: 30%;
+    width: 40%;
     position: fixed;
     z-index: 1600;
     top: 0;
@@ -13,27 +13,29 @@
     overflow-x: hidden;
     transition: 0.3s;
 
-    #filter-headbar {
+    form {
+        height: calc(100% - #{$navbar-height});
+        margin: 0;
+        padding: 0;
+    }
+
+    #filter-headbar, #filter-buttonbar {
         padding: $navbar-padding-y $navbar-padding-x;
+        min-height: $navbar-height;
         display: flex;
         flex-wrap: wrap;
-        overflow-y: hidden;
-        max-height: $navbar-height;
 
-        button {
-            margin-left: auto;
+        & > * {
+            position: absolute;
         }
+    }
 
-        h2 {
-            margin-bottom: -$h2-font-size + $input-btn-line-height;
-            padding: 0;
-            margin-bottom: auto;
-        }
+    #filter-headbar h2 {
+        padding: 0;
     }
 
     #filter-container {
         height: calc(100% - #{$navbar-height});
-        max-height: calc(100% - #{$navbar-height});
         overflow-y: scroll;
     }
 
@@ -44,5 +46,13 @@
 
     &.close {
         width: 0;
+    }
+}
+
+.modal-backdrop.fade {
+    z-index: -1;
+
+    &.show {
+        z-index: 1040;
     }
 }
