@@ -16,9 +16,20 @@
             </div>
             <form action="#">
                 <div id="filter-container">
-                    <span data-bind="text: populationMin"></span>
-                    <input id="slider-population" type="text"/>
-                    <span data-bind="text: populationMax"></span>
+                    <div class="form-group">
+                        <label>Population</label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: populationMin"></span>&nbsp;Habitants&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-population" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: populationMax"></span>&nbsp;Habitants
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="filter-buttonbar">
                     <input type="submit" data-bind="click: submitFilters, value: submitText" class="btn btn-primary"/>
