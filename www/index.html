@@ -1,23 +1,179 @@
-<!DOCTYPE HTML>
 <html>
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="initial-scale=1"/>
-    <title>Accueil</title>
-    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
-  </head>
-  <body class="home">
-      <main class="container">
+<head>
+    <title>Dynamique des Territoires</title>
+
+    <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/nouislider.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/clem.css" id="dynamic_css">
+    <meta charset="UTF-8">
+</head>
+<body id="page_body">
+
+
+<div id="debug" style="position: fixed; margin-top: 20px; margin-left: 30%; z-index: 2000000000;">
+    <button onclick="swapTo('login')">Connexion</button>
+    <button onclick="swapTo('acceuil')">Acceuil</button>
+    <button onclick="swapTo('create')">Création Compte</button>
+    <button onclick="swapTo('app')">App</button>
+</div>
+
+
+<div id="acceuil" style="background: url(img/background.jpg) no-repeat;background-size: 50% auto;">
+    <main class="container">
         <div class="row align-items-center">
-          <div class="offset-6 col-6">
-            <h1>Dynamique des territoires</h1>
-            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"</p>
-            <div class="btn-group block" role="group">
-              <a class="btn btn-primary"  href="login.html" role="button">Connexion</a>
-              <a class="btn btn-secondary" href="register.html" role="button">S'inscrire</a>
+            <div class="offset-6 col-6">
+                <h1>Dynamique des territoires</h1>
+                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"</p>
+                <div class="btn-group block" role="group">
+                    <a class="btn btn-primary" onclick="swapTo('login')" role="button">Connexion</a>
+                    <a class="btn btn-secondary" onclick="swapTo('create')" role="button">S'inscrire</a>
+                </div>
             </div>
-          </div>
         </div>
-      </main>
-  </body>
+    </main>
+</div>
+
+
+<div id="login" hidden>
+    <nav class="navbar navbar-default fixed-top">
+        <a class="btn btn-secondary" onclick="swapTo('acceuil')" role="button">Retour</a>
+    </nav>
+    <div class="container">
+        <main class="row align-items-center">
+            <div class="col-4 offset-4">
+                <h1>Connexion</h1>
+                <div class="form-group">
+                    <label for="create_adresseEmail">Adresse Email</label>
+                    <input type="email" class="form-control" id="login_adresseEmail" placeholder="nom@exemple.com">
+                </div>
+                <div class="form-group">
+                    <label for="create_motDePasse">Mot de passe</label>
+                    <input type="password" class="form-control" id="login_motDePasse" minlength="4"
+                           placeholder="mot de passe">
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="connectionPersistent">
+                    <label class="form-check-label" for="connectionPersistent">Se souvenir de moi</label>
+                </div>
+                <button onclick="login_Connecter()" class="btn btn-primary btn-block mt-3">Se connecter</button>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<div id="create" hidden>
+    <nav class="navbar navbar-default fixed-top">
+        <a class="btn btn-secondary" onclick="swapTo('acceuil')" role="button">Retour</a>
+    </nav>
+    <main class="row align-items-center">
+        <div class="col-4 offset-4" >
+            <h1>Inscription</h1>
+            <div class="form-group">
+                <label for="create_nom">Nom</label>
+                <input type="text" class="form-control" id="create_nom" name="nom" placeholder="nom">
+            </div>
+            <div class="form-group">
+                <label for="create_prenom">Pr&eacute;nom</label>
+                <input type="text" class="form-control" id="create_prenom" name="prenom" placeholder="prenom">
+            </div>
+            <div class="form-group">
+                <label for="create_adresseEmail">Adresse Email</label>
+                <input type="email" class="form-control" id="create_adresseEmail" name="adresseEmail"
+                       placeholder="adresse email">
+            </div>
+            <div class="form-group">
+                <label for="create_motDePasse">Mot de passe</label>
+                <input type="password" class="form-control" id="create_motDePasse" name="motDePasse"
+                       placeholder="votre mot de passe">
+            </div>
+            <div class="form-group" id="create_mdpZone2">
+                <label for="create_confirmerMotDePasse">Confirmer mot de passe</label>
+                <input type="password" class="form-control" id="create_confirmerMotDePasse" name="confirmerMotDePasse"
+                       placeholder="votre mot de passe (une seconde fois)">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-3" onclick="create_Submit()">S'inscrire</button>
+        </div>
+    </main>
+</div>
+
+
+<div id="app" hidden>
+    <div id="app_openNav">
+        <span onclick="toggleNav()">&#9776; Menu</span>
+    </div>
+
+    <nav id="mySidenav" class="sidenav">
+        <a class="closebtn" onclick="toggleNav()">&times;</a>
+
+        <div class="filters">
+            Filter stuff here
+        </div>
+
+        <div id="app_side_bottom">
+            <button type="button" class="btn btn-success">Rafraichir</button>
+        </div>
+    </nav>
+
+    <div class="map" title="Div where the map goes">
+
+        <img src="img/france.jpg">
+        <p>This is where the freaking map goes</p>
+    </div>
+
+
+    <section class="right" title="right side info">
+        <div id="comparator">
+            <div id="comparator-left">
+                <label for="inputCommuneA">
+                	Commune A:
+                	<input id="inputCommuneA" list="listCommunes">
+                	<datalist id="listCommunes">
+                	</datalist>
+                </label>
+            </div>
+            <div id="comparator-right">
+                <label for="inputCommuneB">
+                	Commune B:
+                	<input id="inputCommuneB" list="listCommunes">
+                </label>
+            </div>
+        </div>
+        <div id="statistics" role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" role="tab" href="#tabpane-1">Tab 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" href="#tabpane-2">Tab 2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" href="#tabpane-3">Tab 3</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" href="#tabpane-4">Tab 4</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active show" id="tabpane-1" role="tabpanel">1</div>
+                <div class="tab-pane fade" id="tabpane-2" role="tabpanel">2</div>
+                <div class="tab-pane fade" id="tabpane-3" role="tabpanel">3</div>
+                <div class="tab-pane fade" id="tabpane-4" role="tabpanel">4</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="application/javascript" src="js/logic.js"></script>
+<script type="application/javascript" src="js/trie.js"></script>
+
+<script type="application/javascript" src="js/nouislider.min.js"></script>
+<script type="application/javascript" src="js/jquery-3.3.1.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+<script type="application/javascript" src="js/bootstrap.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+</body>
 </html>
