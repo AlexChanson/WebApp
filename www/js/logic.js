@@ -87,6 +87,15 @@ function onLoadCreate() {
 
 function onLoadApp() {
     document.getElementById("page_body").classList.add("bg-light");
+    let slider1 = document.getElementById('app_slider_1');
+    noUiSlider.create(slider1, {
+        start: [20, 80],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 100
+        }
+    });
 }
 
 function onLeaveAcceuil() {
@@ -134,10 +143,14 @@ function onConnect() {
 
 
 function swapTo(nom) {
+    console.log("Switched to: " + nom);
+    for (let i = 0; i < pages.length; i++){
+        if (pages[i] === page_state)
+            onLeaves[i]();
+    }
     for (let i = 0; i < pages.length; i++) {
         if (pages[i] !== nom) {
             document.getElementById(pages[i]).hidden = true;
-            onLeaves[i]();
         } else {
             document.getElementById(pages[i]).hidden = false;
             document.getElementById('dynamic_css').setAttribute('href',
