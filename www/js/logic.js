@@ -257,3 +257,36 @@ function elsaRequest(body, callback) {
     xhr.onreadystatechange = internCallback;
     xhr.send(body);
 }
+
+Highcharts.mapChart('map', {
+    title: {
+        text: 'Région',
+        style: {
+            color: '#fff'
+        }
+    },
+    chart: {
+        map: 'countries/fr/fr-all',
+        backgroundColor: "#495057"
+    },
+    colorAxis: {
+        min: 0,
+        style: {
+            color: '#fff'
+        }
+    },
+    series: [{
+        data: [['fr-t', 0], ['fr-h', 1], ['fr-e', 2], ['fr-r', 3], ['fr-u', 4], ['fr-n', 5], ['fr-p', 6], ['fr-o', 7], ['fr-v', 8], ['fr-s', 9], ['fr-g', 10], ['fr-k', 11], ['fr-a', 12], ['fr-c', 13], ['fr-f', 14], ['fr-l', 15], ['fr-d', 16], ['fr-b', 17], ['fr-i', 18], ['fr-q', 19], ['fr-j', 20], ['fr-m', 21], ['fr-re', 22], ['fr-yt', 23], ['fr-gf', 24], ['fr-mq', 25], ['fr-gp', 26], ['undefined', 27]],
+        allowPointSelect: true,
+        states: {
+            hover: {
+                color: '#BADA55'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.name}'
+        }
+    }]
+});
+
