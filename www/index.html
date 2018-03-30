@@ -112,6 +112,100 @@
         <div class="filters">
             Filter stuff here
             <div id="app_slider_1"></div>
+            <form action="#">
+                <div id="filter-container">
+                    <div class="form-group">
+                        <label>Population</label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: populationMin"></span>&nbsp;Habitants&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-population" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: populationMax"></span>&nbsp;Habitants
+                            </div>
+                        </div>
+                        <label>Nombre d'étudiants</label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: nombreEtudiantsMin"></span>&nbsp;Étudiants&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-etudiants" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: nombreEtudiantsMax"></span>&nbsp;Étudiants
+                            </div>
+                        </div>
+                        <label>Nombre d'actifs</label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: nombreActifsMin"></span>&nbsp;Actifs&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-actifs" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: nombreActifsMax"></span>&nbsp;Actifs
+                            </div>
+                        </div>
+                        <label>Nombre d'établissement</label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: nombreEtablissementsMin"></span>&nbsp;Établissements&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-etablissements" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: nombreEtablissementsMax"></span>&nbsp;Établissements
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <label>Fidélité</label>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="populationSedentaire">
+                                <label class="form-check-label" for="populationSedentaire">Population sédentaire</label>
+                            </div>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="populationMobile">
+                                <label class="form-check-label" for="populationMobile">Population mobile</label>
+                            </div>
+                            <label>Environnement démographique</label>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="bassinIndustrielCroissant">
+                                <label class="form-check-label" for="bassinIndustrielCroissant">Bassin industriel en croissance démographique</label>
+                            </div>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="bassinResidentielCroissant">
+                                <label class="form-check-label" for="bassinResidentielCroissant">Bassin résidentiel en croissance démographique</label>
+                            </div>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="bassinUrbainCroissant">
+                                <label class="form-check-label" for="bassinUrbainCroissant">Bassin urbain en croissance démographique</label>
+                            </div>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="bassinDiversifieCroissant">
+                                <label class="form-check-label" for="bassinDiversifieCroissant">Bassin diversifié en croissance démographique</label>
+                            </div>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="bassinAgroalimentaireCroissant">
+                                <label class="form-check-label" for="populationMobile">Bassin agroalimentaire en croissance démographique</label>
+                            </div>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="bassinResidentielDeclin">
+                                <label class="form-check-label" for="bassinResidentielDeclin">Bassin résidentiel en déclin démographique</label>
+                            </div>
+                            <div class="form-row">
+                                <input type="checkbox" class="form-check-input" id="bassinDiversifieDeclin">
+                                <label class="form-check-label" for="bassinDiversifieDeclin">Bassin diversifié en déclin démographique</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
 
         <div id="app_side_bottom">
