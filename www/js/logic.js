@@ -213,18 +213,21 @@ function create_Submit() {
         prenom: helpers_get('create_prenom'),
         password: mdp
     };
-
+    //console.log(user);
     if (mdp === mdp2) {
         let json = JSON.stringify(user);
         let xhr = new XMLHttpRequest();
 
         function callback() {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                swapTo('app');
-                console.log(xhr.responseText);
+                let ret = JSON.parse(xhr.responseText);
+                //console.log(ret);
+                if (ret.hasOwnProperty("api_key")){
+                    elsa_Connection(user.email, user.password);
+                }
             }
         }
-        const url = 'http://' + server_domain + '/connect';
+        const url = 'http://' + server_domain + '/create';
         xhr.open('POST', url);
         xhr.onreadystatechange = callback;
         xhr.send(json);
