@@ -167,7 +167,7 @@ function toggleNav() {
         document.getElementById("app_openNav").style.color = '#555';
         nav_state = false;
     } else {
-        document.getElementById("mySidenav").style.width = "20%";
+        document.getElementById("mySidenav").style.width = "25%";
         document.getElementById("app_openNav").style.color = '#ccc';
         nav_state = true;
     }
