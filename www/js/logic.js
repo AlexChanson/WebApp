@@ -1,4 +1,4 @@
-const server_domain = "elsa.alexc.ovh";
+const server_domain = "localhost:8080";
 const pages = ["acceuil", "login", "create", "app"];
 const stylesheets = ["css/clem.css", "css/clem.css", "css/clem.css",
     "css/app.css"
@@ -166,17 +166,21 @@ function toggleNav() {
         document.getElementById("mySidenav").style.width = "0";
         document.getElementById("app_openNav").style.color = '#555';
         nav_state = false;
+        document.getElementById("app_side_bottom").hidden = true;
+        document.getElementById("app_filters").hidden = true;
     } else {
         document.getElementById("mySidenav").style.width = "25%";
         document.getElementById("app_openNav").style.color = '#ccc';
         nav_state = true;
+        document.getElementById("app_side_bottom").hidden = false;
+        document.getElementById("app_filters").hidden = false;
     }
 }
 
 
 function elsa_Connection(email, password) {
     let xhr = new XMLHttpRequest();
-    const url = 'http://elsa.alexc.ovh/connect';
+    const url = 'http://'+server_domain+'/connect';
     const body = '{"email":"' + email + '", "password":"' + password + '"}';
     xhr.open('POST', url);
     xhr.onreadystatechange = () => {
