@@ -24,48 +24,9 @@ const getRegionsJSON = '{"type":"getRegions"}';
 const getCityNamesJSON = '{"type":"getCityNames"}';
 const getDepartementsJSON = '{"type":"getDepartements"}';
 
-
-class VirtualPage {
-    constructor(name, stylesheet, onL, onD) {
-        this.name = name;
-        this.stylesheet = stylesheet;
-        this.onL = onL;
-        this.onD = onD;
-    }
-
-    load(){
-        document.getElementById(this.name).hidden = false;
-        document.getElementById('dynamic_css').setAttribute('href', this.stylesheet);
-        this.onL();
-    }
-
-    unload(){
-        document.getElementById(this.name).hidden = true;
-        this.onD();
-    }
-}
-
-class VirtualPageManager{
-    constructor(defaultPage){
-        this.pages = new Map();
-        this.pages.set(defaultPage.name, defaultPage);
-        defaultPage.load();
-    }
-
-    registerPage(vPage){
-        this.pages.set(vPage.name, vPage);
-    }
-
-    swapTo(name){
-        const target = this.pages.get(name);
-        this.pages.forEach(function (key, value) {
-            if(value.name !== target.name)
-                value.unload();
-        });
-        target.load();
-    }
-}
-
+/*
+    --- Event CODE ---
+*/
 
 onLoad();
 
@@ -144,21 +105,33 @@ function onConnect() {
     console.log("Init sliders ...");
     sliders["pop"] = document.getElementById('slider-population');
     noUiSlider.create(sliders['pop'], {
-        start: [20, 80],
+        start: [7500, 50000],
+        tooltips:[wNumb({ decimals: 0 }), wNumb({ decimals: 0 })],
+        step: 100,
         connect: true,
         range: {
-            'min': 0,
-            'max': 100
+            'min': [0, 10],
+            '10%': [500, 100],
+            '30%': [5000, 500],
+            '75%': [50000, 5000],
+            'max': 2500000
         }
+    });
+    let popValues = [document.getElementById('sl_pop_min'), document.getElementById('sl_pop_max')];
+    sliders['pop'].noUiSlider.on('update', function( values, handle ) {
+        popValues[handle].innerHTML = values[handle];
     });
 
     sliders["etu"] = document.getElementById('slider-etudiants');
     noUiSlider.create(sliders['etu'], {
-        start: [20, 80],
+        start: [0, 1000000],
+        tooltips:[wNumb({ decimals: 0 }), wNumb({ decimals: 0 })],
         connect: true,
         range: {
-            'min': 0,
-            'max': 100
+            'min': [0, 10],
+            '20%': [5000, 1000],
+            '75%': [100000, 10000],
+            'max': 1000000
         }
     });
 
@@ -182,44 +155,9 @@ function onConnect() {
         }
     });
 }
-
-
-function swapTo(nom) {
-    console.log("Switched to: " + nom);
-    for (let i = 0; i < pages.length; i++){
-        if (pages[i] === page_state)
-            onLeaves[i]();
-    }
-    for (let i = 0; i < pages.length; i++) {
-        if (pages[i] !== nom) {
-            document.getElementById(pages[i]).hidden = true;
-        } else {
-            document.getElementById(pages[i]).hidden = false;
-            document.getElementById('dynamic_css').setAttribute('href',
-                stylesheets[i]);
-            page_state = nom;
-            onLoads[i]();
-        }
-    }
-}
-
-function toggleNav() {
-    if (nav_state === true) {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("app_openNav").style.color = '#555';
-        nav_state = false;
-        document.getElementById("app_side_bottom").hidden = true;
-        document.getElementById("app_filters").hidden = true;
-    } else {
-        document.getElementById("mySidenav").style.width = "25%";
-        document.getElementById("app_openNav").style.color = '#ccc';
-        nav_state = true;
-        document.getElementById("app_side_bottom").hidden = false;
-        document.getElementById("app_filters").hidden = false;
-    }
-}
-
-
+/*
+    --- Elsa CODE ---
+*/
 function elsa_Connection(email, password) {
     let xhr = new XMLHttpRequest();
     const url = 'http://'+server_domain+'/connect';
@@ -483,5 +421,43 @@ function update_Comparator() {
             document.getElementById("commB_display").innerHTML = JSON.stringify(ret["comm2"]);
         }
         elsaRequest(JSON.stringify({type:'compareCities', commune1:nameToINSEE[communeA], commune2:nameToINSEE[communeB]}), cb)
+    }
+}
+
+/*
+    --- Virtual Page / Side Menu LOGIC ---
+ */
+function swapTo(nom) {
+    console.log("Switched to: " + nom);
+    for (let i = 0; i < pages.length; i++){
+        if (pages[i] === page_state)
+            onLeaves[i]();
+    }
+    for (let i = 0; i < pages.length; i++) {
+        if (pages[i] !== nom) {
+            document.getElementById(pages[i]).hidden = true;
+        } else {
+            document.getElementById(pages[i]).hidden = false;
+            document.getElementById('dynamic_css').setAttribute('href',
+                stylesheets[i]);
+            page_state = nom;
+            onLoads[i]();
+        }
+    }
+}
+
+function toggleNav() {
+    if (nav_state === true) {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("app_openNav").style.color = '#555';
+        nav_state = false;
+        document.getElementById("app_side_bottom").hidden = true;
+        document.getElementById("app_filters").hidden = true;
+    } else {
+        document.getElementById("mySidenav").style.width = "25%";
+        document.getElementById("app_openNav").style.color = '#ccc';
+        nav_state = true;
+        document.getElementById("app_side_bottom").hidden = false;
+        document.getElementById("app_filters").hidden = false;
     }
 }

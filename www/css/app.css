@@ -144,3 +144,15 @@
 #comparator .form-control{
     border-width: 3px;
 }
+
+.sliders{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.noUi-tooltip {
+    display: none;
+}
+.noUi-active .noUi-tooltip {
+    display: block;
+}
