@@ -9,6 +9,7 @@ const onLeaves = [onLeaveAcceuil, onLeaveLogin, onLeaveCreate, onLeaveApp];
 let page_state = 'acceuil';
 let api_key = null;
 let nav_state = true;
+let sliders = {};
 
 let cities = [];
 let cities_name = [];
@@ -138,6 +139,47 @@ function onConnect() {
         }
         console.log(cities.length.toString() + " cities loaded.");
 
+    });
+
+    console.log("Init sliders ...");
+    sliders["pop"] = document.getElementById('slider-population');
+    noUiSlider.create(sliders['pop'], {
+        start: [20, 80],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 100
+        }
+    });
+
+    sliders["etu"] = document.getElementById('slider-etudiants');
+    noUiSlider.create(sliders['etu'], {
+        start: [20, 80],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 100
+        }
+    });
+
+    sliders["act"] = document.getElementById('slider-actifs');
+    noUiSlider.create(sliders['act'], {
+        start: [20, 80],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 100
+        }
+    });
+
+    sliders["eta"] = document.getElementById('slider-etablissements');
+    noUiSlider.create(sliders['eta'], {
+        start: [20, 80],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 100
+        }
     });
 }
 
@@ -269,7 +311,7 @@ Highcharts.mapChart('map', {
     },
     chart: {
         map: 'countries/fr/fr-all',
-        backgroundColor: "#495057"
+        backgroundColor: "#f8f9fa"
     },
     colorAxis: {
         min: 0,
@@ -278,7 +320,7 @@ Highcharts.mapChart('map', {
         }
     },
     series: [{
-        data: [['fr-t', 0], ['fr-h', 1], ['fr-e', 2], ['fr-r', 3], ['fr-u', 4], ['fr-n', 5], ['fr-p', 6], ['fr-o', 7], ['fr-v', 8], ['fr-s', 9], ['fr-g', 10], ['fr-k', 11], ['fr-a', 12], ['fr-c', 13], ['fr-f', 14], ['fr-l', 15], ['fr-d', 16], ['fr-b', 17], ['fr-i', 18], ['fr-q', 19], ['fr-j', 20], ['fr-m', 21], ['fr-re', 22], ['fr-yt', 23], ['fr-gf', 24], ['fr-mq', 25], ['fr-gp', 26], ['undefined', 27]],
+        data: [['fr-t', 20], ['fr-h', 1], ['fr-e', 2], ['fr-r', 3], ['fr-u', 4], ['fr-n', 5], ['fr-p', 6], ['fr-o', 7], ['fr-v', 8], ['fr-s', 9], ['fr-g', 10], ['fr-k', 11], ['fr-a', 12], ['fr-c', 13], ['fr-f', 14], ['fr-l', 15], ['fr-d', 16], ['fr-b', 17], ['fr-i', 18], ['fr-q', 19], ['fr-j', 20], ['fr-m', 21], ['fr-re', 22], ['fr-yt', 23], ['fr-gf', 24], ['fr-mq', 25], ['fr-gp', 26], ['undefined', 27]],
         allowPointSelect: true,
         states: {
             hover: {
