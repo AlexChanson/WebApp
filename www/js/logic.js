@@ -144,11 +144,16 @@ function onConnect() {
     console.log("Init sliders ...");
     sliders["pop"] = document.getElementById('slider-population');
     noUiSlider.create(sliders['pop'], {
-        start: [20, 80],
+        start: [7500, 50000],
+        tooltips:[wNumb({ decimals: 0 }), wNumb({ decimals: 0 })],
+        step: 100,
         connect: true,
         range: {
-            'min': 0,
-            'max': 100
+            'min': [0, 10],
+            '10%': [500, 100],
+            '30%': [5000, 500],
+            '75%': [50000, 5000],
+            'max': 2500000
         }
     });
 
