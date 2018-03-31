@@ -156,14 +156,21 @@ function onConnect() {
             'max': 2500000
         }
     });
+    let popValues = [document.getElementById('sl_pop_min'), document.getElementById('sl_pop_max')];
+    sliders['pop'].noUiSlider.on('update', function( values, handle ) {
+        popValues[handle].innerHTML = values[handle];
+    });
 
     sliders["etu"] = document.getElementById('slider-etudiants');
     noUiSlider.create(sliders['etu'], {
-        start: [20, 80],
+        start: [0, 1000000],
+        tooltips:[wNumb({ decimals: 0 }), wNumb({ decimals: 0 })],
         connect: true,
         range: {
-            'min': 0,
-            'max': 100
+            'min': [0, 10],
+            '20%': [5000, 1000],
+            '75%': [100000, 10000],
+            'max': 1000000
         }
     });
 

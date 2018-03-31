@@ -149,3 +149,10 @@
     padding-left: 20px;
     padding-right: 20px;
 }
+
+.noUi-tooltip {
+    display: none;
+}
+.noUi-active .noUi-tooltip {
+    display: block;
+}
