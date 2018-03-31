@@ -46,16 +46,16 @@
             <div class="col-4 offset-4">
                 <h1>Connexion</h1>
                 <div class="form-group">
-                    <label for="create_adresseEmail">Adresse Email</label>
+                    <label for="login_adresseEmail">Adresse Email</label>
                     <input type="email" class="form-control" id="login_adresseEmail" placeholder="nom@exemple.com">
                 </div>
                 <div class="form-group">
-                    <label for="create_motDePasse">Mot de passe</label>
+                    <label for="login_motDePasse">Mot de passe</label>
                     <input type="password" class="form-control" id="login_motDePasse" minlength="4"
                            placeholder="mot de passe">
                 </div>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" id="connectionPersistent">
+                    <input type="checkbox" class="form-check-input" id="connectionPersistent">
                     <label class="form-check-label" for="connectionPersistent">Se souvenir de moi</label>
                 </div>
                 <button onclick="login_Connecter()" class="btn btn-primary btn-block mt-3">Se connecter</button>
@@ -214,16 +214,14 @@
         </div>
     </nav>
 
-    <div class="map" id="map" title="Div where the map goes">
-    </div>
-
+    <div class="map" id="map" title="Div where the map goes"></div>
 
     <section class="right" title="right side info">
         <div id="comparator">
             <div id="comparator-left">
                 <label for="inputCommuneA">
                 	Commune A:
-                	<input id="inputCommuneA" list="listCommunes">
+                	<input id="inputCommuneA" list="listCommunes" onautocomplete="onModifA()" onchange="onModifA()">
                 	<datalist id="listCommunes">
                 	</datalist>
                 </label>
@@ -231,7 +229,7 @@
             <div id="comparator-right">
                 <label for="inputCommuneB">
                 	Commune B:
-                	<input id="inputCommuneB" list="listCommunes">
+                	<input id="inputCommuneB" list="listCommunes" onchange="onModifB()">
                 </label>
             </div>
         </div>

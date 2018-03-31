@@ -1,4 +1,4 @@
-const server_domain = "localhost:8080";
+const server_domain = "elsa.alexc.ovh";
 const pages = ["acceuil", "login", "create", "app"];
 const stylesheets = ["css/clem.css", "css/clem.css", "css/clem.css",
     "css/app.css"
@@ -65,7 +65,7 @@ onLoad();
 
 function onLoad() {
     const user = localStorage.getItem("user");
-    console.log(user);
+    console.log("Stored user data:",user);
     if (user != null) {
         api_key = JSON.parse(user).api;
         swapTo('app');
@@ -188,6 +188,7 @@ function elsa_Connection(email, password) {
             let ret = JSON.parse(xhr.responseText);
             if (ret.hasOwnProperty('api_key')) {
                 api_key = ret.api_key;
+                console.log("API Key is", api_key);
                 swapTo('app');
                 if (document.getElementById("connectionPersistent").checked)
                     localStorage.setItem("user", JSON.stringify({
@@ -289,4 +290,11 @@ Highcharts.mapChart('map', {
         }
     }]
 });
+
+// COMPARATOR CODE
+
+const communneAinput = document.getElementById("inputCommuneA");
+function onModifA() {
+    console.log(communneAinput.value);
+}
 
