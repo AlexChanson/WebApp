@@ -11,8 +11,12 @@ let api_key = null;
 let nav_state = true;
 
 let cities = [];
+let cities_name = [];
 let departements = [];
 let regions = [];
+
+let communeA;
+let communeB;
 
 const getRegionsJSON = '{"type":"getRegions"}';
 const getCityNamesJSON = '{"type":"getCityNames"}';
@@ -133,12 +137,12 @@ function onConnect() {
                 child = document.createElement("option");
                 child.setAttribute("value", name);
                 datalistCommuneA.appendChild(child);
+                cities_name.push(name);
             }
         }
         console.log(cities.length.toString() + " cities loaded.");
 
     });
-
 }
 
 
@@ -189,6 +193,7 @@ function elsa_Connection(email, password) {
             if (ret.hasOwnProperty('api_key')) {
                 api_key = ret.api_key;
                 console.log("API Key is", api_key);
+                onConnect();
                 swapTo('app');
                 if (document.getElementById("connectionPersistent").checked)
                     localStorage.setItem("user", JSON.stringify({
@@ -196,7 +201,7 @@ function elsa_Connection(email, password) {
                         password: password,
                         api: api_key
                     }));
-                onConnect();
+
             }
         }
     };
@@ -293,8 +298,24 @@ Highcharts.mapChart('map', {
 
 // COMPARATOR CODE
 
-const communneAinput = document.getElementById("inputCommuneA");
+
 function onModifA() {
-    console.log(communneAinput.value);
+    communeA = generic_onModif("inputCommuneA");
+}
+
+function onModifB() {
+    communeB = generic_onModif("inputCommuneB");
+}
+
+function generic_onModif(id) {
+    const communneAinput = document.getElementById(id);
+    const found = cities_name.find( el => el === communneAinput.value);
+    if (found !== undefined){
+        communneAinput.style.borderColor = '#2aad00';
+        return found;
+    } else {
+        communneAinput.style.borderColor = '#df1d00';
+        return null;
+    }
 }
 

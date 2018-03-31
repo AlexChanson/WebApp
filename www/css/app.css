@@ -141,3 +141,6 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+#comparator .form-control{
+    border-width: 3px;
+}

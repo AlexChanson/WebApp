@@ -219,18 +219,28 @@
     <section class="right" title="right side info">
         <div id="comparator">
             <div id="comparator-left">
-                <label for="inputCommuneA">
-                	Commune A:
-                	<input id="inputCommuneA" list="listCommunes" onautocomplete="onModifA()" onchange="onModifA()">
-                	<datalist id="listCommunes">
-                	</datalist>
-                </label>
+                <form class="form-inline" action="javascript:void(0)">
+                    <div class="form-group mb-2">
+                        Commune A:
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="text" list="listCommunes" class="form-control" id="inputCommuneA" onchange="onModifA()" placeholder="Paris">
+                        <datalist id="listCommunes">
+                        </datalist>
+                    </div>
+                    <button onclick="onModifA()" class="btn btn-primary mb-2">Valider</button>
+                </form>
             </div>
             <div id="comparator-right">
-                <label for="inputCommuneB">
-                	Commune B:
-                	<input id="inputCommuneB" list="listCommunes" onchange="onModifB()">
-                </label>
+                <form class="form-inline" action="javascript:void(0)">
+                    <div class="form-group mb-2">
+                        Commune B:
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="text" list="listCommunes" class="form-control" id="inputCommuneB" onchange="onModifB()" placeholder="Lyon">
+                    </div>
+                    <button onclick="onModifA()" class="btn btn-primary mb-2">Valider</button>
+                </form>
             </div>
         </div>
         <div id="statistics" role="tabpanel">
