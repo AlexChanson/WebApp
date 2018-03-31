@@ -12,11 +12,12 @@ let nav_state = true;
 
 let cities = [];
 let cities_name = [];
+let nameToINSEE = {};
 let departements = [];
 let regions = [];
 
-let communeA;
-let communeB;
+let communeA = null;
+let communeB = null;
 
 const getRegionsJSON = '{"type":"getRegions"}';
 const getCityNamesJSON = '{"type":"getCityNames"}';
@@ -131,13 +132,17 @@ function onConnect() {
         console.log("cities loading in browser...");
         let datalistCommuneA = document.getElementById("listCommunes");
         let child = null;
-        for (jsonCity of cities) {
+        for (let jsonCity of cities) {
             const name = jsonCity.nom;
             if (name) {
                 child = document.createElement("option");
                 child.setAttribute("value", name);
                 datalistCommuneA.appendChild(child);
                 cities_name.push(name);
+            }
+            const code = jsonCity.code_insee;
+            if (name && code){
+                nameToINSEE[name] = code;
             }
         }
         console.log(cities.length.toString() + " cities loaded.");
@@ -301,10 +306,12 @@ Highcharts.mapChart('map', {
 
 function onModifA() {
     communeA = generic_onModif("inputCommuneA");
+    update_Comparator();
 }
 
 function onModifB() {
     communeB = generic_onModif("inputCommuneB");
+    update_Comparator();
 }
 
 function generic_onModif(id) {
@@ -316,6 +323,18 @@ function generic_onModif(id) {
     } else {
         communneAinput.style.borderColor = '#df1d00';
         return null;
+    }
+}
+
+function update_Comparator() {
+    if (communeB != null && communeA != null){
+        function cb(data){
+            console.log(data);
+            let ret = JSON.parse(data);
+            document.getElementById("commA_display").innerHTML = JSON.stringify(ret["comm1"]);
+            document.getElementById("commB_display").innerHTML = JSON.stringify(ret["comm2"]);
+        }
+        elsaRequest(JSON.stringify({type:'compareCities', commune1:nameToINSEE[communeA], commune2:nameToINSEE[communeB]}), cb)
     }
 }
 
