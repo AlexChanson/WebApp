@@ -55,7 +55,7 @@
                            placeholder="mot de passe">
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="connectionPersistent">
+                    <input type="checkbox" class="form-check-input" id="connectionPersistent" checked>
                     <label class="form-check-label" for="connectionPersistent">Se souvenir de moi</label>
                 </div>
                 <button onclick="login_Connecter()" class="btn btn-primary btn-block mt-3">Se connecter</button>
@@ -220,11 +220,8 @@
         <div id="comparator">
             <div id="comparator-left">
                 <form class="form-inline" action="javascript:void(0)">
-                    <div class="form-group mb-2">
-                        Commune A:
-                    </div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" list="listCommunes" class="form-control" id="inputCommuneA" onchange="onModifA()" placeholder="Paris">
+                        <input type="text" list="listCommunes" class="form-control" id="inputCommuneA" onchange="onModifA()" placeholder="Commune A">
                         <datalist id="listCommunes">
                         </datalist>
                     </div>
@@ -236,11 +233,8 @@
             </div>
             <div id="comparator-right">
                 <form class="form-inline" action="javascript:void(0)">
-                    <div class="form-group mb-2">
-                        Commune B:
-                    </div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" list="listCommunes" class="form-control" id="inputCommuneB" onchange="onModifB()" placeholder="Lyon">
+                        <input type="text" list="listCommunes" class="form-control" id="inputCommuneB" onchange="onModifB()" placeholder="Commune B">
                     </div>
                     <button onclick="onModifA()" class="btn btn-primary mb-2">Valider</button>
                 </form>

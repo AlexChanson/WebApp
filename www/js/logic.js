@@ -92,15 +92,6 @@ function onLoadCreate() {
 
 function onLoadApp() {
     document.getElementById("page_body").classList.add("bg-light");
-    let slider1 = document.getElementById('app_slider_1');
-    noUiSlider.create(slider1, {
-        start: [20, 80],
-        connect: true,
-        range: {
-            'min': 0,
-            'max': 100
-        }
-    });
 }
 
 function onLeaveAcceuil() {
@@ -191,22 +182,22 @@ function elsa_Connection(email, password) {
     let xhr = new XMLHttpRequest();
     const url = 'http://'+server_domain+'/connect';
     const body = '{"email":"' + email + '", "password":"' + password + '"}';
+    const checkbox = document.getElementById("connectionPersistent");
     xhr.open('POST', url);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             let ret = JSON.parse(xhr.responseText);
             if (ret.hasOwnProperty('api_key')) {
                 api_key = ret.api_key;
-                console.log("API Key is", api_key);
-                onConnect();
-                swapTo('app');
-                if (document.getElementById("connectionPersistent").checked)
+                if (checkbox.checked){
                     localStorage.setItem("user", JSON.stringify({
                         email: email,
                         password: password,
                         api: api_key
                     }));
-
+                }
+                onConnect();
+                swapTo('app');
             }
         }
     };
