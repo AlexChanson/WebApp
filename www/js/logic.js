@@ -1,14 +1,13 @@
 const server_domain = "elsa.alexc.ovh";
 const pages = ["acceuil", "login", "create", "app"];
-const stylesheets = ["css/clem.css", "css/clem.css", "css/clem.css",
-    "css/app.css"
-];
+const stylesheets = ["css/clem.css", "css/clem.css", "css/clem.css", "css/app.css"];
 const onLoads = [onLoadAcceuil, onLoadLogin, onLoadCreate, onLoadApp];
 const onLeaves = [onLeaveAcceuil, onLeaveLogin, onLeaveCreate, onLeaveApp];
 
 let page_state = 'acceuil';
 let api_key = null;
 let nav_state = true;
+
 let sliders = {};
 
 let cities = [];
@@ -17,12 +16,7 @@ let nameToINSEE = {};
 let departements = [];
 let regions = [];
 
-let communeA = null;
-let communeB = null;
-
-const getRegionsJSON = '{"type":"getRegions"}';
-const getCityNamesJSON = '{"type":"getCityNames"}';
-const getDepartementsJSON = '{"type":"getDepartements"}';
+let communeA = null; let communeB = null;
 
 /*
     --- Event CODE ---
@@ -73,13 +67,13 @@ function onLeaveApp() {
 }
 
 function onConnect() {
-    elsaRequest(getRegionsJSON, resp => {
+    elsaRequest('{"type":"getRegions"}', resp => {
         regions = JSON.parse(resp);
     });
-    elsaRequest(getDepartementsJSON, resp => {
+    elsaRequest('{"type":"getDepartements"}', resp => {
         departements = JSON.parse(resp);
     });
-    elsaRequest(getCityNamesJSON, resp => {
+    elsaRequest('{"type":"getCityNames"}', resp => {
         cities = JSON.parse(resp);
 
         console.log("cities loading in browser...");
@@ -199,7 +193,6 @@ function create_Submit() {
         prenom: helpers_get('create_prenom'),
         password: mdp
     };
-    //console.log(user);
     if (mdp === mdp2) {
         let json = JSON.stringify(user);
         let xhr = new XMLHttpRequest();
@@ -207,7 +200,6 @@ function create_Submit() {
         function callback() {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                 let ret = JSON.parse(xhr.responseText);
-                //console.log(ret);
                 if (ret.hasOwnProperty("api_key")){
                     elsa_Connection(user.email, user.password);
                 }

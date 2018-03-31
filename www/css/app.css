@@ -156,3 +156,12 @@
 .noUi-active .noUi-tooltip {
     display: block;
 }
+.noUi-base .noUi-connect {
+    background-color: deepskyblue;
+}
+
+.noUi-handle {
+    background-color: #ebebeb;
+    border: none;
+    border-radius: 15px;
+}
