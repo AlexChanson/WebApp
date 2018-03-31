@@ -122,46 +122,101 @@
             <form action="javascript:void(0)">
                 <div id="filter-container">
                   <div class="form-group">
-
-                        <label><h4>Fidélité</h4></label>
+                        <label><h4>Population</h4></label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: populationMin"></span>&nbsp;Habitants&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-population" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: populationMax"></span>&nbsp;Habitants
+                            </div>
+                        </div>
+                        <label><h4>Nombre d'étudiants</h4></label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: nombreEtudiantsMin"></span>&nbsp;Étudiants&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-etudiants" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: nombreEtudiantsMax"></span>&nbsp;Étudiants
+                            </div>
+                        </div>
+                        <label><h4>Nombre d'actifs</h4></label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: nombreActifsMin"></span>&nbsp;Actifs&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-actifs" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: nombreActifsMax"></span>&nbsp;Actifs
+                            </div>
+                        </div>
+                        <label><h4>Nombre d'établissement</h4></label>
+                        <div class="form-row">
+                            <div class="col-3 text-right">
+                                <span data-bind="text: nombreEtablissementsMin"></span>&nbsp;Établissements&nbsp;
+                            </div>
+                            <div class="col">
+                                <input id="slider-etablissements" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-3 text-left">
+                                &nbsp;<span data-bind="text: nombreEtablissementsMax"></span>&nbsp;Établissements
+                            </div>
+                        </div>
+                        <label><h4>Mobilit&eacute;</h4></label>
                         <div class="form-check">
+                        <div class="form-row">
+                            <input type="radio" name="mobility" class="form-check-input" id="anyMobility" checked>
+                            <label class="form-check-label" for="anyMobility">N'importe quel type de mobilit&eacute;</label>
+                        </div>
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="populationSedentaire">
+                                <input type="radio" name="mobility" class="form-check-input" id="populationSedentaire">
                                 <label class="form-check-label" for="populationSedentaire">Population sédentaire</label>
                             </div>
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="populationMobile">
+                                <input type="radio" name="mobility" class="form-check-input" id="populationMobile">
                                 <label class="form-check-label" for="populationMobile">Population mobile</label>
                             </div>
                         </div>
-                            <label><h4>Environnement démographique</h4></label>
+                            <label><h4>Environnement d&eacute;mographique</h4></label>
                             <div class="form-check">
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="bassinIndustrielCroissant">
+                                <input type="radio" name="demographic_environment" class="form-check-input" id="anyDemographicEnvironment" checked>
+                                <label class="form-check-label" for="anyDemographicEnvironment">N'importe quel environnement d&eacute;mographique</label>
+                            </div>
+                            <div class="form-row">
+                                <input type="radio" name="demographic_environment" class="form-check-input" id="bassinIndustrielCroissant">
                                 <label class="form-check-label" for="bassinIndustrielCroissant">Bassin industriel en croissance démographique</label>
                             </div>
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="bassinResidentielCroissant">
+                                <input type="radio" name="demographic_environment" class="form-check-input" id="bassinResidentielCroissant">
                                 <label class="form-check-label" for="bassinResidentielCroissant">Bassin résidentiel en croissance démographique</label>
                             </div>
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="bassinUrbainCroissant">
+                                <input type="radio" name="demographic_environment" class="form-check-input" id="bassinUrbainCroissant">
                                 <label class="form-check-label" for="bassinUrbainCroissant">Bassin urbain en croissance démographique</label>
                             </div>
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="bassinDiversifieCroissant">
+                                <input type="radio" name="demographic_environment" class="form-check-input" id="bassinDiversifieCroissant">
                                 <label class="form-check-label" for="bassinDiversifieCroissant">Bassin diversifié en croissance démographique</label>
                             </div>
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="bassinAgroalimentaireCroissant">
+                                <input type="radio" name="demographic_environment" class="form-check-input" id="bassinAgroalimentaireCroissant">
                                 <label class="form-check-label" for="populationMobile">Bassin agroalimentaire en croissance démographique</label>
                             </div>
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="bassinResidentielDeclin">
+                                <input type="radio" name="demographic_environment" class="form-check-input" id="bassinResidentielDeclin">
                                 <label class="form-check-label" for="bassinResidentielDeclin">Bassin résidentiel en déclin démographique</label>
                             </div>
                             <div class="form-row">
-                                <input type="radio" class="form-check-input" id="bassinDiversifieDeclin">
+                                <input type="radio" name="demographic_environment" class="form-check-input" id="bassinDiversifieDeclin">
                                 <label class="form-check-label" for="bassinDiversifieDeclin">Bassin diversifié en déclin démographique</label>
                             </div>
                         </div>
@@ -221,8 +276,12 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane fade active show" id="tabpane-1" role="tabpanel">1</div>
-                <div class="tab-pane fade" id="tabpane-2" role="tabpanel">2</div>
+                <div class="tab-pane fade active show" id="tabpane-1" role="tabpanel" id="populationBreakdownChart">
+                    <div id="populationBreakdownChart"></div>
+                </div>
+                <div class="tab-pane fade" id="tabpane-2" role="tabpanel">
+                    <div id="populationChangeChart"></div>
+                </div>
                 <div class="tab-pane fade" id="tabpane-3" role="tabpanel">3</div>
                 <div class="tab-pane fade" id="tabpane-4" role="tabpanel">4</div>
             </div>
@@ -230,7 +289,8 @@
     </section>
 </div>
 
-<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src = "https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
 <script src="https://code.highcharts.com/mapdata/countries/fr/fr-all.js"></script>
 <script type="application/javascript" src="js/trie.js"></script>
 <script type="application/javascript" src="js/nouislider.min.js"></script>
