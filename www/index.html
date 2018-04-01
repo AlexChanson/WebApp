@@ -112,13 +112,16 @@
         <div class="filters" id="app_filters">
             <h4>Population</h4>
             <div id="slider-population"  class="sliders"></div>
-            De <span id="sl_pop_min">0</span> à <span id="sl_pop_max">2500000</span> .
+            De <span id="sl_pop_min">0</span> à <span id="sl_pop_max">0</span>
             <h4>Nombre d'étudiants</h4>
             <div id="slider-etudiants" class="sliders"></div>
+            De <span id="sl_etu_min">0</span> à <span id="sl_etu_max">0</span>
             <h4>Nombre d'actifs</h4>
             <div id="slider-actifs"></div>
+            De <span id="sl_act_min">0</span> à <span id="sl_act_max">0</span>
             <h4>Nombre d'établissement</h4>
             <div id="slider-etablissements"></div>
+            De <span id="sl_eta_min">0</span> à <span id="sl_eta_max">0</span>
 
             <form action="javascript:void(0)">
                 <div id="filter-container">
@@ -230,7 +233,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane fade active show" id="tabpane-1" role="tabpanel" id="populationBreakdownChart">
+                <div class="tab-pane fade active show" id="tabpane-1" role="tabpanel">
                     <div id="populationBreakdownChart"></div>
                 </div>
                 <div class="tab-pane fade" id="tabpane-2" role="tabpanel">
@@ -247,12 +250,8 @@
 <script src="https://code.highcharts.com/maps/modules/map.js"></script>
 <script src="https://code.highcharts.com/mapdata/countries/fr/fr-all.js"></script>
 <script type="application/javascript" src="js/wNumb.js"></script>
-<script type="application/javascript" src="js/trie.js"></script>
 <script type="application/javascript" src="js/nouislider.min.js"></script>
-<script type="application/javascript" src="js/jquery-3.3.1.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-<script type="application/javascript" src="js/bootstrap.js"></script>
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <script type="application/javascript" src="js/logic.js"></script>
 </body>
