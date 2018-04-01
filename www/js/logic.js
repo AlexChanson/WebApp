@@ -339,10 +339,28 @@ function generic_onModif(id) {
 function update_Comparator() {
     if (communeB != null && communeA != null){
         function cb(data){
+            function update_city(id, d) {
+                let container = document.getElementById(id);
+                let templateContent = document.querySelector("#comparatorDataTemplate").content;
+                let elem = templateContent.querySelectorAll("[data-key]");
+
+                elem.forEach(function(e, i, l) {
+                    let k = e.dataset.key;
+
+                    if (typeof d[k] !== "undefined") {
+                        e.innerHTML = d[k];
+                    }
+                });
+
+                container.textContent = "";
+                container.appendChild(document.importNode(templateContent, true));
+            }
+
             console.log(data);
             let ret = JSON.parse(data);
-            document.getElementById("commA_display").innerHTML = JSON.stringify(ret["comm1"]);
-            document.getElementById("commB_display").innerHTML = JSON.stringify(ret["comm2"]);
+
+            update_city("commA_display", ret['comm1']);
+            update_city("commB_display", ret['comm2']);
         }
         elsaRequest(JSON.stringify({type:'compareCities', commune1:nameToINSEE[communeA], commune2:nameToINSEE[communeB]}), cb)
     }

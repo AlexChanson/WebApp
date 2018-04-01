@@ -180,12 +180,11 @@
             <div id="comparator-left">
                 <form class="form-inline" action="javascript:void(0)">
                     <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" list="listCommunes" class="form-control" id="inputCommuneA"
-                               onchange="onModifA()" placeholder="Commune A">
+                        <input type="text" oninput="onModifA()" list="listCommunes" class="form-control" id="inputCommuneA"
+                                placeholder="Commune A">
                         <datalist id="listCommunes">
                         </datalist>
                     </div>
-                    <button onclick="onModifA()" class="btn btn-primary mb-2">Valider</button>
                 </form>
                 <div id="commA_display">
 
@@ -195,9 +194,8 @@
                 <form class="form-inline" action="javascript:void(0)">
                     <div class="form-group mx-sm-3 mb-2">
                         <input type="text" list="listCommunes" class="form-control" id="inputCommuneB"
-                               onchange="onModifB()" placeholder="Commune B">
+                               oninput="onModifB()" placeholder="Commune B">
                     </div>
-                    <button onclick="onModifA()" class="btn btn-primary mb-2">Valider</button>
                 </form>
                 <div id="commB_display">
 
@@ -234,7 +232,61 @@
         </div>
     </section>
 </div>
-
+<template id="comparatorDataTemplate">
+    <table>
+        <tbody>
+            <tr>
+                <th colspan="2">Informations administratives</th>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td data-key="nom"></td>
+            <tr>
+            <tr>
+                <th>D&eacute;partement</th>
+                <td data-key="num_dep"></td>
+            <tr>
+            <tr>
+                <th>Code INSEE</th>
+                <td data-key="code_insee"></td>
+            <tr>
+            <tr>
+                <th colspan="2">Informations g&eacute;ographiques</th>
+            </tr>
+            <tr>
+                <th>Superficie</th>
+                <td data-key="superficie"></td>
+            <tr>
+            <tr>
+                <th colspan="2">Informations d&eacute;mographiques</th>
+            </tr>
+            <tr>
+                <th>&Eacute;volution de la population</th>
+                <td data-key="evolution_pop"></td>
+            <tr>
+            <tr>
+                <th>Indice d&eacute;mographique</th>
+                <td data-key="indice_demo"></td>
+            <tr>
+            <tr>
+                <th>Population en 2015</th>
+                <td data-key="pop_2015"></td>
+            <tr>
+            <tr>
+                <th>Population active en 2015</th>
+                <td data-key="nb_actifs_2015"></td>
+            <tr>
+            <tr>
+                <th>Population active salari&eacute;e en 2015</th>
+                <td data-key="nb_actifs_sal_2015"></td>
+            <tr>
+            <tr>
+                <th>Population active en 2010</th>
+                <td data-key="actifs_2010"></td>
+            <tr>
+        </tbody>
+    </table>
+</template>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
