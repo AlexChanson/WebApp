@@ -137,11 +137,13 @@ function onConnect() {
 
     sliders["act"] = document.getElementById('slider-actifs');
     noUiSlider.create(sliders['act'], {
-        start: [20, 80],
+        start: [0, 1000000],
         connect: true,
         range: {
-            'min': 0,
-            'max': 100
+            'min': [0, 10],
+            '20%': [5000, 1000],
+            '75%': [100000, 10000],
+            'max': 1000000
         }
     });
     sliders_labels['act'] = [document.getElementById('sl_act_min'), document.getElementById('sl_act_max')];
@@ -151,11 +153,13 @@ function onConnect() {
 
     sliders["eta"] = document.getElementById('slider-etablissements');
     noUiSlider.create(sliders['eta'], {
-        start: [20, 80],
+        start: [0, 1500],
         connect: true,
         range: {
-            'min': 0,
-            'max': 100
+            'min': [0, 5],
+            '25%': [100, 10],
+            '50%': [500, 50],
+            'max': 1500
         }
     });
     sliders_labels['eta'] = [document.getElementById('sl_eta_min'), document.getElementById('sl_eta_max')];
@@ -277,141 +281,32 @@ function highcharts_init() {
         }]
     });
 
-    Highcharts.chart('populationBreakdownChart', {
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
-        },
-        title: {
-            text: 'Browser market shares in January, 2018'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
-            }
-        },
-        series: [{
-            name: 'Brands',
-            colorByPoint: true,
-            data: [{
-                name: 'Chrome',
-                y: 61.41,
-                sliced: true,
-                selected: true
-            }, {
-                name: 'Internet Explorer',
-                y: 11.84
-            }, {
-                name: 'Firefox',
-                y: 10.85
-            }, {
-                name: 'Edge',
-                y: 4.67
-            }, {
-                name: 'Safari',
-                y: 4.18
-            }, {
-                name: 'Sogou Explorer',
-                y: 1.64
-            }, {
-                name: 'Opera',
-                y: 1.6
-            }, {
-                name: 'QQ',
-                y: 1.2
-            }, {
-                name: 'Other',
-                y: 2.61
-            }]
+    let exData = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
         }]
-    });
+    }
 
-    Highcharts.chart('populationChangeChart', {
-        title: {
-            text: 'Solar Employment Growth by Sector, 2010-2016'
-        },
-        subtitle: {
-            text: 'Source: thesolarfoundation.com'
-        },
-        yAxis: {
-            title: {
-                text: 'Number of Employees'
-            }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false
-                },
-                pointStart: 2010
-            }
-        },
-        series: [{
-            name: 'Installation',
-            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-        }, {
-            name: 'Manufacturing',
-            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-        }, {
-            name: 'Sales & Distribution',
-            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-        }, {
-            name: 'Project Development',
-            data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-        }, {
-            name: 'Other',
-            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-        }],
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
-        }
+    let ctx1 = $("#chart_1");
+    let chart1 = new Chart(ctx1, {
+        type: 'radar',
+        data: exData,
+        options: {}
     });
-    var ctx = document.getElementById('chart_3').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
+    let ctx2 = $("#chart_2");
+    let chart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: exData,
+        options: {}
+    });
+    let ctx3 = $("#chart_3");
+    let chart3 = new Chart(ctx3, {
         type: 'line',
-
-        // The data for our dataset
-        data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-                label: "My First dataset",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }]
-        },
-
-        // Configuration options go here
+        data: exData,
         options: {}
     });
 }
