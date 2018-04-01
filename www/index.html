@@ -175,7 +175,7 @@
 
     <div class="map" id="map"></div>
 
-    <section class="right" title="right side info">
+    <section class="right">
         <div id="comparator">
             <div id="comparator-left">
                 <form class="form-inline" action="javascript:void(0)">
@@ -226,21 +226,25 @@
                 <div class="tab-pane fade" id="tabpane-2" role="tabpanel">
                     <div id="populationChangeChart"></div>
                 </div>
-                <div class="tab-pane fade" id="tabpane-3" role="tabpanel">3</div>
+                <div class="tab-pane fade" id="tabpane-3" role="tabpanel">
+                    <canvas id="chart_3"></canvas>
+                </div>
                 <div class="tab-pane fade" id="tabpane-4" role="tabpanel">4</div>
             </div>
         </div>
     </section>
 </div>
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/maps/modules/map.js"></script>
-<script src="https://code.highcharts.com/mapdata/countries/fr/fr-all.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
-<script type="application/javascript" src="js/nouislider.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/fr/fr-all.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
+<script type="application/javascript" src="js/nouislider.min.js"></script>
 
 <script type="application/javascript" src="js/logic.js"></script>
 </body>
