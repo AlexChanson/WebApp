@@ -399,8 +399,8 @@ function intervalStringifier(attr, lb, gb) {
 
 function filterRequest() {
     let finalFilters = [];
-    lw_pop = ;
-    gt_pop = 0;
+    let lw_pop = sliders_values.pop.values;
+    let gt_pop = 0;
 }
 
 /*
