@@ -11,6 +11,36 @@ let nav_state = true;
 let sliders = {};
 let sliders_labels = {};
 
+let mapObject = null;
+let mapRegions = {
+    1:'fr-gp', 2:'fr-mq', 3:'fr-gf', 4:'fr-re', 11:'fr-j', 21:'fr-g', 22:'fr-s', 23:'fr-q', 24:'fr-f', 25:'fr-p',
+    26:'fr-d', 31:'fr-o', 41:'fr-m', 42:'fr-a', 43:'fr-i', 52:'fr-r', 53:'fr-e', 54:'fr-t', 72:'fr-b', 73:'fr-n',
+    74:'fr-l', 82:'fr-v', 83:'fr-c', 91:'fr-k', 93:'fr-u', 94:'fr-h'
+};
+let mapData =[['fr-t', 0], ['fr-h', 1], ['fr-e', 2], ['fr-r', 3], ['fr-u', 4], ['fr-n', 5], ['fr-p', 6], ['fr-o', 7], ['fr-v', 8], ['fr-s', 9], ['fr-g', 10], ['fr-k', 11], ['fr-a', 12], ['fr-c', 13], ['fr-f', 14], ['fr-l', 15], ['fr-d', 16], ['fr-b', 17], ['fr-i', 18], ['fr-q', 19], ['fr-j', 20], ['fr-m', 21], ['fr-re', 22], ['fr-yt', 23], ['fr-gf', 24], ['fr-mq', 25], ['fr-gp', 26], ['undefined', 27]];
+let mapProperties = {
+    title: {text: 'Résultats par régions'},
+    chart: {map: 'countries/fr/fr-all'},
+    colorAxis: {
+        min: 0,
+        style: {
+            color: '#fff'
+        }
+    },
+    series: [{
+        data: mapData,
+        states: {
+            hover: {
+                color: '#BADA55'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.name}'
+        }
+    }]
+};
+
 let cities = [];
 let cities_name = [];
 let nameToINSEE = {};
@@ -281,32 +311,7 @@ function elsaRequest(body, callback) {
     --- HIGHCHARTS Init CODE
  */
 function highcharts_init() {
-    Highcharts.mapChart('map', {
-        title: {
-            text: 'Région'
-        },
-        chart: {
-            map: 'countries/fr/fr-all'
-        },
-        colorAxis: {
-            min: 0,
-            style: {
-                color: '#fff'
-            }
-        },
-        series: [{
-            data: [['fr-t', 0], ['fr-h', 1], ['fr-e', 2], ['fr-r', 3], ['fr-u', 4], ['fr-n', 5], ['fr-p', 6], ['fr-o', 7], ['fr-v', 8], ['fr-s', 9], ['fr-g', 10], ['fr-k', 11], ['fr-a', 12], ['fr-c', 13], ['fr-f', 14], ['fr-l', 15], ['fr-d', 16], ['fr-b', 17], ['fr-i', 18], ['fr-q', 19], ['fr-j', 20], ['fr-m', 21], ['fr-re', 22], ['fr-yt', 23], ['fr-gf', 24], ['fr-mq', 25], ['fr-gp', 26], ['undefined', 27]],
-            states: {
-                hover: {
-                    color: '#BADA55'
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                format: '{point.name}'
-            }
-        }]
-    });
+    mapObject = Highcharts.mapChart('map', mapProperties);
 
     let exData = {
         labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -316,7 +321,7 @@ function highcharts_init() {
             borderColor: 'rgb(255, 99, 132)',
             data: [0, 10, 5, 2, 20, 30, 45],
         }]
-    }
+    };
 
     let ctx1 = $("#chart_1");
     let chart1 = new Chart(ctx1, {
@@ -438,4 +443,8 @@ function validateEmail(mail){
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
         return true;
     return false;
+}
+
+function updateMap() {
+    mapObject.update(mapProperties);
 }
