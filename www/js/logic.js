@@ -605,6 +605,7 @@ function loadCsv() {
                 "csv": freader.result.replace(/[\r| ]/g, "").split("\n")
             }), res => {
                 // TODO
+                alert("Chargement du Fichier Reussi !");
             });
         };
     }
