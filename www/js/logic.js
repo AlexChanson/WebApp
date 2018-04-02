@@ -1,6 +1,6 @@
 const server_domain = "elsa.alexc.ovh";
 const pages = ["acceuil", "login", "create", "app"];
-const stylesheets = ["css/clem.css", "css/clem.css", "css/app.css", "css/app.css"];
+//const stylesheets = ["css/app.css", "css/app.css", "css/app.css", "css/app.css"];
 const onLoads = [onLoadAcceuil, onLoadLogin, onLoadCreate, onLoadApp];
 const onLeaves = [onLeaveAcceuil, onLeaveLogin, onLeaveCreate, onLeaveApp];
 
@@ -407,8 +407,7 @@ function swapTo(nom) {
             document.getElementById(pages[i]).hidden = true;
         } else {
             document.getElementById(pages[i]).hidden = false;
-            document.getElementById('dynamic_css').setAttribute('href',
-                stylesheets[i]);
+            //document.getElementById('dynamic_css').setAttribute('href',stylesheets[i]);
             page_state = nom;
             onLoads[i]();
         }
