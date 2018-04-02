@@ -1,6 +1,8 @@
 const server_domain = "elsa.alexc.ovh";
 const pages = ["acceuil", "login", "create", "app"];
-const stylesheets = ["css/clem.css", "css/clem.css", "css/app.css", "css/app.css"];
+const stylesheets = ["css/clem.css", "css/clem.css", "css/app.css",
+    "css/app.css"
+];
 const onLoads = [onLoadAcceuil, onLoadLogin, onLoadCreate, onLoadApp];
 const onLeaves = [onLeaveAcceuil, onLeaveLogin, onLeaveCreate, onLeaveApp];
 
@@ -17,7 +19,8 @@ let nameToINSEE = {};
 let departements = [];
 let regions = [];
 
-let communeA = null; let communeB = null;
+let communeA = null;
+let communeB = null;
 
 /*
     --- Event CODE ---
@@ -27,13 +30,13 @@ onLoad();
 
 function onLoad() {
     const user = localStorage.getItem("user");
-    console.log("Stored user data:",user);
+    console.log("Stored user data:", user);
     if (user != null) {
         api_key = JSON.parse(user).api;
         swapTo('app');
         onConnect();
     }
-    highcharts_init();
+
 }
 
 function onLoadAcceuil() {
@@ -44,8 +47,7 @@ function onLoadLogin() {
 
 }
 
-function onLoadCreate() {
-}
+function onLoadCreate() {}
 
 function onLoadApp() {
     document.getElementById("page_body").classList.add("bg-light");
@@ -63,8 +65,7 @@ function onLeaveCreate() {
     document.getElementById("page_body").classList.remove("bg-dark");
 }
 
-function onLeaveApp() {
-}
+function onLeaveApp() {}
 
 function onConnect() {
     elsaRequest('{"type":"getRegions"}', resp => {
@@ -88,11 +89,13 @@ function onConnect() {
                 cities_name.push(name);
             }
             const code = jsonCity.code_insee;
-            if (name && code){
+            if (name && code) {
                 nameToINSEE[name] = code;
             }
         }
         console.log(cities.length.toString() + " cities loaded.");
+        highcharts_init();
+
 
     });
 
@@ -100,7 +103,11 @@ function onConnect() {
     sliders["pop"] = document.getElementById('slider-population');
     noUiSlider.create(sliders['pop'], {
         start: [7500, 50000],
-        tooltips:[wNumb({ decimals: 0 }), wNumb({ decimals: 0 })],
+        tooltips: [wNumb({
+            decimals: 0
+        }), wNumb({
+            decimals: 0
+        })],
         step: 100,
         connect: true,
         range: {
@@ -111,15 +118,20 @@ function onConnect() {
             'max': 2500000
         }
     });
-    sliders_labels['pop'] = [document.getElementById('sl_pop_min'), document.getElementById('sl_pop_max')];
-    sliders['pop'].noUiSlider.on('update', function( values, handle ) {
+    sliders_labels['pop'] = [document.getElementById('sl_pop_min'), document.getElementById(
+        'sl_pop_max')];
+    sliders['pop'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['pop'][handle].innerHTML = values[handle];
     });
 
     sliders["etu"] = document.getElementById('slider-etudiants');
     noUiSlider.create(sliders['etu'], {
         start: [0, 50000],
-        tooltips:[wNumb({ decimals: 0 }), wNumb({ decimals: 0 })],
+        tooltips: [wNumb({
+            decimals: 0
+        }), wNumb({
+            decimals: 0
+        })],
         connect: true,
         range: {
             'min': [0, 10],
@@ -128,8 +140,9 @@ function onConnect() {
             'max': 1000000
         }
     });
-    sliders_labels['etu'] = [document.getElementById('sl_etu_min'), document.getElementById('sl_etu_max')];
-    sliders['etu'].noUiSlider.on('update', function( values, handle ) {
+    sliders_labels['etu'] = [document.getElementById('sl_etu_min'), document.getElementById(
+        'sl_etu_max')];
+    sliders['etu'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['etu'][handle].innerHTML = values[handle];
     });
 
@@ -144,8 +157,9 @@ function onConnect() {
             'max': 1000000
         }
     });
-    sliders_labels['act'] = [document.getElementById('sl_act_min'), document.getElementById('sl_act_max')];
-    sliders['act'].noUiSlider.on('update', function( values, handle ) {
+    sliders_labels['act'] = [document.getElementById('sl_act_min'), document.getElementById(
+        'sl_act_max')];
+    sliders['act'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['act'][handle].innerHTML = values[handle];
     });
 
@@ -160,8 +174,9 @@ function onConnect() {
             'max': 1500
         }
     });
-    sliders_labels['eta'] = [document.getElementById('sl_eta_min'), document.getElementById('sl_eta_max')];
-    sliders['eta'].noUiSlider.on('update', function( values, handle ) {
+    sliders_labels['eta'] = [document.getElementById('sl_eta_min'), document.getElementById(
+        'sl_eta_max')];
+    sliders['eta'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['eta'][handle].innerHTML = values[handle];
     });
 }
@@ -170,7 +185,7 @@ function onConnect() {
 */
 function elsa_Connection(email, password) {
     let xhr = new XMLHttpRequest();
-    const url = 'http://'+server_domain+'/connect';
+    const url = 'http://' + server_domain + '/connect';
     const body = '{"email":"' + email + '", "password":"' + password + '"}';
     const checkbox = document.getElementById("connectionPersistent");
     xhr.open('POST', url);
@@ -179,7 +194,7 @@ function elsa_Connection(email, password) {
             let ret = JSON.parse(xhr.responseText);
             if (ret.hasOwnProperty('api_key')) {
                 api_key = ret.api_key;
-                if (checkbox.checked){
+                if (checkbox.checked) {
                     localStorage.setItem("user", JSON.stringify({
                         email: email,
                         password: password,
@@ -211,33 +226,35 @@ function create_Submit() {
         password: mdp
     };
     if (!validateEmail(user.email)) {
-        document.getElementById('create_adresseEmail').style.borderColor = "red";
+        document.getElementById('create_adresseEmail').style.borderColor =
+            "red";
         valid = false;
-    }
-    else {
-        document.getElementById('create_adresseEmail').style.borderColor = "green";
+    } else {
+        document.getElementById('create_adresseEmail').style.borderColor =
+            "green";
     }
     if (user.prenom.length === 0) {
         document.getElementById('create_prenom').style.borderColor = "red";
         valid = false;
-    }
-    else {
+    } else {
         document.getElementById('create_prenom').style.borderColor = "green";
     }
     if (user.nom.length === 0) {
         document.getElementById('create_nom').style.borderColor = "red";
         valid = false;
-    }
-    else {
+    } else {
         document.getElementById('create_nom').style.borderColor = "green";
     }
-    if (mdp === mdp2 && mdp.length > 3){
-        document.getElementById('create_motDePasse').style.borderColor = "green";
-        document.getElementById('create_confirmerMotDePasse').style.borderColor = "green";
-    }else {
+    if (mdp === mdp2 && mdp.length > 3) {
+        document.getElementById('create_motDePasse').style.borderColor =
+            "green";
+        document.getElementById('create_confirmerMotDePasse').style.borderColor =
+            "green";
+    } else {
         valid = false;
         document.getElementById('create_motDePasse').style.borderColor = "red";
-        document.getElementById('create_confirmerMotDePasse').style.borderColor = "red";
+        document.getElementById('create_confirmerMotDePasse').style.borderColor =
+            "red";
     }
 
     if (valid) {
@@ -247,7 +264,7 @@ function create_Submit() {
         function callback() {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                 let ret = JSON.parse(xhr.responseText);
-                if (ret.hasOwnProperty("api_key")){
+                if (ret.hasOwnProperty("api_key")) {
                     elsa_Connection(user.email, user.password);
                 }
             }
@@ -295,7 +312,36 @@ function highcharts_init() {
             }
         },
         series: [{
-            data: [['fr-t', 0], ['fr-h', 1], ['fr-e', 2], ['fr-r', 3], ['fr-u', 4], ['fr-n', 5], ['fr-p', 6], ['fr-o', 7], ['fr-v', 8], ['fr-s', 9], ['fr-g', 10], ['fr-k', 11], ['fr-a', 12], ['fr-c', 13], ['fr-f', 14], ['fr-l', 15], ['fr-d', 16], ['fr-b', 17], ['fr-i', 18], ['fr-q', 19], ['fr-j', 20], ['fr-m', 21], ['fr-re', 22], ['fr-yt', 23], ['fr-gf', 24], ['fr-mq', 25], ['fr-gp', 26], ['undefined', 27]],
+            data: [
+                ['fr-t', 0],
+                ['fr-h', 1],
+                ['fr-e', 2],
+                ['fr-r', 3],
+                ['fr-u', 4],
+                ['fr-n', 5],
+                ['fr-p', 6],
+                ['fr-o', 7],
+                ['fr-v', 8],
+                ['fr-s', 9],
+                ['fr-g', 10],
+                ['fr-k', 11],
+                ['fr-a', 12],
+                ['fr-c', 13],
+                ['fr-f', 14],
+                ['fr-l', 15],
+                ['fr-d', 16],
+                ['fr-b', 17],
+                ['fr-i', 18],
+                ['fr-q', 19],
+                ['fr-j', 20],
+                ['fr-m', 21],
+                ['fr-re', 22],
+                ['fr-yt', 23],
+                ['fr-gf', 24],
+                ['fr-mq', 25],
+                ['fr-gp', 26],
+                ['undefined', 27]
+            ],
             states: {
                 hover: {
                     color: '#BADA55'
@@ -309,7 +355,9 @@ function highcharts_init() {
     });
 
     let exData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        labels: ["January", "February", "March", "April", "May", "June",
+            "July"
+        ],
         datasets: [{
             label: "My First dataset",
             backgroundColor: 'rgb(255, 99, 132)',
@@ -353,8 +401,8 @@ function onModifB() {
 
 function generic_onModif(id) {
     const communneAinput = document.getElementById(id);
-    const found = cities_name.find( el => el === communneAinput.value);
-    if (found !== undefined){
+    const found = cities_name.find(el => el === communneAinput.value);
+    if (found !== undefined) {
         communneAinput.style.borderColor = '#2aad00';
         return found;
     } else {
@@ -364,11 +412,12 @@ function generic_onModif(id) {
 }
 
 function update_Comparator() {
-    if (communeB != null && communeA != null){
-        function cb(data){
+    if (communeB != null && communeA != null) {
+        function cb(data) {
             function update_city(id, d) {
                 let container = document.getElementById(id);
-                let templateContent = document.querySelector("#comparatorDataTemplate").content;
+                let templateContent = document.querySelector(
+                    "#comparatorDataTemplate").content;
                 let elem = templateContent.querySelectorAll("[data-key]");
 
                 elem.forEach(function(e, i, l) {
@@ -389,7 +438,11 @@ function update_Comparator() {
             update_city("commA_display", ret['comm1']);
             update_city("commB_display", ret['comm2']);
         }
-        elsaRequest(JSON.stringify({type:'compareCities', commune1:nameToINSEE[communeA], commune2:nameToINSEE[communeB]}), cb)
+        elsaRequest(JSON.stringify({
+            type: 'compareCities',
+            commune1: nameToINSEE[communeA],
+            commune2: nameToINSEE[communeB]
+        }), cb)
     }
 }
 
@@ -398,7 +451,7 @@ function update_Comparator() {
  */
 function swapTo(nom) {
     console.log("Switched to: " + nom);
-    for (let i = 0; i < pages.length; i++){
+    for (let i = 0; i < pages.length; i++) {
         if (pages[i] === page_state)
             onLeaves[i]();
     }
@@ -435,7 +488,7 @@ function toggleNav() {
     --- Various Utilities ---
  */
 
-function validateEmail(mail){
+function validateEmail(mail) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
         return true;
     return false;
