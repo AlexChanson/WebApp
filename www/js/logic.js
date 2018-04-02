@@ -80,7 +80,7 @@ let mapProperties = {
     colorAxis: {
         min: 0,
         style: {
-            color: '#fff'
+            color: '#f8f9fa'
         }
     },
     series: [{
@@ -149,10 +149,11 @@ function onLeaveLogin() {
 }
 
 function onLeaveCreate() {
-    document.getElementById("page_body").classList.remove("bg-dark");
 }
 
-function onLeaveApp() {}
+function onLeaveApp() {
+    document.getElementById("page_body").classList.remove("bg-light");
+}
 
 function onConnect() {
     elsaRequest('{"type":"getRegions"}', resp => {
