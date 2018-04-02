@@ -10,6 +10,7 @@ let nav_state = true;
 
 let sliders = {};
 let sliders_labels = {};
+let sliders_values = {};
 
 let mapObject = null;
 let mapRegions = {
@@ -75,13 +76,12 @@ let mapProperties = {
         text: 'Résultats par régions'
     },
     chart: {
-        map: 'countries/fr/fr-all',
-        backgroundColor: 'transparent'
+        map: 'countries/fr/fr-all'
     },
     colorAxis: {
         min: 0,
         style: {
-            color: '#f8f9fa'
+            color: '#fff'
         }
     },
     series: [{
@@ -109,6 +109,15 @@ let communeB = null;
 
 let map = null;
 
+
+function mkCompareWithFilters(comA, comB, filters, ) {
+    return JSON.stringify({
+        type: "compareCitiesWithSelected",
+        commune1: comA,
+        commune2: comB,
+        filters: comB
+    })
+}
 
 /*
     --- Event CODE ---
@@ -150,11 +159,10 @@ function onLeaveLogin() {
 }
 
 function onLeaveCreate() {
+    document.getElementById("page_body").classList.remove("bg-dark");
 }
 
-function onLeaveApp() {
-    document.getElementById("page_body").classList.remove("bg-light");
-}
+function onLeaveApp() {}
 
 function onConnect() {
     elsaRequest('{"type":"getRegions"}', resp => {
@@ -209,6 +217,7 @@ function onConnect() {
         'sl_pop_max')];
     sliders['pop'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['pop'][handle].innerHTML = values[handle];
+        sliders_values['pop'] = values;
     });
 
     sliders["etu"] = document.getElementById('slider-etudiants');
@@ -231,6 +240,7 @@ function onConnect() {
         'sl_etu_max')];
     sliders['etu'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['etu'][handle].innerHTML = values[handle];
+        sliders_values['etu'] = values;
     });
 
     sliders["act"] = document.getElementById('slider-actifs');
@@ -248,6 +258,7 @@ function onConnect() {
         'sl_act_max')];
     sliders['act'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['act'][handle].innerHTML = values[handle];
+        sliders_values['act'] = values;
     });
 
     sliders["eta"] = document.getElementById('slider-etablissements');
@@ -265,6 +276,7 @@ function onConnect() {
         'sl_eta_max')];
     sliders['eta'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['eta'][handle].innerHTML = values[handle];
+        sliders_values['eta'] = values;
     });
 }
 /*
@@ -379,6 +391,16 @@ function elsaRequest(body, callback) {
     xhr.open('POST', url);
     xhr.onreadystatechange = internCallback;
     xhr.send(body);
+}
+
+function intervalStringifier(attr, lb, gb) {
+    return [attr + ">=" + lb.toString(), attr + "<=" + gb.toString()];
+}
+
+function filterRequest() {
+    let finalFilters = [];
+    let lw_pop = sliders_values.pop.values;
+    let gt_pop = 0;
 }
 
 /*
