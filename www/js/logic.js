@@ -388,6 +388,15 @@ function elsaRequest(body, callback) {
     xhr.send(body);
 }
 
+function intervalStringifier(n1, lb, n2, gb) {
+    return [n1 + ">=" + lb.toString(), n2 + "<=" + gb.toString()];
+}
+
+function filterRequest() {
+    lw_pop = 0;
+    gt_pop = 0;
+}
+
 /*
     --- HIGHCHARTS Init CODE
  */
