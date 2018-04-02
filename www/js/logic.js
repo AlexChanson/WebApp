@@ -217,7 +217,7 @@ function onConnect() {
         'sl_pop_max')];
     sliders['pop'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['pop'][handle].innerHTML = values[handle];
-        sliders_values['pop'] = values[handle];
+        sliders_values['pop'] = values;
     });
 
     sliders["etu"] = document.getElementById('slider-etudiants');
@@ -240,7 +240,7 @@ function onConnect() {
         'sl_etu_max')];
     sliders['etu'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['etu'][handle].innerHTML = values[handle];
-        sliders_values['etu'] = values[handle];
+        sliders_values['etu'] = values;
     });
 
     sliders["act"] = document.getElementById('slider-actifs');
@@ -258,7 +258,7 @@ function onConnect() {
         'sl_act_max')];
     sliders['act'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['act'][handle].innerHTML = values[handle];
-        sliders_values['act'] = values[handle];
+        sliders_values['act'] = values;
     });
 
     sliders["eta"] = document.getElementById('slider-etablissements');
@@ -276,7 +276,7 @@ function onConnect() {
         'sl_eta_max')];
     sliders['eta'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['eta'][handle].innerHTML = values[handle];
-        sliders_values['eta'] = values[handle];
+        sliders_values['eta'] = values;
     });
 }
 /*
