@@ -533,3 +533,22 @@ function updateMap() {
 function browseCsvFile() {
     document.getElementById("csv_file_input").click();
 }
+
+function loadCsv() {
+    let input = document.getElementById("csv_file_input");
+    let files = input.files;
+
+    if (files.length > 0) {
+        let freader = new FileReader();
+        freader.readAsText(files[0]);
+
+        freader.onload = function() {
+            elsaRequest(JSON.stringify({
+                "type": "loadCSV",
+                "csv": freader.result.replace(/[\r| ]/g, "").split("\n")
+            }), res => {
+                // TODO
+            });
+        };
+    }
+}
