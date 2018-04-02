@@ -109,6 +109,15 @@ let communeB = null;
 let map = null;
 
 
+function mkCompareWithFilters(comA, comB, filters, ) {
+    return JSON.stringify({
+        type: "compareCitiesWithSelected",
+        commune1: comA,
+        commune2: comB,
+        filters: comB
+    })
+}
+
 /*
     --- Event CODE ---
 */
