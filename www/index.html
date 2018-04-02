@@ -74,28 +74,28 @@
             <h1>Inscription</h1>
             <div class="form-group">
                 <label for="create_nom">Nom</label>
-                <input type="text" class="form-control" id="create_nom" name="nom" placeholder="nom">
+                <input type="text" class="form-control" id="create_nom"placeholder="Nom">
             </div>
             <div class="form-group">
                 <label for="create_prenom">Pr&eacute;nom</label>
-                <input type="text" class="form-control" id="create_prenom" name="prenom" placeholder="prenom">
+                <input type="text" class="form-control" id="create_prenom" placeholder="Pr&eacute;nom">
             </div>
             <div class="form-group">
                 <label for="create_adresseEmail">Adresse Email</label>
-                <input type="email" class="form-control" id="create_adresseEmail" name="adresseEmail"
-                       placeholder="adresse email">
+                <input type="email" class="form-control" id="create_adresseEmail"
+                       placeholder="Adresse email">
             </div>
             <div class="form-group">
                 <label for="create_motDePasse">Mot de passe</label>
-                <input type="password" class="form-control" id="create_motDePasse" name="motDePasse"
-                       placeholder="votre mot de passe">
+                <input type="password" class="form-control" id="create_motDePasse"
+                       placeholder="Mot de passe" minlength="4" title="Taille > 4 Minimum">
             </div>
             <div class="form-group" id="create_mdpZone2">
                 <label for="create_confirmerMotDePasse">Confirmer mot de passe</label>
-                <input type="password" class="form-control" id="create_confirmerMotDePasse" name="confirmerMotDePasse"
-                       placeholder="votre mot de passe (une seconde fois)">
+                <input type="password" class="form-control" id="create_confirmerMotDePasse"
+                       placeholder="Confirmer Mot de passe" minlength="4">
             </div>
-            <button type="submit" class="btn btn-primary btn-block mt-3" onclick="create_Submit()">S'inscrire</button>
+            <button class="btn btn-primary btn-block mt-3" onclick="create_Submit()">S'inscrire</button>
         </div>
     </main>
 </div>

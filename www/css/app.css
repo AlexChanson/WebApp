@@ -165,3 +165,19 @@
     border: none;
     border-radius: 15px;
 }
+
+#create{
+    color: white !important;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+}
+#create nav{
+    width: 50%;
+}
+#create main{
+    width: 100%;
+}
+#create .form-control{
+    border-width: 2px;
+}

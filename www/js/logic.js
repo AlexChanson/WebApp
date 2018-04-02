@@ -1,6 +1,6 @@
 const server_domain = "elsa.alexc.ovh";
 const pages = ["acceuil", "login", "create", "app"];
-const stylesheets = ["css/clem.css", "css/clem.css", "css/clem.css", "css/app.css"];
+const stylesheets = ["css/clem.css", "css/clem.css", "css/app.css", "css/app.css"];
 const onLoads = [onLoadAcceuil, onLoadLogin, onLoadCreate, onLoadApp];
 const onLeaves = [onLeaveAcceuil, onLeaveLogin, onLeaveCreate, onLeaveApp];
 
@@ -45,7 +45,6 @@ function onLoadLogin() {
 }
 
 function onLoadCreate() {
-
 }
 
 function onLoadApp() {
@@ -61,11 +60,10 @@ function onLeaveLogin() {
 }
 
 function onLeaveCreate() {
-
+    document.getElementById("page_body").classList.remove("bg-dark");
 }
 
 function onLeaveApp() {
-    document.getElementById("page_body").classList.remove("bg-light");
 }
 
 function onConnect() {
@@ -203,6 +201,7 @@ function login_Connecter() {
 }
 
 function create_Submit() {
+    let valid = true;
     const mdp = helpers_get('create_motDePasse');
     const mdp2 = helpers_get('create_confirmerMotDePasse');
     const user = {
@@ -211,7 +210,37 @@ function create_Submit() {
         prenom: helpers_get('create_prenom'),
         password: mdp
     };
-    if (mdp === mdp2) {
+    if (!validateEmail(user.email)) {
+        document.getElementById('create_adresseEmail').style.borderColor = "red";
+        valid = false;
+    }
+    else {
+        document.getElementById('create_adresseEmail').style.borderColor = "green";
+    }
+    if (user.prenom.length === 0) {
+        document.getElementById('create_prenom').style.borderColor = "red";
+        valid = false;
+    }
+    else {
+        document.getElementById('create_prenom').style.borderColor = "green";
+    }
+    if (user.nom.length === 0) {
+        document.getElementById('create_nom').style.borderColor = "red";
+        valid = false;
+    }
+    else {
+        document.getElementById('create_nom').style.borderColor = "green";
+    }
+    if (mdp === mdp2 && mdp.length > 3){
+        document.getElementById('create_motDePasse').style.borderColor = "green";
+        document.getElementById('create_confirmerMotDePasse').style.borderColor = "green";
+    }else {
+        valid = false;
+        document.getElementById('create_motDePasse').style.borderColor = "red";
+        document.getElementById('create_confirmerMotDePasse').style.borderColor = "red";
+    }
+
+    if (valid) {
         let json = JSON.stringify(user);
         let xhr = new XMLHttpRequest();
 
@@ -227,8 +256,6 @@ function create_Submit() {
         xhr.open('POST', url);
         xhr.onreadystatechange = callback;
         xhr.send(json);
-    } else {
-        document.getElementById('create_mdpZone2').style.color = "red";
     }
 }
 
@@ -402,4 +429,14 @@ function toggleNav() {
         document.getElementById("app_side_bottom").hidden = false;
         document.getElementById("app_filters").hidden = false;
     }
+}
+
+/*
+    --- Various Utilities ---
+ */
+
+function validateEmail(mail){
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+        return true;
+    return false;
 }
