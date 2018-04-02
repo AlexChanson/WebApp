@@ -528,3 +528,7 @@ function validateEmail(mail) {
 function updateMap() {
     mapObject.update(mapProperties);
 }
+
+function browseCsvFile() {
+    document.getElementById("csv_file_input").click();
+}
