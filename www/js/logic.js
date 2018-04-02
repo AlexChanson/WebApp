@@ -110,12 +110,12 @@ let communeB = null;
 let map = null;
 
 
-function mkCompareWithFilters(comA, comB, filters, ) {
+function mkCompareWithFilters(comA, comB, filters) {
     return JSON.stringify({
         type: "compareCitiesWithSelected",
         commune1: comA,
         commune2: comB,
-        filters: comB
+        filters: filters
     })
 }
 
@@ -399,8 +399,42 @@ function intervalStringifier(attr, lb, gb) {
 
 function filterRequest() {
     let finalFilters = [];
-    let lw_pop = sliders_values.pop.values;
-    let gt_pop = 0;
+    let lb = sliders_values.pop[0] | 0;
+    let gb = sliders_values.pop[1] | 0;
+    finalFilters.push.apply(finalFilters, intervalStringifier("population2015",
+        lb, gb));
+
+    lb = sliders_values.act[0] | 0;
+    gb = sliders_values.act[1] | 0;
+    finalFilters.push.apply(finalFilters, intervalStringifier(
+        "actifs2015", lb,
+        gb));
+
+    lb = sliders_values.etu[0] | 0;
+    gb = sliders_values.etu[1] | 0;
+    finalFilters.push.apply(finalFilters, intervalStringifier("etudiants", lb,
+        gb));
+
+    lb = sliders_values.eta[0] | 0;
+    gb = sliders_values.eta[1] | 0;
+    finalFilters.push.apply(finalFilters, intervalStringifier("etablissements",
+        lb, gb));
+
+    console.log(finalFilters);
+
+    let jsonReq = mkCompareWithFilters(nameToINSEE[communeA],
+        nameToINSEE[communeB],
+        finalFilters);
+
+    console.log(jsonReq);
+
+
+    elsaRequest(jsonReq,
+        rep => {
+            repOb = JSON.parse(rep);
+            console.log(rep);
+        });
+
 }
 
 /*
@@ -484,7 +518,8 @@ function update_Comparator() {
                 });
 
                 container.textContent = "";
-                container.appendChild(document.importNode(templateContent, true));
+                container.appendChild(document.importNode(templateContent,
+                    true));
             }
 
             console.log(data);
