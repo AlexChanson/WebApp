@@ -43,33 +43,33 @@ let mapRegions = {
 };
 let mapData = [
     ['fr-t', 0],
-    ['fr-h', 1],
-    ['fr-e', 2],
-    ['fr-r', 3],
-    ['fr-u', 4],
-    ['fr-n', 5],
-    ['fr-p', 6],
-    ['fr-o', 7],
-    ['fr-v', 8],
-    ['fr-s', 9],
-    ['fr-g', 10],
-    ['fr-k', 11],
-    ['fr-a', 12],
-    ['fr-c', 13],
-    ['fr-f', 14],
-    ['fr-l', 15],
-    ['fr-d', 16],
-    ['fr-b', 17],
-    ['fr-i', 18],
-    ['fr-q', 19],
-    ['fr-j', 20],
-    ['fr-m', 21],
-    ['fr-re', 22],
-    ['fr-yt', 23],
-    ['fr-gf', 24],
-    ['fr-mq', 25],
-    ['fr-gp', 26],
-    ['undefined', 27]
+    ['fr-h', 0],
+    ['fr-e', 0],
+    ['fr-r', 0],
+    ['fr-u', 0],
+    ['fr-n', 0],
+    ['fr-p', 0],
+    ['fr-o', 0],
+    ['fr-v', 0],
+    ['fr-s', 0],
+    ['fr-g', 0],
+    ['fr-k', 0],
+    ['fr-a', 0],
+    ['fr-c', 0],
+    ['fr-f', 0],
+    ['fr-l', 0],
+    ['fr-d', 0],
+    ['fr-b', 0],
+    ['fr-i', 0],
+    ['fr-q', 0],
+    ['fr-j', 0],
+    ['fr-m', 0],
+    ['fr-re', 0],
+    ['fr-yt', 0],
+    ['fr-gf', 0],
+    ['fr-mq', 0],
+    ['fr-gp', 0],
+    ['undefined', 0]
 ];
 let mapProperties = {
     title: {
@@ -115,6 +115,9 @@ let map = null;
 let mapModule = {
     mapReg: mapRegions,
     updateValues: values => {
+        mapObject.series[0].update({
+            data: mapData
+        });
         mapObject.series[0].update({
             data: values
         });
@@ -178,12 +181,17 @@ function onLeaveCreate() {
 function onLeaveApp() {}
 
 function onConnect() {
+    console.log("requesting regions...");
     elsaRequest('{"type":"getRegions"}', resp => {
         regions = JSON.parse(resp);
+        console.log("got regions");
     });
+    console.log("requesting departments...");
     elsaRequest('{"type":"getDepartements"}', resp => {
         departements = JSON.parse(resp);
+        console.log("got departments...");
     });
+    console.log("requesting cities names...");
     elsaRequest('{"type":"getCityNames"}', resp => {
         cities = JSON.parse(resp);
 
