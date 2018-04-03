@@ -99,6 +99,8 @@ let mapProperties = {
     }]
 };
 
+
+
 let cities = [];
 let cities_name = [];
 let nameToINSEE = {};
@@ -110,6 +112,14 @@ let communeB = null;
 
 let map = null;
 
+let mapModule = {
+    mapReg: mapRegions,
+    updateValues: values => {
+        mapObject.series[0].update({
+            data: values
+        });
+    }
+}
 
 function mkCompareWithFilters(comA, comB, filters) {
     return JSON.stringify({
@@ -450,7 +460,12 @@ function filterRequest() {
     elsaRequest(jsonReq,
         rep => {
             repOb = JSON.parse(rep);
-            console.log(rep);
+
+            newValues = Object.entries(repOb.countByRegion).map(x => [
+                mapRegions[x[0]], x[1]
+            ]);
+
+            mapModule.updateValues(newValues);
         });
 
 }
@@ -635,8 +650,10 @@ function loadCsv() {
                     "\n")
             }), res => {
                 const ans = JSON.parse(res);
-                if (ans.hasOwnProperty('status') && ans.status === "done")
-                    alert("Chargement du Fichier Reussi !\n" + ans.errors + " erreurs d'Inserion.");
+                if (ans.hasOwnProperty('status') && ans.status ===
+                    "done")
+                    alert("Chargement du Fichier Reussi !\n" + ans.errors +
+                        " erreurs d'Inserion.");
             });
         };
     }
