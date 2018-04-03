@@ -148,6 +148,8 @@ function onLoadCreate() {}
 
 function onLoadApp() {
     document.getElementById("page_body").classList.add("bg-light");
+    refreshButton = document.getElementById("app_refresh");
+    refreshButton.setAttribute("disabled", true);
 }
 
 function onLeaveAccueil() {
@@ -477,14 +479,25 @@ function highcharts_init() {
 
 // COMPARATOR CODE
 
+function enableDisableRefreshButton() {
+    refreshButton = document.getElementById("app_refresh");
+    console.log(communeA + " " + communeB);
+    if (communeA !== null && communeB !== null) {
+        refreshButton.disabled = false;
+    } else {
+        refreshButton.disabled = true;
+    }
+}
 
 function onModifA() {
     communeA = generic_onModif("inputCommuneA");
+    enableDisableRefreshButton();
     update_Comparator();
 }
 
 function onModifB() {
     communeB = generic_onModif("inputCommuneB");
+    enableDisableRefreshButton();
     update_Comparator();
 }
 
@@ -602,7 +615,8 @@ function loadCsv() {
         freader.onload = function() {
             elsaRequest(JSON.stringify({
                 "type": "loadCSV",
-                "csv": freader.result.replace(/[\r| ]/g, "").split("\n")
+                "csv": freader.result.replace(/[\r| ]/g, "").split(
+                    "\n")
             }), res => {
                 // TODO
                 alert("Chargement du Fichier Reussi !");
