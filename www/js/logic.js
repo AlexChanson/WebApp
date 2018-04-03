@@ -422,6 +422,18 @@ function filterRequest() {
     finalFilters.push.apply(finalFilters, intervalStringifier("etablissements",
         lb, gb));
 
+    let radios = document.querySelectorAll('input[name="mobility"]:checked');
+    let value = radios.length > 0 ? radios[0].id.toLowerCase() : "anymobility";
+    if (value === "anymobility") {
+
+    } else if (value === "populationsedentaire") {
+        finalFilters.push("fidelite=" + "'Pop Sédentaire'");
+    } else if (value === "populationmobile") {
+        finalFilters.push("fidelite=" + "'Pop Mobile'");
+    }
+
+
+
     console.log(finalFilters);
 
     let jsonReq = mkCompareWithFilters(nameToINSEE[communeA],
