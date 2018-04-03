@@ -631,8 +631,9 @@ function loadCsv() {
                 "csv": freader.result.replace(/[\r| ]/g, "").split(
                     "\n")
             }), res => {
-                // TODO
-                alert("Chargement du Fichier Reussi !");
+                const ans = JSON.parse(res);
+                if (ans.hasOwnProperty('status') && ans.status === "done")
+                    alert("Chargement du Fichier Reussi !\n" + ans.errors + " erreurs d'Inserion.");
             });
         };
     }
