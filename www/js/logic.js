@@ -76,7 +76,8 @@ let mapProperties = {
         text: 'Résultats par régions'
     },
     chart: {
-        map: 'countries/fr/fr-all'
+        map: 'countries/fr/fr-all',
+        backgroundColor: 'transparent'
     },
     colorAxis: {
         min: 0,
