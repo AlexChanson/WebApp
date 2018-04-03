@@ -432,16 +432,19 @@ function filterRequest() {
         finalFilters.push("fidelite=" + "'Pop Mobile'");
     }
 
+    let optionList = document.getElementById("demographic_environment").options;
+    value = [].slice.call(optionList)
+        .filter(x => x.selected === true)[0];
 
+    if (optionList[0].selected === false) {
+        finalFilters.push("env_demo=" + "'" + value.innerHTML + "'");
+    }
 
     console.log(finalFilters);
 
     let jsonReq = mkCompareWithFilters(nameToINSEE[communeA],
         nameToINSEE[communeB],
         finalFilters);
-
-    console.log(jsonReq);
-
 
     elsaRequest(jsonReq,
         rep => {
