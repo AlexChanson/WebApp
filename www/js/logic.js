@@ -376,7 +376,7 @@ function create_Submit() {
         document.getElementById('create_confirmerMotDePasse').style.borderColor =
             "red";
     }
-
+    console.log(valid);
     if (valid) {
         let json = JSON.stringify(user);
         let xhr = new XMLHttpRequest();
@@ -386,6 +386,9 @@ function create_Submit() {
                 let ret = JSON.parse(xhr.responseText);
                 if (ret.hasOwnProperty("api_key")) {
                     elsa_Connection(user.email, user.password);
+                }else {
+                    const errfield = document.getElementById("create_error");
+                    errfield.innerHTML = "Le compte existe Déjà !";
                 }
             }
         }
@@ -393,6 +396,9 @@ function create_Submit() {
         xhr.open('POST', url);
         xhr.onreadystatechange = callback;
         xhr.send(json);
+    } else  {
+        const errfield = document.getElementById("create_error");
+        errfield.innerHTML = "Tous les champs ne sont pas remplis.";
     }
 }
 
