@@ -128,9 +128,8 @@
 #app_side_bottom {
     position: fixed;
     bottom: 0;
-    padding-left: 5px;
-    padding-bottom: 5px;
-    padding-right: 5px;
+    margin: 0;
+    padding: 24px;
     width: 25%;
 }
 #app_side_bottom #app_refresh{
@@ -139,7 +138,7 @@
 
 #app_side_bottom #app_upload{
     float: right;
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 .filters{
