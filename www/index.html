@@ -190,7 +190,7 @@
                 </datalist>
             </form>
             <div id="comparatorResult">
-                <div class="text-center">Entrez le nom des deux villes que vous souhaitez comparer.</div>
+                <div class="text-center">Entrez le nom des deux communes que vous souhaitez comparer.</div>
             </div>
         </div>
         <div id="statistics" role="tabpanel">
@@ -224,31 +224,32 @@
     </section>
 </div>
 <template id="comparatorResultTemplate">
-    <div>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <h5 class="text-center">d&eacute;partement</h5>
-                <div class="row">
-                    <div class="col-6 text-center" data-content="$data.comm1.num_dep"></div>
-                    <div class="col-6 text-center" data-content="$data.comm2.num_dep"></div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <h5 class="text-center">mobilit&eacute;</h5>
-                <div class="row">
-                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm1.fidelite === 'Pop Mobile')" data-content="'population ' + ($data.comm1.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></div>
-                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm2.fidelite === 'Pop Mobile')" data-content="'population ' + ($data.comm2.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <h5 class="text-center">environnement d&eacute;mographique</h5>
-                <div class="row">
-                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm1.evolution_pop === 'en croissance démographique')" data-content="$data.comm1.env_demo + '&nbsp;' + ($data.comm1.evolution_pop === 'en croissance démographique' ? '&#x2197;' : '&#x2198;')"></div>
-                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm2.evolution_pop === 'en croissance démographique')" data-content="$data.comm2.env_demo + '&nbsp;' + ($data.comm2.evolution_pop === 'en croissance démographique' ? '&#x2197;' : '&#x2198;')"></div>
-                </div>
-            </li>
-        </ul>
-    </div>
+    <table class="table table-bordered table-striped text-center">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th data-content="$data.comm1.nom"></th>
+                <th data-content="$data.comm2.nom"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>d&eacute;partement</th>
+                <td data-content="$data.comm1.num_dep"></td>
+                <td data-content="$data.comm2.num_dep"></td>
+            </tr>
+            <tr>
+                <th>mobilit&eacute; des habitants</th>
+                <td data-attr="'style': greenRedColor($data.comm1.fidelite === 'Pop Mobile')" data-content="'population ' + ($data.comm1.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></td>
+                <td data-attr="'style': greenRedColor($data.comm2.fidelite === 'Pop Mobile')" data-content="'population ' + ($data.comm2.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></td>
+            </tr>
+            <tr>
+                <th>environnement d&eacute;mographique</th>
+                <td data-attr="'style': greenRedColor($data.comm1.evolution_pop === 'en croissance démographique')" data-content="$data.comm1.env_demo.toLowerCase() + '&nbsp;' + ($data.comm1.evolution_pop === 'en croissance démographique' ? '&#x2197;' : '&#x2198;')"></td>
+                <td data-attr="'style': greenRedColor($data.comm2.evolution_pop === 'en croissance démographique')" data-content="$data.comm2.env_demo.toLowerCase() + '&nbsp;' + ($data.comm2.evolution_pop === 'en croissance démographique' ? '&#x2197;' : '&#x2198;')"></td>
+            </tr>
+        </tbody>
+    </table>
 </template>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
