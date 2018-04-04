@@ -490,6 +490,121 @@ function filterRequest() {
 function highcharts_init() {
     mapObject = Highcharts.mapChart('map', mapProperties);
 
+    
+    Highcharts.chart('lineg', {
+
+        title: {
+            text: 'Evolution des populations, 1999-2015'
+        },
+
+        yAxis: {
+            title: {
+                text: 'Nombre dhabitants'
+            }
+        },
+        
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 1999
+            }
+        },
+
+    	xAxis: {
+      	      categories: ['1999', '2009', 		'2015']},
+
+        series: [{
+            name: 'Commune A',
+            data: [43934, 52503, 57177]
+        }, {
+            name: 'Commune B',
+            data: [24916, 24064, 29742]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+    
+    Highcharts.chart('bar', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Part dactifs de la population'
+        },
+        xAxis: {
+            categories: ['Commune A', 'Commune B']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Population totale'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                }
+            }
+        },
+        series: [{
+            name: 'Actifs Salariés',
+            data: [5, 3]
+        }, {
+            name: 'Actifs Non Salariés',
+            data: [2, 2]
+        }, {
+            name: 'Non Actifs',
+            data: [3, 4]
+        }]
+    });
+    
     let exData = {
         labels: ["January", "February", "March", "April", "May", "June",
             "July"
