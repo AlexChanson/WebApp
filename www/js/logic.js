@@ -43,40 +43,41 @@ let mapRegions = {
 };
 let mapData = [
     ['fr-t', 0],
-    ['fr-h', 1],
-    ['fr-e', 2],
-    ['fr-r', 3],
-    ['fr-u', 4],
-    ['fr-n', 5],
-    ['fr-p', 6],
-    ['fr-o', 7],
-    ['fr-v', 8],
-    ['fr-s', 9],
-    ['fr-g', 10],
-    ['fr-k', 11],
-    ['fr-a', 12],
-    ['fr-c', 13],
-    ['fr-f', 14],
-    ['fr-l', 15],
-    ['fr-d', 16],
-    ['fr-b', 17],
-    ['fr-i', 18],
-    ['fr-q', 19],
-    ['fr-j', 20],
-    ['fr-m', 21],
-    ['fr-re', 22],
-    ['fr-yt', 23],
-    ['fr-gf', 24],
-    ['fr-mq', 25],
-    ['fr-gp', 26],
-    ['undefined', 27]
+    ['fr-h', 0],
+    ['fr-e', 0],
+    ['fr-r', 0],
+    ['fr-u', 0],
+    ['fr-n', 0],
+    ['fr-p', 0],
+    ['fr-o', 0],
+    ['fr-v', 0],
+    ['fr-s', 0],
+    ['fr-g', 0],
+    ['fr-k', 0],
+    ['fr-a', 0],
+    ['fr-c', 0],
+    ['fr-f', 0],
+    ['fr-l', 0],
+    ['fr-d', 0],
+    ['fr-b', 0],
+    ['fr-i', 0],
+    ['fr-q', 0],
+    ['fr-j', 0],
+    ['fr-m', 0],
+    ['fr-re', 0],
+    ['fr-yt', 0],
+    ['fr-gf', 0],
+    ['fr-mq', 0],
+    ['fr-gp', 0],
+    ['undefined', 0]
 ];
 let mapProperties = {
     title: {
         text: 'Résultats par régions'
     },
     chart: {
-        map: 'countries/fr/fr-all'
+        map: 'countries/fr/fr-all',
+        backgroundColor: 'transparent'
     },
     colorAxis: {
         min: 0,
@@ -98,6 +99,8 @@ let mapProperties = {
     }]
 };
 
+
+
 let cities = [];
 let cities_name = [];
 let nameToINSEE = {};
@@ -109,6 +112,17 @@ let communeB = null;
 
 let map = null;
 
+let mapModule = {
+    mapReg: mapRegions,
+    updateValues: values => {
+        mapObject.series[0].update({
+            data: mapData
+        });
+        mapObject.series[0].update({
+            data: values
+        });
+    }
+}
 
 function mkCompareWithFilters(comA, comB, filters) {
     return JSON.stringify({
@@ -148,6 +162,8 @@ function onLoadCreate() {}
 
 function onLoadApp() {
     document.getElementById("page_body").classList.add("bg-light");
+    refreshButton = document.getElementById("app_refresh");
+    refreshButton.setAttribute("disabled", true);
 }
 
 function onLeaveAccueil() {
@@ -165,12 +181,17 @@ function onLeaveCreate() {
 function onLeaveApp() {}
 
 function onConnect() {
+    console.log("requesting regions...");
     elsaRequest('{"type":"getRegions"}', resp => {
         regions = JSON.parse(resp);
+        console.log("got regions");
     });
+    console.log("requesting departments...");
     elsaRequest('{"type":"getDepartements"}', resp => {
         departements = JSON.parse(resp);
+        console.log("got departments...");
     });
+    console.log("requesting cities names...");
     elsaRequest('{"type":"getCityNames"}', resp => {
         cities = JSON.parse(resp);
 
@@ -355,7 +376,7 @@ function create_Submit() {
         document.getElementById('create_confirmerMotDePasse').style.borderColor =
             "red";
     }
-
+    console.log(valid);
     if (valid) {
         let json = JSON.stringify(user);
         let xhr = new XMLHttpRequest();
@@ -365,6 +386,9 @@ function create_Submit() {
                 let ret = JSON.parse(xhr.responseText);
                 if (ret.hasOwnProperty("api_key")) {
                     elsa_Connection(user.email, user.password);
+                }else {
+                    const errfield = document.getElementById("create_error");
+                    errfield.innerHTML = "Le compte existe Déjà !";
                 }
             }
         }
@@ -372,6 +396,9 @@ function create_Submit() {
         xhr.open('POST', url);
         xhr.onreadystatechange = callback;
         xhr.send(json);
+    } else  {
+        const errfield = document.getElementById("create_error");
+        errfield.innerHTML = "Tous les champs ne sont pas remplis.";
     }
 }
 
@@ -420,19 +447,39 @@ function filterRequest() {
     finalFilters.push.apply(finalFilters, intervalStringifier("etablissements",
         lb, gb));
 
+    let radios = document.querySelectorAll('input[name="mobility"]:checked');
+    let value = radios.length > 0 ? radios[0].id.toLowerCase() : "anymobility";
+    if (value === "anymobility") {
+
+    } else if (value === "populationsedentaire") {
+        finalFilters.push("fidelite=" + "'Pop Sédentaire'");
+    } else if (value === "populationmobile") {
+        finalFilters.push("fidelite=" + "'Pop Mobile'");
+    }
+
+    let optionList = document.getElementById("demographic_environment").options;
+    value = [].slice.call(optionList)
+        .filter(x => x.selected === true)[0];
+
+    if (optionList[0].selected === false) {
+        finalFilters.push("env_demo=" + "'" + value.innerHTML + "'");
+    }
+
     console.log(finalFilters);
 
     let jsonReq = mkCompareWithFilters(nameToINSEE[communeA],
         nameToINSEE[communeB],
         finalFilters);
 
-    console.log(jsonReq);
-
-
     elsaRequest(jsonReq,
         rep => {
             repOb = JSON.parse(rep);
-            console.log(rep);
+
+            newValues = Object.entries(repOb.countByRegion).map(x => [
+                mapRegions[x[0]], x[1]
+            ]);
+
+            mapModule.updateValues(newValues);
         });
 
     toggleNav();
@@ -478,14 +525,25 @@ function highcharts_init() {
 
 // COMPARATOR CODE
 
+function enableDisableRefreshButton() {
+    refreshButton = document.getElementById("app_refresh");
+    console.log(communeA + " " + communeB);
+    if (communeA !== null && communeB !== null) {
+        refreshButton.disabled = false;
+    } else {
+        refreshButton.disabled = true;
+    }
+}
 
 function onModifA() {
     communeA = generic_onModif("inputCommuneA");
+    enableDisableRefreshButton();
     update_Comparator();
 }
 
 function onModifB() {
     communeB = generic_onModif("inputCommuneB");
+    enableDisableRefreshButton();
     update_Comparator();
 }
 
@@ -613,10 +671,14 @@ function loadCsv() {
         freader.onload = function() {
             elsaRequest(JSON.stringify({
                 "type": "loadCSV",
-                "csv": freader.result.replace(/[\r| ]/g, "").split("\n")
+                "csv": freader.result.replace(/[\r| ]/g, "").split(
+                    "\n")
             }), res => {
-                // TODO
-                alert("Chargement du Fichier Reussi !");
+                const ans = JSON.parse(res);
+                if (ans.hasOwnProperty('status') && ans.status ===
+                    "done")
+                    alert("Chargement du Fichier Reussi !\n" + ans.errors +
+                        " erreurs d'Inserion.");
             });
         };
     }
