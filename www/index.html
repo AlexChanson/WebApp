@@ -38,7 +38,7 @@
 </div>
 
 
-<div id="login" hidden>
+<div id="login">
     <nav class="navbar navbar-default fixed-top">
         <a class="btn btn-secondary" onclick="swapTo('acceuil')" role="button">Retour</a>
     </nav>
@@ -66,7 +66,7 @@
 </div>
 
 
-<div id="create" hidden>
+<div id="create">
     <nav class="navbar navbar-default fixed-top">
         <a class="btn btn-secondary" onclick="swapTo('acceuil')" role="button">Retour</a>
     </nav>
@@ -102,7 +102,7 @@
 </div>
 
 
-<div id="app" hidden>
+<div id="app">
     <div id="app_openNav">
         <span onclick="toggleNav()">&#9776; Menu</span>
     </div>
@@ -124,7 +124,7 @@
             <div id="slider-etablissements" class="sliders"></div>
             De <span id="sl_eta_min">0</span> à <span id="sl_eta_max">0</span>
 
-            <form action="javascript:void(0)">
+            <form action="#">
                 <div id="filter-container">
                     <div class="form-group">
                         <label><h4>Mobilit&eacute;</h4></label>
@@ -169,39 +169,34 @@
         </div>
 
         <div id="app_side_bottom">
+        <button type="button" class="btn btn-success" id="app_refresh" onclick="filterRequest()">Filtrer et comparer</button>
             <button type="button" class="btn btn-info" id="app_upload" onclick="browseCsvFile()">Charger CSV</button>
             <input type="file" accept=".csv" style="display: none" id="csv_file_input" oninput="loadCsv()">
-            <button type="button" class="btn btn-success" id="app_refresh" onclick="filterRequest()">Filtrer et comparer</button>
         </div>
     </nav>
 
     <div class="map" id="map"></div>
 
     <section class="right">
-        <div id="comparator">
-            <div id="comparator-left">
-                <form class="form-inline" action="javascript:void(0)">
-                    <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" oninput="onModifA()" list="listCommunes" class="form-control" id="inputCommuneA"
-                                placeholder="Commune A">
-                        <datalist id="listCommunes">
-                        </datalist>
+        <div id="comparator" class="container">
+            <form class="row" action="#">
+                <div class="input-group col-6">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Ville A</div>
                     </div>
-                </form>
-                <div id="commA_display">
-
+                    <input type="text" oninput="onModifA()" list="listCommunes" class="form-control" id="inputCommuneA" placeholder="Nom de la première commune">
                 </div>
-            </div>
-            <div id="comparator-right">
-                <form class="form-inline" action="javascript:void(0)">
-                    <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" list="listCommunes" class="form-control" id="inputCommuneB"
-                               oninput="onModifB()" placeholder="Commune B">
+                <div class="input-group col-6">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Ville B</div>
                     </div>
-                </form>
-                <div id="commB_display">
-
+                    <input type="text" list="listCommunes" class="form-control" id="inputCommuneB" oninput="onModifB()" placeholder="Nom de la deuxième commune">
                 </div>
+                <datalist id="listCommunes">
+                </datalist>
+            </form>
+            <div id="comparatorResult">
+                <div class="text-center">Entrez le nom des deux villes que vous souhaitez comparer.</div>
             </div>
         </div>
         <div id="statistics" role="tabpanel">
@@ -235,60 +230,26 @@
     </section>
 </div>
 
-<template id="comparatorDataTemplate">
-    <table>
-        <tbody>
-            <tr>
-                <th colspan="2">Informations administratives</th>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td data-key="nom"></td>
-            <tr>
-            <tr>
-                <th>D&eacute;partement</th>
-                <td data-key="num_dep"></td>
-            <tr>
-            <tr>
-                <th>Code INSEE</th>
-                <td data-key="code_insee"></td>
-            <tr>
-            <tr>
-                <th colspan="2">Informations g&eacute;ographiques</th>
-            </tr>
-            <tr>
-                <th>Superficie</th>
-                <td data-key="superficie"></td>
-            <tr>
-            <tr>
-                <th colspan="2">Informations d&eacute;mographiques</th>
-            </tr>
-            <tr>
-                <th>&Eacute;volution de la population</th>
-                <td data-key="evolution_pop"></td>
-            <tr>
-            <tr>
-                <th>Indice d&eacute;mographique</th>
-                <td data-key="indice_demo"></td>
-            <tr>
-            <tr>
-                <th>Population en 2015</th>
-                <td data-key="pop_2015"></td>
-            <tr>
-            <tr>
-                <th>Population active en 2015</th>
-                <td data-key="nb_actifs_2015"></td>
-            <tr>
-            <tr>
-                <th>Population active salari&eacute;e en 2015</th>
-                <td data-key="nb_actifs_sal_2015"></td>
-            <tr>
-            <tr>
-                <th>Population active en 2010</th>
-                <td data-key="actifs_2010"></td>
-            <tr>
-        </tbody>
-    </table>
+<template id="comparatorResultTemplate">
+
+    <div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h5 class="text-center">D&eacute;partement</h5>
+                <div class="row">
+                    <div class="col-6 text-center" data-content="$data.comm1.num_dep"></div>
+                    <div class="col-6 text-center" data-content="$data.comm2.num_dep"></div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <h5 class="text-center">Mobilit&eacute;</h5>
+                <div class="row">
+                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm1.fidelite == 'Pop Mobile')" data-content="'Population ' + ($data.comm1.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></div>
+                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm2.fidelite == 'Pop Mobile')" data-content="'Population ' + ($data.comm2.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

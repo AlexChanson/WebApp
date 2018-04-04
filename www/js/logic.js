@@ -435,6 +435,7 @@ function filterRequest() {
             console.log(rep);
         });
 
+    toggleNav();
 }
 
 /*
@@ -490,7 +491,7 @@ function onModifB() {
 
 function generic_onModif(id) {
     const communneAinput = document.getElementById(id);
-    const found = cities_name.find(el => el === communneAinput.value);
+    const found = cities_name.find(el => el.trim().toLowerCase() === communneAinput.value.trim().toLowerCase());
     if (found !== undefined) {
         communneAinput.style.borderColor = '#2aad00';
         return found;
@@ -503,30 +504,40 @@ function generic_onModif(id) {
 function update_Comparator() {
     if (communeB != null && communeA != null) {
         function cb(data) {
-            function update_city(id, d) {
-                let container = document.getElementById(id);
-                let templateContent = document.querySelector(
-                    "#comparatorDataTemplate").content;
-                let elem = templateContent.querySelectorAll("[data-key]");
-
-                elem.forEach(function(e, i, l) {
-                    let k = e.dataset.key;
-
-                    if (typeof d[k] !== "undefined") {
-                        e.innerHTML = d[k];
-                    }
-                });
-
-                container.textContent = "";
-                container.appendChild(document.importNode(templateContent,
-                    true));
-            }
-
             console.log(data);
             let ret = JSON.parse(data);
 
-            update_city("commA_display", ret['comm1']);
-            update_city("commB_display", ret['comm2']);
+            let container = document.getElementById("comparatorResult");
+            let templateContent = document.getElementById("comparatorResultTemplate").content;
+            let clone = document.importNode(templateContent, true);
+
+            clone
+                .querySelectorAll("[data-if]")
+                .forEach(function(e, i, l) {
+                    if (!eval("($data) => (" + e.dataset.if + ")")(ret)) {
+                        e.parentElement.removeChild(e);
+                    }
+                });
+
+            clone
+                .querySelectorAll("[data-attr]")
+                .forEach(function(e, i, l) {
+                    let attributes = eval("($data) => ({ " + e.dataset.attr + "})")(ret);
+
+                    for (var attr in attributes) {
+                        e.setAttribute(attr, attributes[attr]);
+                    }
+                });
+
+            clone
+                .querySelectorAll("[data-content]")
+                .forEach(function(e, i, l) {
+                    let content = eval("($data) => (" + e.dataset.content + ")");
+                    e.innerHTML = content(ret);
+                });
+
+            container.innerHTML = "";
+            container.appendChild(clone);
         }
         elsaRequest(JSON.stringify({
             type: 'compareCities',
@@ -609,4 +620,8 @@ function loadCsv() {
             });
         };
     }
+}
+
+function greenRedColor(cond) {
+    return 'color: ' + (cond ? 'green' : 'red');
 }

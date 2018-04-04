@@ -16,17 +16,18 @@
     padding: 5px 5px;
 }
 
-#app  #comparator-left, #comparator-right {
-    height: 100%;
-    width: 50%;
-    float: left;
-}
-
 #app #comparator, #statistics {
     width: 100%; }
 
 #app #comparator {
     height: 40%;
+    margin-bottom: 16px;
+}
+
+#app #comparatorResult {
+    overflow-y: scroll;
+    height: calc(100% - 40px);
+    width: 100%;
 }
 
 @media (max-width: 9000px) {
@@ -126,23 +127,20 @@
     padding-left: 5px;
     padding-bottom: 5px;
     padding-right: 5px;
-    width: 100%;
+    width: 25%;
 }
 #app_side_bottom #app_refresh{
-    float: left;
-    margin-left: 5px;
+    float: right;
 }
 
 #app_side_bottom #app_upload{
-    float: left;
+    float: right;
+    margin-right: 5px;
 }
 
 .filters{
     padding-left: 10px;
     padding-right: 10px;
-}
-#comparator .form-control{
-    border-width: 2px;
 }
 
 .sliders{
