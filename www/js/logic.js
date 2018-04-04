@@ -597,6 +597,7 @@ function update_Comparator() {
             container.innerHTML = "";
             container.appendChild(clone);
         }
+        
         elsaRequest(JSON.stringify({
             type: 'compareCities',
             commune1: nameToINSEE[communeA],

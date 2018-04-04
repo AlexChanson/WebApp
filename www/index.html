@@ -223,29 +223,33 @@
         </div>
     </section>
 </div>
-
 <template id="comparatorResultTemplate">
-
     <div>
         <ul class="list-group">
             <li class="list-group-item">
-                <h5 class="text-center">D&eacute;partement</h5>
+                <h5 class="text-center">d&eacute;partement</h5>
                 <div class="row">
                     <div class="col-6 text-center" data-content="$data.comm1.num_dep"></div>
                     <div class="col-6 text-center" data-content="$data.comm2.num_dep"></div>
                 </div>
             </li>
             <li class="list-group-item">
-                <h5 class="text-center">Mobilit&eacute;</h5>
+                <h5 class="text-center">mobilit&eacute;</h5>
                 <div class="row">
-                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm1.fidelite == 'Pop Mobile')" data-content="'Population ' + ($data.comm1.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></div>
-                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm2.fidelite == 'Pop Mobile')" data-content="'Population ' + ($data.comm2.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></div>
+                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm1.fidelite === 'Pop Mobile')" data-content="'population ' + ($data.comm1.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></div>
+                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm2.fidelite === 'Pop Mobile')" data-content="'population ' + ($data.comm2.fidelite == 'Pop Mobile' ? 'mobile' : 's&eacute;dentaire')"></div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <h5 class="text-center">environnement d&eacute;mographique</h5>
+                <div class="row">
+                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm1.evolution_pop === 'en croissance démographique')" data-content="$data.comm1.env_demo + '&nbsp;' + ($data.comm1.evolution_pop === 'en croissance démographique' ? '&#x2197;' : '&#x2198;')"></div>
+                    <div class="col-6 text-center" data-attr="'style': greenRedColor($data.comm2.evolution_pop === 'en croissance démographique')" data-content="$data.comm2.env_demo + '&nbsp;' + ($data.comm2.evolution_pop === 'en croissance démographique' ? '&#x2197;' : '&#x2198;')"></div>
                 </div>
             </li>
         </ul>
     </div>
 </template>
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
