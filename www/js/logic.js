@@ -186,6 +186,15 @@ function onConnect() {
         regions = JSON.parse(resp);
         console.log("got regions");
     });
+    
+    elsaRequest('{"type": "getChartsData"}', resp => {
+    		chartData = JSON.parse(resp);
+    		console.log(chartData);
+    	
+    }
+    		
+    )
+    
     console.log("requesting departments...");
     elsaRequest('{"type":"getDepartements"}', resp => {
         departements = JSON.parse(resp);
