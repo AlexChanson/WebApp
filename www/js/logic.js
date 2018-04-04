@@ -4,6 +4,11 @@ const pages = ["accueil", "login", "create", "app"];
 const onLoads = [onLoadAccueil, onLoadLogin, onLoadCreate, onLoadApp];
 const onLeaves = [onLeaveAccueil, onLeaveLogin, onLeaveCreate, onLeaveApp];
 
+const green = '#28a745';
+const red = '#dc3545';
+const blue = '#004085';
+const gray = '#ced4da'
+
 let page_state = 'accueil';
 let api_key = null;
 let nav_state = true;
@@ -81,15 +86,18 @@ let mapProperties = {
     },
     colorAxis: {
         min: 0,
+        minColor: gray,
+        maxColor: blue,
         style: {
-            color: '#fff'
+            color: 'white'
         }
     },
     series: [{
         data: mapData,
+        color: blue,
         states: {
             hover: {
-                color: '#BADA55'
+                color: green
             }
         },
         dataLabels: {
@@ -346,35 +354,30 @@ function create_Submit() {
         password: mdp
     };
     if (!validateEmail(user.email)) {
-        document.getElementById('create_adresseEmail').style.borderColor =
-            "red";
+        document.getElementById('create_adresseEmail').style.borderColor = red;
         valid = false;
     } else {
-        document.getElementById('create_adresseEmail').style.borderColor =
-            "green";
+        document.getElementById('create_adresseEmail').style.borderColor = green;
     }
     if (user.prenom.length === 0) {
-        document.getElementById('create_prenom').style.borderColor = "red";
+        document.getElementById('create_prenom').style.borderColor = green;
         valid = false;
     } else {
-        document.getElementById('create_prenom').style.borderColor = "green";
+        document.getElementById('create_prenom').style.borderColor = green;
     }
     if (user.nom.length === 0) {
-        document.getElementById('create_nom').style.borderColor = "red";
+        document.getElementById('create_nom').style.borderColor = red;
         valid = false;
     } else {
-        document.getElementById('create_nom').style.borderColor = "green";
+        document.getElementById('create_nom').style.borderColor = green;
     }
     if (mdp === mdp2 && mdp.length > 3) {
-        document.getElementById('create_motDePasse').style.borderColor =
-            "green";
-        document.getElementById('create_confirmerMotDePasse').style.borderColor =
-            "green";
+        document.getElementById('create_motDePasse').style.borderColor = green;
+        document.getElementById('create_confirmerMotDePasse').style.borderColor = green;
     } else {
         valid = false;
-        document.getElementById('create_motDePasse').style.borderColor = "red";
-        document.getElementById('create_confirmerMotDePasse').style.borderColor =
-            "red";
+        document.getElementById('create_motDePasse').style.borderColor = red;
+        document.getElementById('create_confirmerMotDePasse').style.borderColor = red;
     }
     console.log(valid);
     if (valid) {
@@ -497,8 +500,8 @@ function highcharts_init() {
         ],
         datasets: [{
             label: "My First dataset",
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: red,
+            borderColor: red,
             data: [0, 10, 5, 2, 20, 30, 45],
         }]
     };
@@ -597,7 +600,7 @@ function update_Comparator() {
             container.innerHTML = "";
             container.appendChild(clone);
         }
-        
+
         elsaRequest(JSON.stringify({
             type: 'compareCities',
             commune1: nameToINSEE[communeA],
@@ -686,5 +689,5 @@ function loadCsv() {
 }
 
 function greenRedColor(cond) {
-    return 'color: ' + (cond ? 'green' : 'red');
+    return 'color: ' + (cond ? green : red);
 }

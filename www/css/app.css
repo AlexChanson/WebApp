@@ -1,6 +1,10 @@
+:root {
+    --cyan: #17a2b8;
+}
+
 #app .map {
     position:relative;
-    border: 1px solid black;
+    border-right: 1px solid #ced4da;
     padding: 5px 5px;
     float: left;
     width: 50%;
@@ -12,7 +16,6 @@
     float: right;
     width: 50%;
     height: 100%;
-    border: 1px solid black;
     padding: 5px 5px;
 }
 
@@ -104,7 +107,7 @@
     cursor: pointer;
 }
 #app .sidenav .closebtn:hover {
-    color: deepskyblue;
+    color: var(--cyan);
 }
 
 #app_openNav{
@@ -118,7 +121,7 @@
     margin-top: 0.5%;
 }
 #app_openNav span:hover{
-    color: deepskyblue;
+    color: var(--cyan);
 }
 
 #app_side_bottom {
@@ -156,7 +159,7 @@
     display: block;
 }
 .noUi-base .noUi-connect {
-    background-color: deepskyblue;
+    background-color: var(--cyan);
 }
 
 .noUi-handle {
