@@ -1,5 +1,6 @@
 :root {
     --cyan: #17a2b8;
+    --red: #dc3545;
 }
 
 #app .map {
@@ -107,7 +108,7 @@
     cursor: pointer;
 }
 #app .sidenav .closebtn:hover {
-    color: var(--cyan);
+    color: var(--red);
 }
 
 #app_openNav{
@@ -193,4 +194,17 @@
 #accueil .container {
     position: relative;
     top: 35%;
+}
+
+#app_filters .form-group {
+    padding: 12px 24px 20px 24px;
+    margin: 0;
+}
+
+#app_filters .form-group:hover {
+    background-color: #666;
+}
+
+#app_filters {
+    padding: 0;
 }

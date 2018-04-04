@@ -108,58 +108,60 @@
         <span onclick="toggleNav()">&#9776; Menu</span>
     </div>
 
-    <nav id="mySidenav" class="sidenav">
+    <div id="mySidenav" class="sidenav">
         <a class="closebtn" onclick="toggleNav()">&times;</a>
 
         <div class="filters" id="app_filters">
-            <h4>Population</h4>
-            <div id="slider-population" class="sliders"></div>
-            De <span id="sl_pop_min">0</span> à <span id="sl_pop_max">0</span>
-            <h4>Nombre d'étudiants</h4>
-            <div id="slider-etudiants" class="sliders"></div>
-            De <span id="sl_etu_min">0</span> à <span id="sl_etu_max">0</span>
-            <h4>Nombre d'actifs</h4>
-            <div id="slider-actifs" class="sliders"></div>
-            De <span id="sl_act_min">0</span> à <span id="sl_act_max">0</span>
-            <h4>Nombre d'établissement</h4>
-            <div id="slider-etablissements" class="sliders"></div>
-            De <span id="sl_eta_min">0</span> à <span id="sl_eta_max">0</span>
-
-            <form action="#">
-                <div id="filter-container">
-                    <div class="form-group">
-                        <label><h4>Mobilit&eacute;</h4></label>
-                        <div class="form-check">
-                            <div class="form-row">
-                                <input type="radio" name="mobility" class="form-check-input" id="anyMobility" checked>
-                                <label class="form-check-label" for="anyMobility">N'importe quel type de
-                                    mobilit&eacute;</label>
-                            </div>
-                            <div class="form-row">
-                                <input type="radio" name="mobility" class="form-check-input" id="populationSedentaire">
-                                <label class="form-check-label" for="populationSedentaire">Population sédentaire</label>
-                            </div>
-                            <div class="form-row">
-                                <input type="radio" name="mobility" class="form-check-input" id="populationMobile">
-                                <label class="form-check-label" for="populationMobile">Population mobile</label>
-                            </div>
-                        </div>
-                        <label for="demographic_environment"><h4>Environnement d&eacute;mographique</h4></label>
-
-                        <select name="demographic_environment" id="demographic_environment" class="form-control">
-                            <option value="anyDemographicEnvironment">N'importe quel environnement démographique</option>
-                            <option value="bassinIndustrielCroissant">Bassin industriel en croissance démographique</option>
-                            <option value="bassinResidentielCroissant">Bassin résidentiel en croissance démographique</option>
-                            <option value="bassinUrbainCroissant">Bassin urbain en croissance démographique</option>
-                            <option value="bassinDiversifieCroissant">Bassin diversifié en croissance démographique</option>
-                            <option value="bassinAgroalimentaireCroissant">Bassin agroalimentaire en croissance démographique</option>
-                            <option value="bassinResidentielDeclin">Bassin résidentiel en déclin démographique</option>
-                            <option value="bassinDiversifieDeclin">Bassin diversifié en déclin démographique</option>
-                        </select>
-
+            <div class="form-group" data-toggle="tooltip" title="Faites glisser les curseurs ci-contre le long de la barre pour d&eacute;finir le nombre minimum et maximum d'habitants dans les villes qui vous int&eacute;ressent.">
+                <label>Population</label>
+                <div id="slider-population" class="sliders"></div>
+                De <span id="sl_pop_min">0</span> à <span id="sl_pop_max">0</span>
+            </div>
+            <div class="form-group" data-toggle="tooltip" title="Faites glisser les curseurs ci-contre le long de la barre pour d&eacute;finir le nombre minimum et maximum d'étudiants dans les villes qui vous int&eacute;ressent.">
+                <label>Nombre d'étudiants</label>
+                <div id="slider-etudiants" class="sliders"></div>
+                De <span id="sl_etu_min">0</span> à <span id="sl_etu_max">0</span>
+            </div>
+            <div class="form-group" data-toggle="tooltip" title="Faites glisser les curseurs ci-contre le long de la barre pour d&eacute;finir le nombre minimum et maximum de personnes actives dans les villes qui vous int&eacute;ressent.">
+                <label>Nombre d'actifs</label>
+                <div id="slider-actifs" class="sliders"></div>
+                De <span id="sl_act_min">0</span> à <span id="sl_act_max">0</span>
+            </div>
+            <div class="form-group" data-toggle="tooltip" title="Faites glisser les curseurs ci-contre le long de la barre pour d&eacute;finir le nombre minimum et maximum de b&acirc;timents des services publiques dans les villes qui vous int&eacute;ressent.">
+                <label>Nombre d'établissements publiques</label>
+                <div id="slider-etablissements" class="sliders"></div>
+                De <span id="sl_eta_min">0</span> à <span id="sl_eta_max">0</span>
+            </div>
+            <div class="form-group" data-toggle="tooltip" title="Cochez l'une des options ci-contre pour d&eacute;finir la mobilit&eacute; type des habitants des villes qui vous int&eacute;ressent.">
+                <label>Mobilit&eacute; de la population</label>
+                <div class="form-check">
+                    <div class="form-row">
+                        <input type="radio" name="mobility" class="form-check-input" id="anyMobility" checked>
+                        <label class="form-check-label" for="anyMobility">N'importe quel type de mobilit&eacute;</label>
+                    </div>
+                    <div class="form-row">
+                        <input type="radio" name="mobility" class="form-check-input" id="populationSedentaire">
+                        <label class="form-check-label" for="populationSedentaire">Population sédentaire</label>
+                    </div>
+                    <div class="form-row">
+                        <input type="radio" name="mobility" class="form-check-input" id="populationMobile">
+                        <label class="form-check-label" for="populationMobile">Population mobile</label>
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="form-group" data-toggle="tooltip" title="S&eacute;lectionnez dans le menu d&eacute;roulant ci-contre le type d'environnement démographique des villes qui vous int&eacute;ressent.">
+                <label for="demographic_environment">Environnement d&eacute;mographique</label>
+                <select name="demographic_environment" id="demographic_environment" class="form-control">
+                    <option value="anyDemographicEnvironment">N'importe quel environnement démographique</option>
+                    <option value="bassinIndustrielCroissant">Bassin industriel en croissance démographique</option>
+                    <option value="bassinResidentielCroissant">Bassin résidentiel en croissance démographique</option>
+                    <option value="bassinUrbainCroissant">Bassin urbain en croissance démographique</option>
+                    <option value="bassinDiversifieCroissant">Bassin diversifié en croissance démographique</option>
+                    <option value="bassinAgroalimentaireCroissant">Bassin agroalimentaire en croissance démographique</option>
+                    <option value="bassinResidentielDeclin">Bassin résidentiel en déclin démographique</option>
+                    <option value="bassinDiversifieDeclin">Bassin diversifié en déclin démographique</option>
+                </select>
+            </div>
         </div>
 
         <div id="app_side_bottom">
@@ -167,7 +169,7 @@
             <button type="button" class="btn btn-info" id="app_upload" onclick="browseCsvFile()">Charger CSV</button>
             <input type="file" accept=".csv" style="display: none" id="csv_file_input" oninput="loadCsv()">
         </div>
-    </nav>
+    </div>
 
     <div class="map" id="map"></div>
 
