@@ -123,6 +123,7 @@ let nameToINSEE = {};
 let departements = [];
 // list of regions codes and names
 let regions = [];
+let regionCodeToNames = {};
 
 // communes selected for comparison
 let communeA = null;
@@ -242,6 +243,9 @@ function onConnect() {
     elsaRequest('{"type":"getRegions"}', resp => {
         regions = JSON.parse(resp);
         console.log("got regions");
+        for (const reg of regions) {
+            regionCodeToNames[reg.num] = reg;
+        }
     });
     console.log("requesting departments...");
     elsaRequest('{"type":"getDepartements"}', resp => {
