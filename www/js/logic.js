@@ -112,6 +112,10 @@ let chartData = [];
 
 //graphics and charts data
 let boite = []; //data for boite a moustaches 
+let lineYears = []; // data for line graph
+let lineA = [];
+let lineB = [];
+
 let simCitiesA = []
 let simCitiesB = []
 
@@ -499,17 +503,43 @@ function filterRequest() {
             debugObj = repOb;
             
             //MCM
-            boite.push(repOb.min_nb_inst_pub);
-            boite.push(repOb.quantileValues[0]);
-            boite.push(repOb.quantileValues[1]);
-            boite.push(repOb.quantileValues[2]);
-            boite.push(repOb.max_nb_inst_pub);
+            boite[0] = repOb.min_nb_inst_pub;
+            boite[1] = repOb.quantileValues[0];
+            boite[2] = repOb.quantileValues[1];
+            boite[3] = repOb.quantileValues[2];
+            boite[4] = repOb.max_nb_inst_pub;
             
-            console.log("min : " + boite[0]);
-            console.log("q1 : " + boite[1]);
-            console.log("q2 : " + boite[2]);
-            console.log("q3 : " + boite[3]);
-            console.log("max : " + boite[4]);            
+            lineYears[0] = repOb.userCommunesA[0].ANNEE;
+            lineYears[1] = repOb.userCommunesA[1].ANNEE;
+            lineYears[2] = repOb.userCommunesA[2].ANNEE;
+            lineYears[3] = 2015;
+            
+            lineA[0] = repOb.userCommunesA[0].POPULATION;
+            lineA[1] = repOb.userCommunesA[1].POPULATION;
+            lineA[2] = repOb.userCommunesA[2].POPULATION;
+            lineA[3] = repOb.cityA.pop_2015;
+            
+            lineB[0] = repOb.userCommunesB[0].POPULATION;
+            lineB[1] = repOb.userCommunesB[1].POPULATION;
+            lineB[2] = repOb.userCommunesB[2].POPULATION;
+            lineB[3] = repOb.cityB.pop_2015;
+            
+            
+//            console.log("a1 : " + lineA[0]);
+//            console.log("a2 : " + lineA[1]);
+//            console.log("a3 : " + lineA[2]);
+//            console.log("a4 : " + lineA[3]);
+//            
+//            console.log("b1 : " + lineB[0]);
+//            console.log("b2 : " + lineB[1]);
+//            console.log("b3 : " + lineB[2]);
+//            console.log("b4 : " + lineB[3]);
+            
+//            console.log("min : " + boite[0]);
+//            console.log("q1 : " + boite[1]);
+//            console.log("q2 : " + boite[2]);
+//            console.log("q3 : " + boite[3]);
+//            console.log("max : " + boite[4]);            
 //            console.log("test similarity : " + repOb.withA[0].similarity);
 //            
             graphs_init();
@@ -530,12 +560,12 @@ function graphs_init(){
 	Highcharts.chart('lineg', {
 
         title: {
-            text: 'Evolution des populations, 1999-2015'
+            text: 'Evolution des populations, 2003 - 2015'
         },
 
         yAxis: {
             title: {
-                text: 'Nombre dhabitants'
+                text: 'Nombre d\'habitants'
             }
         },
         
@@ -549,20 +579,19 @@ function graphs_init(){
             series: {
                 label: {
                     connectorAllowed: false
-                },
-                pointStart: 1999
+                }
             }
         },
 
     	xAxis: {
-      	      categories: ['1999', '2009', '2015']},
+      	      categories: [lineYears[0],lineYears[1],lineYears[2],lineYears[3]]},
 
         series: [{
             name: 'Commune A',
-            data: [43934, 52503, 57177]
+            data: [lineA[0],lineA[1],lineA[2],lineA[3]]
         }, {
             name: 'Commune B',
-            data: [24916, 24064, 29742]
+            data: [lineB[0],lineB[1],lineB[2],lineB[3]]
         }],
 
         responsive: {
