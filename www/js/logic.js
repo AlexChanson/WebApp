@@ -460,7 +460,8 @@ function filterRequest() {
     let finalFilters = [];
     let lb = sliders_values.pop[0] | 0;
     let gb = sliders_values.pop[1] | 0;
-    finalFilters.push.apply(finalFilters, intervalStringifier("population2015",
+    finalFilters.push.apply(finalFilters, intervalStringifier(
+        "population2015",
         lb, gb));
 
     lb = sliders_values.act[0] | 0;
@@ -471,16 +472,19 @@ function filterRequest() {
 
     lb = sliders_values.etu[0] | 0;
     gb = sliders_values.etu[1] | 0;
-    finalFilters.push.apply(finalFilters, intervalStringifier("etudiants", lb,
+    finalFilters.push.apply(finalFilters, intervalStringifier("etudiants",
+        lb,
         gb));
 
     lb = sliders_values.eta[0] | 0;
     gb = sliders_values.eta[1] | 0;
-    finalFilters.push.apply(finalFilters, intervalStringifier("etablissements",
+    finalFilters.push.apply(finalFilters, intervalStringifier(
+        "etablissements",
         lb, gb));
 
     let radios = document.querySelectorAll('input[name="mobility"]:checked');
-    let value = radios.length > 0 ? radios[0].id.toLowerCase() : "anymobility";
+    let value = radios.length > 0 ? radios[0].id.toLowerCase() :
+        "anymobility";
     if (value === "anymobility") {
 
     } else if (value === "populationsedentaire") {
@@ -496,8 +500,6 @@ function filterRequest() {
     if (optionList[0].selected === false) {
         finalFilters.push("env_demo=" + "'" + value.innerHTML + "'");
     }
-
-    console.log(finalFilters);
 
     let jsonReq = mkCompareWithFilters(nameToINSEE[communeA],
         nameToINSEE[communeB],
@@ -596,9 +598,20 @@ function generic_onModif(id) {
 
 function update_Comparator() {
     if (communeB != null && communeA != null) {
+        function error_callback(resp) {
+            console.log("erreur!");
+            alert("Une erreur s'est produite sur le serveur!\n" + "erreur " +
+                "\n" + resp);
+        }
+
         function cb(data) {
-            console.log(data);
             let ret = JSON.parse(data);
+            if (ret.hasOwnProperty("exception") || ret.hasOwnProperty(
+                    "error")) {
+                console.log("Found an error, defaulting to error callback");
+                error_callback(data, 200);
+                return;
+            }
 
             let container = document.getElementById("comparatorResult");
             let templateContent = document.getElementById(
@@ -640,7 +653,7 @@ function update_Comparator() {
             type: 'compareCities',
             commune1: nameToINSEE[communeA],
             commune2: nameToINSEE[communeB]
-        }), cb)
+        }), cb, error_callback)
     }
 }
 
@@ -718,13 +731,15 @@ function loadCsv() {
         freader.onload = function() {
             elsaRequest(JSON.stringify({
                 "type": "loadCSV",
-                "csv": freader.result.replace(/[\r| ]/g, "").split(
-                    "\n")
+                "csv": freader.result.replace(/[\r| ]/g, "")
+                    .split(
+                        "\n")
             }), res => {
                 const ans = JSON.parse(res);
                 if (ans.hasOwnProperty('status') && ans.status ===
                     "done")
-                    alert("Chargement du Fichier Reussi !\n" + ans.errors +
+                    alert("Chargement du Fichier Reussi !\n" +
+                        ans.errors +
                         " erreurs d'Inserion.");
             });
         };
