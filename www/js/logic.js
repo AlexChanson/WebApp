@@ -1064,11 +1064,11 @@ function update_Comparator() {
 
             container.innerHTML = "";
             container.appendChild(clone);
-
-            update_city("commA_display", ret['comm1']);
-            update_city("commB_display", ret['comm2']);
             similCity = ret;
             similarity = (1 - similCity.sc) * 100;
+            update_city("commA_display", ret['comm1']);
+            update_city("commB_display", ret['comm2']);
+            
         }
 
         elsaRequest(JSON.stringify({
