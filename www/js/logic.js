@@ -17,7 +17,9 @@ let sliders = {};
 let sliders_labels = {};
 let sliders_values = {};
 
+// map object in webpage
 let mapObject = null;
+// code insee to region code for highcharts
 let mapRegions = {
     1: 'fr-gp',
     2: 'fr-mq',
@@ -46,6 +48,8 @@ let mapRegions = {
     93: 'fr-u',
     94: 'fr-h'
 };
+
+// default map data
 let mapData = [
     ['fr-t', 0],
     ['fr-h', 0],
@@ -76,6 +80,7 @@ let mapData = [
     ['fr-gp', 0],
     ['undefined', 0]
 ];
+// default map properties
 let mapProperties = {
     title: {
         text: 'Résultats par régions'
@@ -108,20 +113,27 @@ let mapProperties = {
 };
 
 
-
+// list of loaded cities codes and names
 let cities = [];
+// list of cities names
 let cities_name = [];
+
 let nameToINSEE = {};
+// list of departements codes and names
 let departements = [];
+// list of regions codes and names
 let regions = [];
 
+// communes selected for comparison
 let communeA = null;
 let communeB = null;
 
 let map = null;
 
+// utilitary module for highcharts map
 let mapModule = {
     mapReg: mapRegions,
+    // update map data series
     updateValues: values => {
         mapObject.series[0].update({
             data: mapData
@@ -132,6 +144,7 @@ let mapModule = {
     }
 }
 
+// make an Elsa comparing request in the string json format
 function mkCompareWithFilters(comA, comB, filters) {
     return JSON.stringify({
         type: "compareCitiesWithSelected",
@@ -145,7 +158,9 @@ function mkCompareWithFilters(comA, comB, filters) {
     --- Event CODE ---
 */
 
+// idle time before sending comparison request and updating view for diagrams and map
 let idle_time_ms = 2000;
+// timer variable for clearTimeout and setTimeout
 let timer = idle_time_ms;
 
 // triggered when a filter is updated
@@ -156,6 +171,7 @@ function filter_update() {
         console.log("request impossible!");
         refreshButton.setAttribute("disabled", true);
     } else {
+        // restart timer
         // update view after a delay
         window.clearTimeout(timer);
         timer = window.setTimeout(filterRequest, idle_time_ms);
@@ -165,14 +181,18 @@ function filter_update() {
 
 onLoad();
 
+// executed on script load
 function onLoad() {
+    // get stored user credentials
     const user = localStorage.getItem("user");
     console.log("Stored user data:", user);
+    // if stored credentials are present
     if (user != null) {
         userOb = JSON.parse(user);
-
+        // try to connect with stored information
         elsa_Connection(user.email, user.password);
     }
+    // highcharts setup
     highcharts_init();
 }
 
@@ -190,6 +210,8 @@ function onLoadCreate() {
 
 function onLoadApp() {
     document.getElementById("page_body").classList.add("bg-light");
+
+    // disable filter request button until communes are selected
     refreshButton = document.getElementById("app_refresh");
     refreshButton.setAttribute("disabled", true);
 }
@@ -211,6 +233,8 @@ function onLeaveApp() {
 }
 
 function onConnect() {
+
+    // preload cities, departements and regions basic info (codes and names)
     console.log("requesting regions...");
     elsaRequest('{"type":"getRegions"}', resp => {
         regions = JSON.parse(resp);
@@ -231,6 +255,8 @@ function onConnect() {
         for (let jsonCity of cities) {
             const name = jsonCity.nom;
             if (name) {
+                // add cities names to the datalist so it show up when typing
+                // in commune search boxes
                 child = document.createElement("option");
                 child.setAttribute("value", name);
                 datalistCommuneA.appendChild(child);
@@ -246,6 +272,7 @@ function onConnect() {
     });
 
     console.log("Init sliders ...");
+    // initialize all noUiSliders for filters
     sliders["pop"] = document.getElementById('slider-population');
     noUiSlider.create(sliders['pop'], {
         start: [7500, 50000],
@@ -337,6 +364,8 @@ function onConnect() {
 /*
     --- Elsa CODE ---
 */
+// attempt a connection to ELSA
+// if it succeeds, proceeds to the app
 function elsa_Connection(email, password) {
     let xhr = new XMLHttpRequest();
     const url = 'http://' + server_domain + '/connect';
@@ -366,12 +395,14 @@ function elsa_Connection(email, password) {
     xhr.send(body);
 }
 
+// try to log in from login page
 function login_Connecter() {
     let mail = document.getElementById('login_adresseEmail').value;
     let pass = document.getElementById('login_motDePasse').value;
     elsa_Connection(mail, pass);
 }
 
+// try to register new account on ELSA server
 function create_Submit() {
     let valid = true;
     const mdp = helpers_get('create_motDePasse');
@@ -441,26 +472,39 @@ function helpers_get(id) {
     return document.getElementById(id).value;
 }
 
-function elsaRequest(body, callback) {
+
+function elsaRequest(body, callback, errorCallback) {
+    // construct server url for API request
     const url = "http://" + server_domain + "/api?key=" + api_key;
     let xhr = new XMLHttpRequest();
 
+    // modify callback to be executed when request completes
     function internCallback() {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             callback(xhr.responseText);
         }
+        // if request fails (eg: network error)
+        else if (xhr.readyState === 4 && typeof errorCallback !== 'undefined') {
+            errorCallback(xhr.responseText, xhr.status);
+        }
     }
     xhr.open('POST', url);
+    // function to be called on state change
     xhr.onreadystatechange = internCallback;
+    // send request
     xhr.send(body);
 }
 
+// create a list of 2 strings for intervals in the correct format
 function intervalStringifier(attr, lb, gb) {
     return [attr + ">=" + lb.toString(), attr + "<=" + gb.toString()];
 }
 
+// gather all needed values and send a request for filter/comparison
 function filterRequest() {
     let finalFilters = [];
+
+    // get slider values
     let lb = sliders_values.pop[0] | 0;
     let gb = sliders_values.pop[1] | 0;
     finalFilters.push.apply(finalFilters, intervalStringifier(
@@ -485,9 +529,11 @@ function filterRequest() {
         "etablissements",
         lb, gb));
 
+    // get all radio checked buttons for mobility
     let radios = document.querySelectorAll('input[name="mobility"]:checked');
+    // take the first (should be one and only one radio button checked)
     let value = radios.length > 0 ? radios[0].id.toLowerCase() :
-        "anymobility";
+        "anymobility"; // fallback to anymobility if there is a problem
     if (value === "anymobility") {
 
     } else if (value === "populationsedentaire") {
@@ -496,6 +542,7 @@ function filterRequest() {
         finalFilters.push("fidelite=" + "'Pop Mobile'");
     }
 
+    // gather selected option for demographic_environment in the dropdown list
     let optionList = document.getElementById("demographic_environment").options;
     value = [].slice.call(optionList)
         .filter(x => x.selected === true)[0];
@@ -504,18 +551,20 @@ function filterRequest() {
         finalFilters.push("env_demo=" + "'" + value.innerHTML + "'");
     }
 
+    // create json string request body to be sent
     let jsonReq = mkCompareWithFilters(nameToINSEE[communeA],
         nameToINSEE[communeB],
         finalFilters);
 
+    // send and use the callback
     elsaRequest(jsonReq,
         rep => {
             repOb = JSON.parse(rep);
 
+            // update map with region results
             newValues = Object.entries(repOb.countByRegion).map(x => [
                 mapRegions[x[0]], x[1]
             ]);
-
             mapModule.updateValues(newValues);
         });
 
@@ -562,6 +611,7 @@ function highcharts_init() {
 
 // COMPARATOR CODE
 
+// disable or enable refresh button according to the selected communes
 function enableDisableRefreshButton() {
     refreshButton = document.getElementById("app_refresh");
     console.log(communeA + " " + communeB);
@@ -572,6 +622,7 @@ function enableDisableRefreshButton() {
     }
 }
 
+// communes search boxes change callbacks
 function onModifA() {
     communeA = generic_onModif("inputCommuneA");
     enableDisableRefreshButton();
@@ -681,6 +732,7 @@ function swapTo(nom) {
     }
 }
 
+// open side panel
 function openNav() {
     document.getElementById("mySidenav").style.width = "25%";
     document.getElementById("app_openNav").style.color = '#ccc';
@@ -689,6 +741,7 @@ function openNav() {
     document.getElementById("app_filters").hidden = false;
 }
 
+// close side panel
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("app_openNav").style.color = '#555';
@@ -697,6 +750,7 @@ function closeNav() {
     document.getElementById("app_filters").hidden = true;
 }
 
+// close panel if open else open
 function toggleNav() {
     if (nav_state === true) {
         closeNav();
@@ -709,6 +763,7 @@ function toggleNav() {
     --- Various Utilities ---
  */
 
+// regex to test email validity
 function validateEmail(mail) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
         return true;
