@@ -103,20 +103,24 @@ let mapProperties = {
     }]
 };
 
-
-
 let cities = [];
 let cities_name = [];
 let nameToINSEE = {};
 let departements = [];
 let regions = [];
-let chartData = [];
 
 //graphics and charts data
 let boite = []; //data for boite a moustaches 
+
 let lineYears = []; // data for line graph
-let lineA = [];
-let lineB = [];
+let lineA = []; // data for line graph
+let lineB = []; // data for line graph
+let lineNames = [];
+
+let actifSal = []; //data for stacked chart
+let actifNonSal = []; //data for stacked chart
+let chomeur = []; //data for stacked chart
+
 
 //Formating decimals for similarity
 
@@ -533,6 +537,24 @@ function filterRequest() {
             lineB[2] = repOb.userCommunesB[2].POPULATION;
             lineB[3] = repOb.cityB.pop_2015;
             
+            lineNames[0] = repOb.cityA.nom;
+            lineNames[1] = repOb.cityB.nom;
+            
+            actifSal[0] = repOb.cityA.nb_actifs_sal_2015;
+            actifSal[1] = repOb.cityB.nb_actifs_sal_2015;
+            
+            actifNonSal[0] = repOb.cityA.nb_actifs_nonSal_2015;
+            actifNonSal[1] = repOb.cityB.nb_actifs_nonSal_2015; 
+            
+            chomeur[0] = repOb.cityA.pop_2015 - repOb.cityA.nb_actifs_2015;
+            chomeur[1] = repOb.cityB.pop_2015 - repOb.cityB.nb_actifs_2015;
+            
+	         console.log("salA : " + actifSal[0]);
+	         console.log("salB : " + actifSal[1]);
+	         console.log("nonsalA : " + actifNonSal[0]);
+	         console.log("nonsalB : " + actifNonSal[1]);
+	         console.log("chomA : " + chomeur[0]);
+	         console.log("chomB : " + chomeur[1]);
             
 //            console.log("a1 : " + lineA[0]);
 //            console.log("a2 : " + lineA[1]);
@@ -596,10 +618,10 @@ function graphs_init(){
       	      categories: [lineYears[0],lineYears[1],lineYears[2],lineYears[3]]},
 
         series: [{
-            name: 'Commune A',
+            name: lineNames[0],
             data: [lineA[0],lineA[1],lineA[2],lineA[3]]
         }, {
-            name: 'Commune B',
+            name: lineNames[1],
             data: [lineB[0],lineB[1],lineB[2],lineB[3]]
         }],
 
@@ -620,60 +642,64 @@ function graphs_init(){
 
     });
     
-    Highcharts.chart('bar', {
-
-        chart: {
-            type: 'column'
-        },
-
-        title: {
-            text: 'Activité de la population, année X - année Y'
-        },
-
-        xAxis: {
-            categories: ['Commune 1', 'Commune 2']
-        },
-
-        yAxis: {
-            allowDecimals: false,
-            min: 0,
-            title: {
-                text: 'Nombre dhabitants'
-            }
-        },
-
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.x + '</b><br/>' +
-                    this.series.name + ': ' + this.y + '<br/>' +
-                    'Total: ' + this.point.stackTotal;
-            }
-        },
-
-        plotOptions: {
-            column: {
-                stacking: 'normal'
-            }
-        },
-
-        series: [{
-            name: 'ActifsX',
-            data: [59408, 33456],
-            stack: 'male'
-        }, {
-            name: 'ChomeursX',
-            data: [33455, 44355],
-            stack: 'male'
-        }, {
-            name: 'ActifsY',
-            data: [20345, 5564],
-            stack: 'female'
-        }, {
-            name: 'ChomeursY',
-            data: [33453, 34555],
-            stack: 'female'
-        }]
-    });
+	Highcharts.chart('bar', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: 'Activité de la population'
+	    },
+	    xAxis: {
+	        categories: [lineNames[0], lineNames[1]]
+	    },
+	    yAxis: {
+	        min: 0,
+	        title: {
+	            text: 'Population totale'
+	        },
+	        stackLabels: {
+	            enabled: true,
+	            style: {
+	                fontWeight: 'bold',
+	                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+	            }
+	        }
+	    },
+	    legend: {
+	        align: 'right',
+	        x: -30,
+	        verticalAlign: 'top',
+	        y: 25,
+	        floating: true,
+	        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+	        borderColor: '#CCC',
+	        borderWidth: 1,
+	        shadow: false
+	    },
+	    tooltip: {
+	        headerFormat: '<b>{point.x}</b><br/>',
+	        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+	    },
+	    plotOptions: {
+	        column: {
+	            stacking: 'normal',
+	            dataLabels: {
+	                enabled: true,
+	                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+	            }
+	        }
+	    },
+	    series: [{
+	        name: 'Actifs Salariés',
+	        data: [actifSal[0], actifSal[1]]
+	    }, {
+	        name: 'Actifs non Salariés',
+	        data: [actifNonSal[0], actifNonSal[1]]
+	    }, {
+	        name: 'Chomeurs',
+	        data: [chomeur[0], chomeur[1]]
+	    }]
+	});
     
     Highcharts.chart('moustache', {
 
