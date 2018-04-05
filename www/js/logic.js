@@ -108,7 +108,13 @@ let cities_name = [];
 let nameToINSEE = {};
 let departements = [];
 let regions = [];
-let chartData = [];
+
+//data for the graphics and charts
+let boite = []; //data for boite a moustaches 
+let cityMeans = [];
+
+let simCitiesA = []; //similar cities data
+let simCitiesB = []; //similar cities data
 
 let communeA = null;
 let communeB = null;
@@ -492,7 +498,24 @@ function filterRequest() {
             mapModule.updateValues(newValues);
             
             debugObj = repOb;
-            console.log("test similarity : " + repOb.withA[0].similarity);
+            
+            //MCM
+            boite.push(repOb.min_nb_inst_pub);
+            boite.push(repOb.quantileValues[0]);
+            boite.push(repOb.quantileValues[1]);
+            boite.push(repOb.quantileValues[2]);
+            boite.push(repOb.max_nb_inst_pub);
+            
+            cityMeans.push(repObj.CityA.nb_inst_pub);
+            cityMeans.push(repObj.CityB.nb_inst_pub);
+            
+            for(i = 0; i < repObj.withA.length){
+            		simCitiesA[0][i].push(repOb.withA[i].similarity);
+            		simCitiesA[1][i].push(repOb.withA[i].comDepReg.nom);
+            		simCitiesA[2][i].push(repOb.withA[i].comDepReg.nom_dept);
+            		simCitiesA[3][i].push(repOb.withA[i].comDepReg.nom_region);
+            }
+            graphs_init();
         });
 
 }
@@ -504,8 +527,10 @@ function highcharts_init() {
 
     mapObject = Highcharts.mapChart('map', mapProperties);
 
-    
-    Highcharts.chart('lineg', {
+}
+
+function graphs_init(){
+	Highcharts.chart('lineg', {
 
         title: {
             text: 'Evolution des populations, 1999-2015'
@@ -615,35 +640,66 @@ function highcharts_init() {
         }]
     });
     
-    let exData = {
-        labels: ["January", "February", "March", "April", "May", "June",
-            "July"
-        ],
-        datasets: [{
-            label: "My First dataset",
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
-        }]
-    };
+    Highcharts.chart('moustache', {
 
-    let ctx1 = $("#chart_1");
-    let chart1 = new Chart(ctx1, {
-        type: 'radar',
-        data: exData,
-        options: {}
-    });
-    let ctx2 = $("#chart_2");
-    let chart2 = new Chart(ctx2, {
-        type: 'bar',
-        data: exData,
-        options: {}
-    });
-    let ctx3 = $("#chart_3");
-    let chart3 = new Chart(ctx3, {
-        type: 'line',
-        data: exData,
-        options: {}
+        chart: {
+            type: 'boxplot',
+            inverted : true
+        },
+
+        title: {
+            text: 'Statistiques nombre dinstitutions publics'
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        yAxis: {
+            title: {
+                text: 'Nombre dinstitutions publics'
+            },
+            plotLines: [{
+                value: cityMeans[0],
+                color: 'blue',
+                width: 1,
+                label: {
+                    text: 'Institutions publiques Commune A: ' + cityMeans[0],
+                    align: 'center',
+                    style: {
+                        color: 'gray'
+                    }
+                }
+            },
+            {
+                value: cityMeans[1],
+                color: 'orange',
+                width: 1,
+                label: {
+                    text: 'Institutions publiques Commune B: ' + cityMeans[1],
+                    align: 'center',
+                    style: {
+                        color: 'gray'
+                    }
+                }
+            }]
+        },
+
+        plotOptions: {
+            boxplot: {
+                lineWidth: 2,
+                medianWidth: 3,
+                stemWidth: 1,
+                whiskerLength: '20%',
+                whiskerWidth: 3
+            }
+        },
+
+        series: [{
+            name: 'Observations',
+            data: [[boite[0],boite[1],boite[2],boite[3],boite[4]]]
+        }]
+
     });
 }
 
