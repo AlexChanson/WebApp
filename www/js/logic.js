@@ -13,6 +13,10 @@ let page_state = 'accueil';
 let api_key = null;
 let nav_state = true;
 
+let debugObj;
+let similCity;
+let similarity;
+
 let sliders = {};
 let sliders_labels = {};
 let sliders_values = {};
@@ -125,7 +129,29 @@ let departements = [];
 let regions = [];
 let regionCodeToNames = {};
 
-// communes selected for comparison
+//graphics and charts data
+let boite = []; //data for boite a moustaches
+
+let lineYears = []; // data for line graph
+let lineA = []; // data for line graph
+let lineB = []; // data for line graph
+let lineNames = [];
+
+let actifSal = []; //data for stacked chart
+let actifNonSal = []; //data for stacked chart
+let chomeur = []; //data for stacked chart
+
+
+//Formating decimals for similarity
+
+var Format = wNumb({
+    decimals: 3
+});
+
+
+let simCitiesA = []
+let simCitiesB = []
+
 let communeA = null;
 let communeB = null;
 
@@ -253,6 +279,9 @@ function onConnect() {
             regionCodeToNames[reg.num] = reg;
         }
     });
+
+
+
     console.log("requesting departments...");
     elsaRequest('{"type":"getDepartements"}', resp => {
         departements = JSON.parse(resp);
@@ -263,8 +292,10 @@ function onConnect() {
         cities = JSON.parse(resp);
 
         console.log("cities loading in browser...");
+
         let datalistCommuneA = document.getElementById("listCommunes");
         let child = null;
+
         for (let jsonCity of cities) {
             const name = jsonCity.nom;
             if (name) {
@@ -384,6 +415,7 @@ function onConnect() {
 // if it succeeds, proceeds to the app
 function elsa_Connection(email, password) {
     let xhr = new XMLHttpRequest();
+
     const url = 'http://' + server_domain + '/connect';
     const body = '{"email":"' + email + '", "password":"' + password + '"}';
     const checkbox = document.getElementById("connectionPersistent");
@@ -414,6 +446,7 @@ function elsa_Connection(email, password) {
 // try to log in from login page
 function login_Connecter() {
     let mail = document.getElementById('login_adresseEmail').value;
+
     let pass = document.getElementById('login_motDePasse').value;
     elsa_Connection(mail, pass);
 }
@@ -581,7 +614,70 @@ function filterRequest() {
             newValues = Object.entries(repOb.countByRegion).map(x => [
                 mapRegions[x[0]], x[1]
             ]);
+
             mapModule.updateValues(newValues);
+
+            debugObj = repOb;
+
+            //MCM
+            boite[0] = repOb.min_nb_inst_pub;
+            boite[1] = repOb.quantileValues[0];
+            boite[2] = repOb.quantileValues[1];
+            boite[3] = repOb.quantileValues[2];
+            boite[4] = repOb.max_nb_inst_pub;
+
+            lineYears[0] = repOb.userCommunesA[0].ANNEE;
+            lineYears[1] = repOb.userCommunesA[1].ANNEE;
+            lineYears[2] = repOb.userCommunesA[2].ANNEE;
+            lineYears[3] = 2015;
+
+            lineA[0] = repOb.userCommunesA[0].POPULATION;
+            lineA[1] = repOb.userCommunesA[1].POPULATION;
+            lineA[2] = repOb.userCommunesA[2].POPULATION;
+            lineA[3] = repOb.cityA.pop_2015;
+
+            lineB[0] = repOb.userCommunesB[0].POPULATION;
+            lineB[1] = repOb.userCommunesB[1].POPULATION;
+            lineB[2] = repOb.userCommunesB[2].POPULATION;
+            lineB[3] = repOb.cityB.pop_2015;
+
+            lineNames[0] = repOb.cityA.nom;
+            lineNames[1] = repOb.cityB.nom;
+
+            actifSal[0] = repOb.cityA.nb_actifs_sal_2015;
+            actifSal[1] = repOb.cityB.nb_actifs_sal_2015;
+
+            actifNonSal[0] = repOb.cityA.nb_actifs_nonSal_2015;
+            actifNonSal[1] = repOb.cityB.nb_actifs_nonSal_2015;
+
+            chomeur[0] = repOb.cityA.pop_2015 - repOb.cityA.nb_actifs_2015;
+            chomeur[1] = repOb.cityB.pop_2015 - repOb.cityB.nb_actifs_2015;
+
+            console.log("salA : " + actifSal[0]);
+            console.log("salB : " + actifSal[1]);
+            console.log("nonsalA : " + actifNonSal[0]);
+            console.log("nonsalB : " + actifNonSal[1]);
+            console.log("chomA : " + chomeur[0]);
+            console.log("chomB : " + chomeur[1]);
+
+            //            console.log("a1 : " + lineA[0]);
+            //            console.log("a2 : " + lineA[1]);
+            //            console.log("a3 : " + lineA[2]);
+            //            console.log("a4 : " + lineA[3]);
+            //
+            //            console.log("b1 : " + lineB[0]);
+            //            console.log("b2 : " + lineB[1]);
+            //            console.log("b3 : " + lineB[2]);
+            //            console.log("b4 : " + lineB[3]);
+
+            //            console.log("min : " + boite[0]);
+            //            console.log("q1 : " + boite[1]);
+            //            console.log("q2 : " + boite[2]);
+            //            console.log("q3 : " + boite[3]);
+            //            console.log("max : " + boite[4]);
+            //            console.log("test similarity : " + repOb.withA[0].similarity);
+            //
+            graphs_init();
         });
 
     closeNav();
@@ -591,6 +687,7 @@ function filterRequest() {
     --- HIGHCHARTS Init CODE
  */
 function highcharts_init() {
+
     mapObject = Highcharts.mapChart('map', mapProperties);
 
     let exData = {
@@ -604,25 +701,256 @@ function highcharts_init() {
             data: [0, 10, 5, 2, 20, 30, 45],
         }]
     };
+}
 
-    let ctx1 = $("#chart_1");
-    let chart1 = new Chart(ctx1, {
-        type: 'radar',
-        data: exData,
-        options: {}
+function graphs_init() {
+    Highcharts.chart('lineg', {
+
+        title: {
+            text: 'Evolution des populations, 2003 - 2015'
+        },
+
+        yAxis: {
+            title: {
+                text: 'Nombre d\'habitants'
+            }
+        },
+
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                }
+            }
+        },
+
+        xAxis: {
+            categories: [lineYears[0], lineYears[1], lineYears[2],
+                lineYears[3]
+            ]
+        },
+
+        series: [{
+            name: lineNames[0],
+            data: [lineA[0], lineA[1], lineA[2], lineA[3]]
+        }, {
+            name: lineNames[1],
+            data: [lineB[0], lineB[1], lineB[2], lineB[3]]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
     });
-    let ctx2 = $("#chart_2");
-    let chart2 = new Chart(ctx2, {
-        type: 'bar',
-        data: exData,
-        options: {}
+
+    Highcharts.chart('bar', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Activité de la population'
+        },
+        xAxis: {
+            categories: [lineNames[0], lineNames[1]]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Population totale'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) ||
+                        'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) ||
+                'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) ||
+                        'white'
+                }
+            }
+        },
+        series: [{
+            name: 'Actifs Salariés',
+            data: [actifSal[0], actifSal[1]]
+        }, {
+            name: 'Actifs non Salariés',
+            data: [actifNonSal[0], actifNonSal[1]]
+        }, {
+            name: 'Chomeurs',
+            data: [chomeur[0], chomeur[1]]
+        }]
     });
-    let ctx3 = $("#chart_3");
-    let chart3 = new Chart(ctx3, {
-        type: 'line',
-        data: exData,
-        options: {}
+
+    Highcharts.chart('moustache', {
+
+        chart: {
+            type: 'boxplot',
+            inverted: true
+        },
+
+        title: {
+            text: 'Statistiques nombre dinstitutions publics'
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        yAxis: {
+            title: {
+                text: 'Nombre dinstitutions publics'
+            },
+
+        },
+
+        plotOptions: {
+            boxplot: {
+                lineWidth: 2,
+                medianWidth: 3,
+                stemWidth: 1,
+                whiskerLength: '20%',
+                whiskerWidth: 3
+            }
+        },
+
+        series: [{
+            name: 'Observations',
+            data: [
+                [boite[0], boite[1], boite[2], boite[3],
+                    boite[4]
+                ]
+            ]
+        }]
+
     });
+
+    //thibaults code goes here
+    gaugeOptions = {
+
+        chart: {
+            type: 'solidgauge'
+        },
+
+        title: null,
+
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) ||
+                    '#EEE',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+
+        tooltip: {
+            enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+            stops: [
+                [0.1, '#55BF3B'], // green
+                [0.5, '#DDDF0D'], // yellow
+                [0.9, '#DF5353'] // red
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickAmount: 2,
+            title: {
+                y: -70
+            },
+            labels: {
+                y: 16
+            }
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    };
+
+    // The speed gauge
+    Highcharts.chart('gauge', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: {
+                text: 'Similarité'
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Similarité',
+            data: [similarity],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) ||
+                        'black') + '">{y}</span><br/>' +
+                    '<span style="font-size:12px;color:silver">%</span></div>'
+            },
+            tooltip: {
+                valueSuffix: '%'
+            }
+        }]
+
+    }));
 }
 
 // COMPARATOR CODE
@@ -683,6 +1011,25 @@ function update_Comparator() {
                 return;
             }
 
+            function update_city(id, d) {
+                let container = document.getElementById(id);
+                let templateContent = document.querySelector(
+                    "#comparatorDataTemplate").content;
+                let elem = templateContent.querySelectorAll("[data-key]");
+
+                elem.forEach(function(e, i, l) {
+                    let k = e.dataset.key;
+
+                    if (typeof d[k] !== "undefined") {
+                        e.innerHTML = d[k];
+                    }
+                });
+
+                container.textContent = "";
+                container.appendChild(document.importNode(templateContent,
+                    true));
+            }
+
             let container = document.getElementById("comparatorResult");
             let templateContent = document.getElementById(
                 "comparatorResultTemplate").content;
@@ -717,6 +1064,11 @@ function update_Comparator() {
 
             container.innerHTML = "";
             container.appendChild(clone);
+
+            update_city("commA_display", ret['comm1']);
+            update_city("commB_display", ret['comm2']);
+            similCity = ret;
+            similarity = (1 - similCity.sc) * 100;
         }
 
         elsaRequest(JSON.stringify({
