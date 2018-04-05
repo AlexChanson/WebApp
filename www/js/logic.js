@@ -185,15 +185,7 @@ onLoad();
 
 // executed on script load
 function onLoad() {
-    // get stored user credentials
-    const user = localStorage.getItem("user");
-    console.log("Stored user data:", user);
-    // if stored credentials are present
-    if (user != null) {
-        userOb = JSON.parse(user);
-        // try to connect with stored information
-        elsa_Connection(userOb.email, userOb.password);
-    }
+
 }
 
 function onLoadAccueil() {
@@ -202,6 +194,17 @@ function onLoadAccueil() {
 
 function onLoadLogin() {
     closeNav();
+    // get stored user credentials
+    const user = localStorage.getItem("user");
+    console.log("Stored user data:", user);
+    // if stored credentials are present
+    if (user != null) {
+        userOb = JSON.parse(user);
+        // set the connect input box to the stored credentials values
+        document.getElementById('login_adresseEmail').value = userOb.email;
+        document.getElementById('login_motDePasse').value = userOb.password;
+
+    }
 }
 
 function onLoadCreate() {
