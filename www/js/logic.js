@@ -7,7 +7,7 @@ const onLeaves = [onLeaveAccueil, onLeaveLogin, onLeaveCreate, onLeaveApp];
 const green = '#28a745';
 const red = '#dc3545';
 const blue = '#004085';
-const gray = '#ced4da'
+const gray = '#ced4da';
 
 let page_state = 'accueil';
 let api_key = null;
@@ -142,7 +142,7 @@ let mapModule = {
             data: values
         });
     }
-}
+};
 
 // make an Elsa comparing request in the string json format
 function mkCompareWithFilters(comA, comB, filters) {
@@ -169,6 +169,7 @@ function filter_update() {
         "") {
         // can't send request without both cities selected
         console.log("request impossible!");
+        refreshButton = document.getElementById("app_refresh");
         refreshButton.setAttribute("disabled", true);
     } else {
         // restart timer
@@ -190,7 +191,7 @@ function onLoad() {
     if (user != null) {
         userOb = JSON.parse(user);
         // try to connect with stored information
-        elsa_Connection(user.email, user.password);
+        elsa_Connection(userOb.email, userOb.password);
     }
     // highcharts setup
     highcharts_init();
@@ -214,6 +215,8 @@ function onLoadApp() {
     // disable filter request button until communes are selected
     refreshButton = document.getElementById("app_refresh");
     refreshButton.setAttribute("disabled", true);
+
+    openNav();
 }
 
 function onLeaveAccueil() {
