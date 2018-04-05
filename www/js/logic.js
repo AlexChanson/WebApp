@@ -817,3 +817,8 @@ function loadCsv() {
 function greenRedColor(cond) {
     return 'color: ' + (cond ? green : red);
 }
+
+function disconnect() {
+    localStorage.clear();
+    window.location.reload();
+}
