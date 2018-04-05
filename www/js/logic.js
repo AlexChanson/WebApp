@@ -148,13 +148,15 @@ function mkCompareWithFilters(comA, comB, filters) {
 let idle_time_ms = 2000;
 let timer = idle_time_ms;
 
+// triggered when a filter is updated
 function filter_update() {
     if (communeA === null || communeA === "" || communeB === null || communeB ===
         "") {
+        // can't send request without both cities selected
         console.log("request impossible!");
-
+        refreshButton.setAttribute("disabled", true);
     } else {
-        console.log("preparing callback");
+        // update view after a delay
         window.clearTimeout(timer);
         timer = window.setTimeout(filterRequest, idle_time_ms);
     }
@@ -175,14 +177,16 @@ function onLoad() {
 }
 
 function onLoadAccueil() {
-
+    closeNav();
 }
 
 function onLoadLogin() {
-
+    closeNav();
 }
 
-function onLoadCreate() {}
+function onLoadCreate() {
+    closeNav();
+}
 
 function onLoadApp() {
     document.getElementById("page_body").classList.add("bg-light");
@@ -202,7 +206,9 @@ function onLeaveCreate() {
     document.getElementById("page_body").classList.remove("bg-dark");
 }
 
-function onLeaveApp() {}
+function onLeaveApp() {
+    closeNav();
+}
 
 function onConnect() {
     console.log("requesting regions...");
@@ -508,7 +514,7 @@ function filterRequest() {
             mapModule.updateValues(newValues);
         });
 
-    toggleNav();
+    closeNav();
 }
 
 /*
@@ -659,19 +665,27 @@ function swapTo(nom) {
     }
 }
 
+function openNav() {
+    document.getElementById("mySidenav").style.width = "25%";
+    document.getElementById("app_openNav").style.color = '#ccc';
+    nav_state = true;
+    document.getElementById("app_side_bottom").hidden = false;
+    document.getElementById("app_filters").hidden = false;
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("app_openNav").style.color = '#555';
+    nav_state = false;
+    document.getElementById("app_side_bottom").hidden = true;
+    document.getElementById("app_filters").hidden = true;
+}
+
 function toggleNav() {
     if (nav_state === true) {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("app_openNav").style.color = '#555';
-        nav_state = false;
-        document.getElementById("app_side_bottom").hidden = true;
-        document.getElementById("app_filters").hidden = true;
+        closeNav();
     } else {
-        document.getElementById("mySidenav").style.width = "25%";
-        document.getElementById("app_openNav").style.color = '#ccc';
-        nav_state = true;
-        document.getElementById("app_side_bottom").hidden = false;
-        document.getElementById("app_filters").hidden = false;
+        openNav();
     }
 }
 
