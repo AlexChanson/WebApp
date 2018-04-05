@@ -9,6 +9,8 @@ let api_key = null;
 let nav_state = true;
 
 let debugObj;
+let similCity;
+let similarity;
 
 let sliders = {};
 let sliders_labels = {};
@@ -115,6 +117,13 @@ let boite = []; //data for boite a moustaches
 let lineYears = []; // data for line graph
 let lineA = [];
 let lineB = [];
+
+//Formating decimals for similarity
+
+var Format = wNumb({
+	decimals: 3
+});
+
 
 let simCitiesA = []
 let simCitiesB = []
@@ -704,6 +713,90 @@ function graphs_init(){
         }]
 
     });
+    
+    //thibaults code goes here
+    gaugeOptions = {
+
+    	    chart: {
+    	        type: 'solidgauge'
+    	    },
+
+    	    title: null,
+
+    	    pane: {
+    	        center: ['50%', '85%'],
+    	        size: '140%',
+    	        startAngle: -90,
+    	        endAngle: 90,
+    	        background: {
+    	            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+    	            innerRadius: '60%',
+    	            outerRadius: '100%',
+    	            shape: 'arc'
+    	        }
+    	    },
+
+    	    tooltip: {
+    	        enabled: false
+    	    },
+
+    	    // the value axis
+    	    yAxis: {
+    	        stops: [
+    	            [0.1, '#55BF3B'], // green
+    	            [0.5, '#DDDF0D'], // yellow
+    	            [0.9, '#DF5353'] // red
+    	        ],
+    	        lineWidth: 0,
+    	        minorTickInterval: null,
+    	        tickAmount: 2,
+    	        title: {
+    	            y: -70
+    	        },
+    	        labels: {
+    	            y: 16
+    	        }
+    	    },
+
+    	    plotOptions: {
+    	        solidgauge: {
+    	            dataLabels: {
+    	                y: 5,
+    	                borderWidth: 0,
+    	                useHTML: true
+    	            }
+    	        }
+    	    }
+    	};
+
+    	// The speed gauge
+    Highcharts.chart('gauge', Highcharts.merge(gaugeOptions, {
+    	    yAxis: {
+    	        min: 0,
+    	        max: 100,
+    	        title: {
+    	            text: 'Similarité'
+    	        }
+    	    },
+
+    	    credits: {
+    	        enabled: false
+    	    },
+
+    	    series: [{
+    	        name: 'Similarité',
+    	        data: [similarity],
+    	        dataLabels: {
+    	            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+    	                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+    	                   '<span style="font-size:12px;color:silver">%</span></div>'
+    	        },
+    	        tooltip: {
+    	            valueSuffix: '%'
+    	        }
+    	    }]
+
+    	}));
 }
 
 // COMPARATOR CODE
@@ -769,12 +862,15 @@ function update_Comparator() {
 
             update_city("commA_display", ret['comm1']);
             update_city("commB_display", ret['comm2']);
+            similCity = ret;
+            similarity = (1-similCity.sc)*100;
         }
         elsaRequest(JSON.stringify({
             type: 'compareCities',
             commune1: nameToINSEE[communeA],
             commune2: nameToINSEE[communeB]
-        }), cb)
+        }), cb);
+        
     }
 }
 
