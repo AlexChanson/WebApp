@@ -169,9 +169,9 @@ function onLoad() {
     const user = localStorage.getItem("user");
     console.log("Stored user data:", user);
     if (user != null) {
-        api_key = JSON.parse(user).api;
-        swapTo('app');
-        onConnect();
+        userOb = JSON.parse(user);
+
+        elsa_Connection(user.email, user.password);
     }
     highcharts_init();
 }
