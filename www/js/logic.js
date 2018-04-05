@@ -220,6 +220,9 @@ function onLoadApp() {
     // highcharts setup
     highcharts_init();
 
+    communeA = document.getElementById('inputCommuneA').value;
+    communeB = document.getElementById('inputCommuneB').value;
+
     openNav();
 }
 
@@ -279,6 +282,9 @@ function onConnect() {
         }
         console.log(cities.length.toString() + " cities loaded.");
 
+        // update comparator in case chere commune A and B are already set
+        onModifA();
+        onModifB();
     });
 
     console.log("Init sliders ...");
