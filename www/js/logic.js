@@ -873,7 +873,9 @@ function graphs_init() {
             type: 'solidgauge'
         },
 
-        title: null,
+        title: {
+            text: 'Pourcentage de similarité entre '+lineNames[0]+' et '+lineNames[1]
+        },
 
         pane: {
             center: ['50%', '85%'],
@@ -942,11 +944,12 @@ function graphs_init() {
             dataLabels: {
                 format: '<div style="text-align:center"><span style="font-size:25px;color:' +
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) ||
-                        'black') + '">{y}</span><br/>' +
+                        'black') + '">{point.y:.2f}</span><br/>' +
                     '<span style="font-size:12px;color:silver">%</span></div>'
             },
             tooltip: {
-                valueSuffix: '%'
+                valueSuffix: '%',
+                
             }
         }]
 
