@@ -194,8 +194,6 @@ function onLoad() {
         // try to connect with stored information
         elsa_Connection(userOb.email, userOb.password);
     }
-    // highcharts setup
-    highcharts_init();
 }
 
 function onLoadAccueil() {
@@ -216,6 +214,8 @@ function onLoadApp() {
     // disable filter request button until communes are selected
     refreshButton = document.getElementById("app_refresh");
     refreshButton.setAttribute("disabled", true);
+    // highcharts setup
+    highcharts_init();
 
     openNav();
 }
