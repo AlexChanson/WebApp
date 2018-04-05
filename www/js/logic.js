@@ -358,6 +358,9 @@ function elsa_Connection(email, password) {
                 onConnect();
                 swapTo('app');
             }
+        } else if (xhr.readyState === 4) {
+            console.log("Failed to connect to server");
+            alert("Failed to connect to server");
         }
     };
     xhr.send(body);
