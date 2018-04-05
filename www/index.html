@@ -136,22 +136,22 @@
                 <label>Mobilit&eacute; de la population</label>
                 <div class="form-check">
                     <div class="form-row">
-                        <input type="radio" name="mobility" class="form-check-input" id="anyMobility" checked>
+                        <input type="radio" name="mobility" class="form-check-input" id="anyMobility" onchange="filter_update()" checked>
                         <label class="form-check-label" for="anyMobility">N'importe quel type de mobilit&eacute;</label>
                     </div>
                     <div class="form-row">
-                        <input type="radio" name="mobility" class="form-check-input" id="populationSedentaire">
+                        <input type="radio" name="mobility" class="form-check-input" onchange="filter_update()" id="populationSedentaire">
                         <label class="form-check-label" for="populationSedentaire">Population sédentaire</label>
                     </div>
                     <div class="form-row">
-                        <input type="radio" name="mobility" class="form-check-input" id="populationMobile">
+                        <input type="radio" name="mobility" class="form-check-input" onchange="filter_update()" id="populationMobile">
                         <label class="form-check-label" for="populationMobile">Population mobile</label>
                     </div>
                 </div>
             </div>
             <div class="form-group" data-toggle="tooltip" title="S&eacute;lectionnez dans le menu d&eacute;roulant ci-contre le type d'environnement démographique des villes qui vous int&eacute;ressent.">
                 <label for="demographic_environment">Environnement d&eacute;mographique</label>
-                <select name="demographic_environment" id="demographic_environment" class="form-control">
+                <select name="demographic_environment" id="demographic_environment" class="form-control" onchange="filter_update()">
                     <option value="anyDemographicEnvironment">N'importe quel environnement démographique</option>
                     <option value="bassinIndustrielCroissant">Bassin industriel en croissance démographique</option>
                     <option value="bassinResidentielCroissant">Bassin résidentiel en croissance démographique</option>

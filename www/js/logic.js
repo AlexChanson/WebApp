@@ -145,6 +145,22 @@ function mkCompareWithFilters(comA, comB, filters) {
     --- Event CODE ---
 */
 
+let idle_time_ms = 2000;
+let timer = idle_time_ms;
+
+function filter_update() {
+    if (communeA === null || communeA === "" || communeB === null || communeB ===
+        "") {
+        console.log("request impossible!");
+
+    } else {
+        console.log("preparing callback");
+        window.clearTimeout(timer);
+        timer = window.setTimeout(filterRequest, idle_time_ms);
+    }
+
+}
+
 onLoad();
 
 function onLoad() {
@@ -247,6 +263,7 @@ function onConnect() {
     sliders['pop'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['pop'][handle].innerHTML = values[handle];
         sliders_values['pop'] = values;
+        filter_update();
     });
 
     sliders["etu"] = document.getElementById('slider-etudiants');
@@ -270,6 +287,7 @@ function onConnect() {
     sliders['etu'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['etu'][handle].innerHTML = values[handle];
         sliders_values['etu'] = values;
+        filter_update();
     });
 
     sliders["act"] = document.getElementById('slider-actifs');
@@ -288,6 +306,7 @@ function onConnect() {
     sliders['act'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['act'][handle].innerHTML = values[handle];
         sliders_values['act'] = values;
+        filter_update();
     });
 
     sliders["eta"] = document.getElementById('slider-etablissements');
@@ -306,6 +325,7 @@ function onConnect() {
     sliders['eta'].noUiSlider.on('update', function(values, handle) {
         sliders_labels['eta'][handle].innerHTML = values[handle];
         sliders_values['eta'] = values;
+        filter_update();
     });
 }
 /*
@@ -357,7 +377,8 @@ function create_Submit() {
         document.getElementById('create_adresseEmail').style.borderColor = red;
         valid = false;
     } else {
-        document.getElementById('create_adresseEmail').style.borderColor = green;
+        document.getElementById('create_adresseEmail').style.borderColor =
+            green;
     }
     if (user.prenom.length === 0) {
         document.getElementById('create_prenom').style.borderColor = green;
@@ -373,11 +394,13 @@ function create_Submit() {
     }
     if (mdp === mdp2 && mdp.length > 3) {
         document.getElementById('create_motDePasse').style.borderColor = green;
-        document.getElementById('create_confirmerMotDePasse').style.borderColor = green;
+        document.getElementById('create_confirmerMotDePasse').style.borderColor =
+            green;
     } else {
         valid = false;
         document.getElementById('create_motDePasse').style.borderColor = red;
-        document.getElementById('create_confirmerMotDePasse').style.borderColor = red;
+        document.getElementById('create_confirmerMotDePasse').style.borderColor =
+            red;
     }
     console.log(valid);
     if (valid) {
@@ -389,7 +412,7 @@ function create_Submit() {
                 let ret = JSON.parse(xhr.responseText);
                 if (ret.hasOwnProperty("api_key")) {
                     elsa_Connection(user.email, user.password);
-                }else {
+                } else {
                     const errfield = document.getElementById("create_error");
                     errfield.innerHTML = "Le compte existe Déjà !";
                 }
@@ -399,7 +422,7 @@ function create_Submit() {
         xhr.open('POST', url);
         xhr.onreadystatechange = callback;
         xhr.send(json);
-    } else  {
+    } else {
         const errfield = document.getElementById("create_error");
         errfield.innerHTML = "Tous les champs ne sont pas remplis.";
     }
@@ -542,17 +565,20 @@ function onModifA() {
     communeA = generic_onModif("inputCommuneA");
     enableDisableRefreshButton();
     update_Comparator();
+    filter_update();
 }
 
 function onModifB() {
     communeB = generic_onModif("inputCommuneB");
     enableDisableRefreshButton();
     update_Comparator();
+    filter_update();
 }
 
 function generic_onModif(id) {
     const communneAinput = document.getElementById(id);
-    const found = cities_name.find(el => el.trim().toLowerCase() === communneAinput.value.trim().toLowerCase());
+    const found = cities_name.find(el => el.trim().toLowerCase() ===
+        communneAinput.value.trim().toLowerCase());
     if (found !== undefined) {
         communneAinput.style.borderColor = '#2aad00';
         return found;
@@ -569,13 +595,14 @@ function update_Comparator() {
             let ret = JSON.parse(data);
 
             let container = document.getElementById("comparatorResult");
-            let templateContent = document.getElementById("comparatorResultTemplate").content;
+            let templateContent = document.getElementById(
+                "comparatorResultTemplate").content;
             let clone = document.importNode(templateContent, true);
 
             clone
                 .querySelectorAll("[data-if]")
                 .forEach(function(e, i, l) {
-                    if (!eval("($data) => (" + e.dataset.if + ")")(ret)) {
+                    if (!eval("($data) => (" + e.dataset.if+")")(ret)) {
                         e.parentElement.removeChild(e);
                     }
                 });
@@ -583,7 +610,8 @@ function update_Comparator() {
             clone
                 .querySelectorAll("[data-attr]")
                 .forEach(function(e, i, l) {
-                    let attributes = eval("($data) => ({ " + e.dataset.attr + "})")(ret);
+                    let attributes = eval("($data) => ({ " + e.dataset.attr +
+                        "})")(ret);
 
                     for (var attr in attributes) {
                         e.setAttribute(attr, attributes[attr]);
@@ -593,7 +621,8 @@ function update_Comparator() {
             clone
                 .querySelectorAll("[data-content]")
                 .forEach(function(e, i, l) {
-                    let content = eval("($data) => (" + e.dataset.content + ")");
+                    let content = eval("($data) => (" + e.dataset.content +
+                        ")");
                     e.innerHTML = content(ret);
                 });
 
