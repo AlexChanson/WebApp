@@ -831,7 +831,7 @@ function graphs_init() {
         },
 
         title: {
-            text: 'Statistiques nombre dinstitutions publics'
+            text: 'Statistiques nombre dinstitutions publiques'
         },
 
         legend: {
@@ -951,6 +951,104 @@ function graphs_init() {
         }]
 
     }));
+    
+    Highcharts.chart('spider1', {
+
+        chart: {
+            polar: true,
+            type: 'line'
+        },
+
+        title: {
+            text: 'Commune A : Villes rapprochées',
+            x: -80
+        },
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            categories: ['Ville1', 'Ville2', 'Ville3', 'Ville4',
+                'Ville5'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+        },
+
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 70,
+            layout: 'vertical'
+        },
+
+        series: [{
+            name: 'Similarité',
+            data: [45, 19, 60, 35, 78],
+            pointPlacement: 'on'
+        }]
+
+    });
+    
+    Highcharts.chart('spider2', {
+
+        chart: {
+            polar: true,
+            type: 'line'
+        },
+
+        title: {
+            text: 'Commune B : Villes rapprochées',
+            x: -80
+        },
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            categories: ['Ville1', 'Ville2', 'Ville3', 'Ville4',
+                'Ville5'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+        },
+
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 70,
+            layout: 'vertical'
+        },
+
+        series: [{
+            name: 'Similarité',
+            data: [45, 19, 60, 35, 78],
+            pointPlacement: 'on'
+        }]
+
+    });
 }
 
 // COMPARATOR CODE
