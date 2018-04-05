@@ -8,6 +8,8 @@ let page_state = 'accueil';
 let api_key = null;
 let nav_state = true;
 
+let debugObj;
+
 let sliders = {};
 let sliders_labels = {};
 let sliders_values = {};
@@ -106,6 +108,7 @@ let cities_name = [];
 let nameToINSEE = {};
 let departements = [];
 let regions = [];
+let chartData = [];
 
 let communeA = null;
 let communeB = null;
@@ -186,14 +189,8 @@ function onConnect() {
         regions = JSON.parse(resp);
         console.log("got regions");
     });
-    
-    elsaRequest('{"type": "getChartsData"}', resp => {
-    		chartData = JSON.parse(resp);
-    		console.log(chartData);
-    	
-    }
-    		
-    )
+
+   
     
     console.log("requesting departments...");
     elsaRequest('{"type":"getDepartements"}', resp => {
@@ -205,8 +202,10 @@ function onConnect() {
         cities = JSON.parse(resp);
 
         console.log("cities loading in browser...");
+        
         let datalistCommuneA = document.getElementById("listCommunes");
         let child = null;
+        
         for (let jsonCity of cities) {
             const name = jsonCity.nom;
             if (name) {
@@ -314,6 +313,7 @@ function onConnect() {
 */
 function elsa_Connection(email, password) {
     let xhr = new XMLHttpRequest();
+
     const url = 'http://' + server_domain + '/connect';
     const body = '{"email":"' + email + '", "password":"' + password + '"}';
     const checkbox = document.getElementById("connectionPersistent");
@@ -340,6 +340,7 @@ function elsa_Connection(email, password) {
 
 function login_Connecter() {
     let mail = document.getElementById('login_adresseEmail').value;
+
     let pass = document.getElementById('login_motDePasse').value;
     elsa_Connection(mail, pass);
 }
@@ -487,8 +488,11 @@ function filterRequest() {
             newValues = Object.entries(repOb.countByRegion).map(x => [
                 mapRegions[x[0]], x[1]
             ]);
-
+            
             mapModule.updateValues(newValues);
+            
+            debugObj = repOb;
+            console.log("test similarity : " + repOb.withA[0].similarity);
         });
 
 }
@@ -497,6 +501,7 @@ function filterRequest() {
     --- HIGHCHARTS Init CODE
  */
 function highcharts_init() {
+
     mapObject = Highcharts.mapChart('map', mapProperties);
 
     
@@ -528,7 +533,7 @@ function highcharts_init() {
         },
 
     	xAxis: {
-      	      categories: ['1999', '2009', 		'2015']},
+      	      categories: ['1999', '2009', '2015']},
 
         series: [{
             name: 'Commune A',
@@ -556,61 +561,57 @@ function highcharts_init() {
     });
     
     Highcharts.chart('bar', {
+
         chart: {
             type: 'column'
         },
+
         title: {
-            text: 'Part dactifs de la population'
+            text: 'Activité de la population, année X - année Y'
         },
+
         xAxis: {
-            categories: ['Commune A', 'Commune B']
+            categories: ['Commune 1', 'Commune 2']
         },
+
         yAxis: {
+            allowDecimals: false,
             min: 0,
             title: {
-                text: 'Population totale'
-            },
-            stackLabels: {
-                enabled: true,
-                style: {
-                    fontWeight: 'bold',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                }
+                text: 'Nombre dhabitants'
             }
         },
-        legend: {
-            align: 'right',
-            x: -30,
-            verticalAlign: 'top',
-            y: 25,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false
-        },
+
         tooltip: {
-            headerFormat: '<b>{point.x}</b><br/>',
-            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
         },
+
         plotOptions: {
             column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true,
-                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                }
+                stacking: 'normal'
             }
         },
+
         series: [{
-            name: 'Actifs Salariés',
-            data: [5, 3]
+            name: 'ActifsX',
+            data: [59408, 33456],
+            stack: 'male'
         }, {
-            name: 'Actifs Non Salariés',
-            data: [2, 2]
+            name: 'ChomeursX',
+            data: [33455, 44355],
+            stack: 'male'
         }, {
-            name: 'Non Actifs',
-            data: [3, 4]
+            name: 'ActifsY',
+            data: [20345, 5564],
+            stack: 'female'
+        }, {
+            name: 'ChomeursY',
+            data: [33453, 34555],
+            stack: 'female'
         }]
     });
     
@@ -704,7 +705,7 @@ function update_Comparator() {
                     true));
             }
 
-            console.log(data);
+            console.log(data);            
             let ret = JSON.parse(data);
 
             update_city("commA_display", ret['comm1']);
