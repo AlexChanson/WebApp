@@ -141,16 +141,17 @@ let actifSal = []; //data for stacked chart
 let actifNonSal = []; //data for stacked chart
 let chomeur = []; //data for stacked chart
 
+let simA = []; //data for spider charts
+let simB = []; //data for spider charts
+let citA = []; //data for spider charts
+let citB = []; //data for spider charts
+
 
 //Formating decimals for similarity
 
 var Format = wNumb({
     decimals: 3
 });
-
-
-let simCitiesA = []
-let simCitiesB = []
 
 let communeA = null;
 let communeB = null;
@@ -652,13 +653,41 @@ function filterRequest() {
 
             chomeur[0] = repOb.cityA.pop_2015 - repOb.cityA.nb_actifs_2015;
             chomeur[1] = repOb.cityB.pop_2015 - repOb.cityB.nb_actifs_2015;
-
-            console.log("salA : " + actifSal[0]);
-            console.log("salB : " + actifSal[1]);
-            console.log("nonsalA : " + actifNonSal[0]);
-            console.log("nonsalB : " + actifNonSal[1]);
-            console.log("chomA : " + chomeur[0]);
-            console.log("chomB : " + chomeur[1]);
+            
+            for(i = 0; i < repOb.withA.length; i ++){
+	            simA[i] = ((1-repOb.withA[i].similarity)*100);
+	            simB[i] = ((1-repOb.withB[i].similarity)*100);
+	            
+	            citA[i] = repOb.withA[i].comDepReg.nom;
+	            citB[i] = repOb.withB[i].comDepReg.nom;
+            }
+            
+//            console.log(simA[0]);
+//            console.log(simA[1]);
+//            console.log(simA[2]);
+//            console.log(simA[3]);
+//            console.log(simA[4]);
+//            console.log(simB[0]);
+//            console.log(simB[1]);
+//            console.log(simB[2]);
+//            console.log(simB[3]);
+//            console.log(simB[4]);
+//            console.log(citA[0]);
+//            console.log(citA[1]);
+//            console.log(citA[2]);
+//            console.log(citA[3]);
+//            console.log(citA[4]);
+//            console.log(citB[0]);
+//            console.log(citB[1]);
+//            console.log(citB[2]);
+//            console.log(citB[3]);
+//            console.log(citB[4]);
+//            console.log("salA : " + actifSal[0]);
+//            console.log("salB : " + actifSal[1]);
+//            console.log("nonsalA : " + actifNonSal[0]);
+//            console.log("nonsalB : " + actifNonSal[1]);
+//            console.log("chomA : " + chomeur[0]);
+//            console.log("chomB : " + chomeur[1]);
 
             //            console.log("a1 : " + lineA[0]);
             //            console.log("a2 : " + lineA[1]);
@@ -831,7 +860,7 @@ function graphs_init() {
         },
 
         title: {
-            text: 'Statistiques nombre dinstitutions publiques'
+            text: 'Statistiques nombre d\'institutions publiques'
         },
 
         legend: {
@@ -840,7 +869,7 @@ function graphs_init() {
 
         yAxis: {
             title: {
-                text: 'Nombre dinstitutions publics'
+                text: 'Nombre d\'institutions publics'
             },
 
         },
@@ -963,7 +992,7 @@ function graphs_init() {
         },
 
         title: {
-            text: 'Commune A : Villes rapprochées',
+            text: lineNames[0] + ' : Villes rapprochées',
             x: -80
         },
 
@@ -972,8 +1001,7 @@ function graphs_init() {
         },
 
         xAxis: {
-            categories: ['Ville1', 'Ville2', 'Ville3', 'Ville4',
-                'Ville5'],
+            categories: [citA[0], citA[1], citA[2], citA[3],citA[4]],
             tickmarkPlacement: 'on',
             lineWidth: 0
         },
@@ -986,7 +1014,8 @@ function graphs_init() {
 
         tooltip: {
             shared: true,
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+            pointFormat: '{series.name}: <b>{point.y}</b><br/>',
+            valueSuffix: ' %'
         },
 
         legend: {
@@ -998,7 +1027,7 @@ function graphs_init() {
 
         series: [{
             name: 'Similarité',
-            data: [45, 19, 60, 35, 78],
+            data: [simA[0], simA[1], simA[2], simA[3], simA[4]],
             pointPlacement: 'on'
         }]
 
@@ -1012,7 +1041,7 @@ function graphs_init() {
         },
 
         title: {
-            text: 'Commune B : Villes rapprochées',
+            text: lineNames[1] + ' : Villes similaires',
             x: -80
         },
 
@@ -1021,8 +1050,7 @@ function graphs_init() {
         },
 
         xAxis: {
-            categories: ['Ville1', 'Ville2', 'Ville3', 'Ville4',
-                'Ville5'],
+            categories: [citB[0], citB[1], citB[2], citB[3],citB[4]],
             tickmarkPlacement: 'on',
             lineWidth: 0
         },
@@ -1035,7 +1063,8 @@ function graphs_init() {
 
         tooltip: {
             shared: true,
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+            pointFormat: '{series.name}: <b>{point.y}</b><br/>',
+            valueSuffix: ' %'
         },
 
         legend: {
@@ -1047,7 +1076,7 @@ function graphs_init() {
 
         series: [{
             name: 'Similarité',
-            data: [45, 19, 60, 35, 78],
+            data: [simB[0], simB[1], simB[2], simB[3], simB[4]],
             pointPlacement: 'on'
         }]
 
