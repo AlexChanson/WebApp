@@ -108,13 +108,12 @@ let cities_name = [];
 let nameToINSEE = {};
 let departements = [];
 let regions = [];
+let chartData = [];
 
-//data for the graphics and charts
+//graphics and charts data
 let boite = []; //data for boite a moustaches 
-let cityMeans = [];
-
-let simCitiesA = []; //similar cities data
-let simCitiesB = []; //similar cities data
+let simCitiesA = []
+let simCitiesB = []
 
 let communeA = null;
 let communeB = null;
@@ -506,15 +505,13 @@ function filterRequest() {
             boite.push(repOb.quantileValues[2]);
             boite.push(repOb.max_nb_inst_pub);
             
-            cityMeans.push(repObj.CityA.nb_inst_pub);
-            cityMeans.push(repObj.CityB.nb_inst_pub);
-            
-            for(i = 0; i < repObj.withA.length){
-            		simCitiesA[0][i].push(repOb.withA[i].similarity);
-            		simCitiesA[1][i].push(repOb.withA[i].comDepReg.nom);
-            		simCitiesA[2][i].push(repOb.withA[i].comDepReg.nom_dept);
-            		simCitiesA[3][i].push(repOb.withA[i].comDepReg.nom_region);
-            }
+            console.log("min : " + boite[0]);
+            console.log("q1 : " + boite[1]);
+            console.log("q2 : " + boite[2]);
+            console.log("q3 : " + boite[3]);
+            console.log("max : " + boite[4]);            
+//            console.log("test similarity : " + repOb.withA[0].similarity);
+//            
             graphs_init();
         });
 
@@ -659,30 +656,7 @@ function graphs_init(){
             title: {
                 text: 'Nombre dinstitutions publics'
             },
-            plotLines: [{
-                value: cityMeans[0],
-                color: 'blue',
-                width: 1,
-                label: {
-                    text: 'Institutions publiques Commune A: ' + cityMeans[0],
-                    align: 'center',
-                    style: {
-                        color: 'gray'
-                    }
-                }
-            },
-            {
-                value: cityMeans[1],
-                color: 'orange',
-                width: 1,
-                label: {
-                    text: 'Institutions publiques Commune B: ' + cityMeans[1],
-                    align: 'center',
-                    style: {
-                        color: 'gray'
-                    }
-                }
-            }]
+            
         },
 
         plotOptions: {
