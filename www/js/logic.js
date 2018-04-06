@@ -1017,7 +1017,7 @@ function graphs_init() {
 
         tooltip: {
             shared: true,
-            pointFormat: '{series.name}: <b>{point.y}</b><br/>',
+            pointFormat: '{series.name}: <b>{point.y:.3f}</b><br/>',
             valueSuffix: ' %'
         },
 
@@ -1066,7 +1066,7 @@ function graphs_init() {
 
         tooltip: {
             shared: true,
-            pointFormat: '{series.name}: <b>{point.y}</b><br/>',
+            pointFormat: '{series.name}: <b>{point.y:.3f}</b><br/>',
             valueSuffix: ' %'
         },
 
