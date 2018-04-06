@@ -131,6 +131,7 @@ let regionCodeToNames = {};
 
 //graphics and charts data
 let boite = []; //data for boite a moustaches
+let instPub = [] 
 
 let lineYears = []; // data for line graph
 let lineA = []; // data for line graph
@@ -662,32 +663,9 @@ function filterRequest() {
 	            citB[i] = repOb.withB[i].comDepReg.nom;
             }
             
-//            console.log(simA[0]);
-//            console.log(simA[1]);
-//            console.log(simA[2]);
-//            console.log(simA[3]);
-//            console.log(simA[4]);
-//            console.log(simB[0]);
-//            console.log(simB[1]);
-//            console.log(simB[2]);
-//            console.log(simB[3]);
-//            console.log(simB[4]);
-//            console.log(citA[0]);
-//            console.log(citA[1]);
-//            console.log(citA[2]);
-//            console.log(citA[3]);
-//            console.log(citA[4]);
-//            console.log(citB[0]);
-//            console.log(citB[1]);
-//            console.log(citB[2]);
-//            console.log(citB[3]);
-//            console.log(citB[4]);
-//            console.log("salA : " + actifSal[0]);
-//            console.log("salB : " + actifSal[1]);
-//            console.log("nonsalA : " + actifNonSal[0]);
-//            console.log("nonsalB : " + actifNonSal[1]);
-//            console.log("chomA : " + chomeur[0]);
-//            console.log("chomB : " + chomeur[1]);
+            instPub[0] = repOb.cityA.nb_inst_pub;
+            instPub[1] = repOb.cityB.nb_inst_pub;
+            
 
             //            console.log("a1 : " + lineA[0]);
             //            console.log("a2 : " + lineA[1]);
@@ -855,8 +833,7 @@ function graphs_init() {
     Highcharts.chart('moustache', {
 
         chart: {
-            type: 'boxplot',
-            inverted: true
+            type: 'boxplot'
         },
 
         title: {
@@ -871,8 +848,34 @@ function graphs_init() {
             title: {
                 text: 'Nombre d\'institutions publics'
             },
-
+            plotLines: [{
+                color: '#F0F0A0',
+                width: 2,
+                value: instPub[0],
+                label: {
+                    text: 'Inst. pub. ' + lineNames[0] + ' : ' + instPub[0],
+                    align: 'center',
+                    style: {
+                        color: 'gray'
+                    }
+                }
+            },
+            {
+                color: '#A0A0F0',
+                width: 2,
+                value: instPub[1],
+                label: {
+                    text: 'Inst. pub. ' + lineNames[1] + ' : ' + instPub[1],
+                    align: 'center',
+                    style: {
+                        color: 'gray'
+                    }
+                }
+            }
+            ]
         },
+        
+        
 
         plotOptions: {
             boxplot: {
