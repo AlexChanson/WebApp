@@ -292,7 +292,7 @@ function onConnect() {
     console.log("requesting cities names...");
     elsaRequest('{"type":"getCityNames"}', resp => {
         cities = JSON.parse(resp);
-
+        console.log(resp);
         console.log("cities loading in browser...");
 
         let datalistCommuneA = document.getElementById("listCommunes");
@@ -687,7 +687,7 @@ function filterRequest() {
             graphs_init();
         });
 
-    closeNav();
+    //closeNav();
 }
 
 /*
